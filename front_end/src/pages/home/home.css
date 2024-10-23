@@ -1,0 +1,42 @@
+header {
+  height: 4rem;
+  background-color: var(--erie-black);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+html body {
+    background-color: var(--erie-black);
+}
+
+header h1 {
+  margin-left: 1.5rem;
+  padding-top: 0.5rem;
+  color: var(--ghost-white);
+}
+
+#login {
+    margin-right: 1rem;
+    border: 2px solid black;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--platinum);
+    border-radius: 0.4rem;
+    font-weight: 500;
+}
+
+#login:active {
+    background-color: var(--ghost-white);
+}
+
+#intro {
+    display: flex;
+    text-align: center;
+    width: 90%;
+    margin: 0 5%;
+    margin-top: 2rem;
+    background-color: var(--platinum);
+    border-radius: 2rem;
+    padding: 0.8rem 0.5rem;
+    justify-content: space-around;
+}
