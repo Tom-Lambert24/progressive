@@ -14,7 +14,7 @@
 }
 
 form .container .row {
-    margin-top: 0.8rem;
+    margin-top: 0.5rem;
     display: flex;
     align-items: center;
 }
@@ -36,4 +36,11 @@ form button:active {
 
 form button:hover {
     background-color: var(--anti-flash-white);
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+    text-align: right;
+    margin-bottom: -0.6rem;
 }
