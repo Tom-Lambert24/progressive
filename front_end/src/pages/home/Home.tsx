@@ -9,11 +9,15 @@ const Home: React.FC = () => {
     navigate('/register')
   }
 
+  const goToLogin = () => {
+    navigate('/login')
+  }
+
   return (
     <>
       <header>
         <h1>progressive</h1>
-        <a id="login">Login</a>
+        <a id="login" onClick={goToLogin}>Login</a>
       </header>
       <body>
         <div id="intro">
