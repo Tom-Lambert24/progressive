@@ -1,7 +1,14 @@
 import React from "react";
 import "./home.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
+  const goToRegister = () => {
+    navigate('/register')
+  }
+
   return (
     <>
       <header>
@@ -10,10 +17,10 @@ const Home: React.FC = () => {
       </header>
       <body>
         <div id="intro">
-            Progressive overload is hard.
+            Progressive overload is hard...
             <br />
             <br />
-            Or I should say keeping track of the progress is hard.
+            Actually, I should say, keeping track of the progress is hard.
             <br />
             <br />
             That is why I have built this app.
@@ -21,11 +28,7 @@ const Home: React.FC = () => {
         <div id="details">
 
         </div>
-        <div id="register">
-          <form>
-            
-          </form>
-        </div>
+        <button id="register" onClick={goToRegister} >Register For Free</button>
       </body>
     </>
   );

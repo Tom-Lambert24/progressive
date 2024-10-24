@@ -4,6 +4,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 passport.use(
   new LocalStrategy((username, password, done) => {
     // In a real-world app, find the user in the database and verify the password
+    //need to query a database and then replace admin & password
     if (username === 'admin' && password === 'password') {
       return done(null, { username });
     } else {
