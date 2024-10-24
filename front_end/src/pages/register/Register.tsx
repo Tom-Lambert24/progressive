@@ -2,10 +2,12 @@ import React from "react";
 import "./register.css";
 import dotenv from "dotenv";
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 dotenv.config();
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -73,6 +75,8 @@ const Register: React.FC = () => {
           console.error("Unexpected error:", error);
         }
       }
+
+      navigate("/login");
     }
   };
 
