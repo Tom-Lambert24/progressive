@@ -1,32 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
-import { useState } from "react";
 
 const Login: React.FC = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({
-      username: "",
-      password: "",
-    });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    setErrors({ username: "", password: "" });
+    setErrors({ username: "", password: "" }); // Clear previous errors
 
     let isValid = true;
     const newErrors = { username: "", password: "" };
 
+    // Validate email format
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(username)) {
       newErrors.username = "Enter a valid email address.";
       isValid = false;
     }
 
-    setErrors(newErrors);
-
     if (isValid) {
-        //search database for username and hash password match
+      try {
+        const response = await fetch(
+          process.env.REACT_APP_SERVER_URL + "/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          navigate(`/${data.username}`);
+        } else {
+          const errorData = await response.json();
+          setErrors({ username: errorData.message, password: "" }); // Update error message
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    } else {
+      setErrors(newErrors); // Set validation errors
     }
   };
 
@@ -51,11 +71,8 @@ const Login: React.FC = () => {
               <div className="col">
                 <input
                   type="email"
-                  name="email"
                   value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                 />
               </div>
@@ -72,7 +89,6 @@ const Login: React.FC = () => {
               <div className="col">
                 <input
                   type="password"
-                  name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required

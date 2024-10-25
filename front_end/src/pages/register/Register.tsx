@@ -56,7 +56,7 @@ const Register: React.FC = () => {
           {
             method: "POST",
             headers: {
-              "content-type": "application/json",
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               username: usernameInput.value,
