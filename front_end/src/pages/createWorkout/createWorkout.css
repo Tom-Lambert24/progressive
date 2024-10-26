@@ -47,6 +47,18 @@
   margin-top: 1rem;
 }
 
+#createWorkout #weight {
+    width: 6rem;
+}
+#createWorkout #unit {
+    width: 3rem;
+    margin-left: 0.4rem;
+}
+
+#createWorkout #getWeight {
+    text-align: center;
+}
+
 #getWorkoutName {
   background-color: var(--platinum);
   width: 90%;
@@ -72,4 +84,27 @@
   border-radius: 2rem;
   border: 2px solid var(--alabaster);
   display: none;
+}
+
+#getWorkoutName label {
+  margin-bottom: 0.6rem;
+}
+
+#getWorkoutName input {
+  margin-bottom: 0.8rem;
+}
+
+#getWorkoutName button {
+  border-radius: 0.5rem;
+}
+
+#getWorkoutName button:hover {
+    background-color: var(--platinum);
+}
+
+#getWorkoutName button:active {
+    margin-top: 0.1rem;
+    margin-left: 0.1rem;
+    margin-bottom: -0.1rem;
+    margin-right: -0.1rem;
 }

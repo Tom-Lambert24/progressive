@@ -21,7 +21,11 @@ const CreateWorkout: React.FC = () => {
     ) as HTMLInputElement | null;
 
     if (workoutNameInput) {
-      setWorkoutName(workoutNameInput.value);
+      if (workoutNameInput.value !== "") {
+        setWorkoutName(workoutNameInput.value);
+      } else {
+        setWorkoutName("New Workout");
+      }
     }
 
     //hide div
@@ -55,6 +59,7 @@ const CreateWorkout: React.FC = () => {
         <h2>{displayName}</h2>
         <div id="getWorkoutName">
           <label>Workout Name</label>
+          <br />
           <input type="text" maxLength={30} id="workout-name" />
           <br />
           <button onClick={handleSubmitWorkoutName}>Submit</button>
@@ -67,7 +72,7 @@ const CreateWorkout: React.FC = () => {
             <div className="container">
               <div className="row">
                 <div className="col-12">
-                  <label>Exersize</label>
+                  <label>Exersize Name</label>
                 </div>
                 <div className="col-12 center-input">
                   <input type="text" maxLength={30}></input>
@@ -92,16 +97,16 @@ const CreateWorkout: React.FC = () => {
               </div>
               {selectedOption === "Weighted Reps" && (
                 <>
-                  <div className="row margin-top">
+                  <div className="row margin-top g-1">
                     <label>Starting Weight</label>
-                    <div className="col-10">
+                    <br />
+                    <div id="getWeight">
                       <input
                         type="number"
                         name="StartingWeight"
                         style={{ textAlign: "right" }}
+                        id="weight"
                       />
-                    </div>
-                    <div className="col-2">
                       <select id="unit">
                         <option value="kg">Kg</option>
                         <option value="lbs">lbs</option>
