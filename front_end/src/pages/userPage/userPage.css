@@ -1,0 +1,36 @@
+header h2 {
+  color: var(--anti-flash-white);
+  font-size: 1.1rem;
+  margin-top: 0.8rem;
+  text-align: center;
+}
+
+header {
+  display: block;
+}
+
+.center-button {
+  display: flex;
+  justify-content: center;
+}
+
+.center-button button {
+  position: fixed;
+  bottom: 1.8rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  padding: 0;
+  border-radius: 0.4rem;
+}
+
+.center-button button:active {
+    margin-top: 0.08rem;
+    margin-left: 0.08rem;
+    margin-bottom: -0.08rem;
+    margin-right: -0.08rem;
+}
+
+.center-button button:hover {
+    background-color: var(--platinum);
+}
