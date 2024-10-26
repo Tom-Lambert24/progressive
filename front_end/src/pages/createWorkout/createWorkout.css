@@ -7,7 +7,7 @@
   border: 2px solid var(--alabaster);
 }
 
-#smallInput {
+#createWorkout #smallInput {
     width: 4rem;
 }
 
@@ -16,19 +16,19 @@
     border-top: 1px solid rgba(28, 28, 28, 0.7);
 }
 
-.row {
+#createWorkout .row {
     padding-bottom: 0.75rem;
 }
 
-label {
+#createWorkout label {
     margin-left: 0rem;
 }
 
-.center-input {
+#createWorkout .center-input {
     text-align: center;
 }
 
-#noOfReps {
+#createWorkout #noOfReps {
     width: 50%;
 }
 
@@ -36,11 +36,11 @@ label {
     padding-top: 1.5rem;
 }
 
-#lengthOfTime {
+#createWorkout #lengthOfTime {
     width: 70%;
 }
 
-form button {
+#createWorkout form button {
     width: 90%;
     margin: 0 5%;
     margin-top: 1rem;
