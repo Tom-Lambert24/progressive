@@ -79,7 +79,7 @@ app.post("/register", async (req: Request, res: Response) => {
           if (err) {
             return next(err);
           }
-          return res.json({ username: user.username });
+          return res.json({ username: user.username, id: user.id });
         });
       }
     )(req, res, next);

@@ -2,9 +2,9 @@ import React from "react";
 import "./createWorkout.css";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-
+import { useUser } from "../../UserContext";
 const CreateWorkout: React.FC = () => {
-  const { username } = useParams<{ username: string }>();
+  const { username } = useUser();
   const [selectedOption, setSelectedOption] = useState("Weighted Reps");
   const displayName = username ? username.split("@")[0] : "";
   const [workoutName, setWorkoutName] = useState("");

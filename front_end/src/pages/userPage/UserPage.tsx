@@ -2,16 +2,18 @@ import React from "react";
 import "./userPage.css";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../UserContext";
 
 const UserPage: React.FC = () => {
-  const { username } = useParams<{ username: string }>();
+  const { id } = useUser()
+  const { username } = useUser();
 
   const displayName = username ? username.split("@")[0] : "";
 
   const navigate = useNavigate();
 
   const goToCreateWorkout = () => {
-    navigate(`/${username}/createWorkout`);
+    navigate(`/${id}/createWorkout`);
   };
 
   return (

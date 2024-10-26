@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import { useUser } from "../../UserContext";
+
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
+  const { username, setUsername } = useUser();
+  const { id, setId } = useUser();
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ username: "", password: "" });
   const navigate = useNavigate();
@@ -37,7 +40,8 @@ const Login: React.FC = () => {
 
         if (response.ok) {
           const data = await response.json();
-          navigate(`/${data.username}`);
+          setId(data.id)
+          navigate(`/${data.id}`);
         } else {
           const errorData = await response.json();
           setErrors({ username: errorData.message, password: "" }); // Update error message
