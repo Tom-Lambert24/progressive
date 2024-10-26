@@ -7,14 +7,44 @@ const CreateWorkout: React.FC = () => {
   const { username } = useParams<{ username: string }>();
   const [selectedOption, setSelectedOption] = useState("Weighted Reps");
   const displayName = username ? username.split("@")[0] : "";
+  const [workoutName, setWorkoutName] = useState("");
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    
-  }
+  const handleSubmit = (event: React.FormEvent) => {};
+
+  const handleSubmitWorkoutName = () => {
+    const workoutNameInput = document.getElementById(
+      "workout-name"
+    ) as HTMLInputElement | null;
+
+    if (workoutNameInput) {
+      setWorkoutName(workoutNameInput.value);
+    }
+
+    //hide div
+    const workoutNameDiv = document.getElementById("getWorkoutName");
+
+    if (workoutNameDiv) {
+      workoutNameDiv.style.display = "none";
+    }
+
+    //show add exersize
+    const createExersizeDiv = document.getElementById("createWorkout");
+
+    if (createExersizeDiv) {
+      createExersizeDiv.style.display = "block";
+    }
+
+    //show workout
+    const workoutDiv = document.getElementById("workout");
+
+    if (workoutDiv) {
+      workoutDiv.style.display = "block";
+    }
+  };
 
   return (
     <>
@@ -23,6 +53,15 @@ const CreateWorkout: React.FC = () => {
       </header>
       <body>
         <h2>{displayName}</h2>
+        <div id="getWorkoutName">
+          <label>Workout Name</label>
+          <input type="text" maxLength={30} id="workout-name" />
+          <br />
+          <button onClick={handleSubmitWorkoutName}>Submit</button>
+        </div>
+        <div id="workout">
+          <h3 id="workoutName">{workoutName}</h3>
+        </div>
         <div id="createWorkout">
           <form onSubmit={handleSubmit}>
             <div className="container">

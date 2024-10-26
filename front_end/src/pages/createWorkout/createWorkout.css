@@ -5,43 +5,71 @@
   padding: 0.8rem;
   border-radius: 2rem;
   border: 2px solid var(--alabaster);
+  display: none;
 }
 
 #createWorkout #smallInput {
-    width: 4rem;
+  width: 4rem;
 }
 
 #createWorkout .margin-top {
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(28, 28, 28, 0.7);
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(28, 28, 28, 0.7);
 }
 
 #createWorkout .row {
-    padding-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 #createWorkout label {
-    margin-left: 0rem;
+  margin-left: 0rem;
 }
 
 #createWorkout .center-input {
-    text-align: center;
+  text-align: center;
 }
 
 #createWorkout #noOfReps {
-    width: 50%;
+  width: 50%;
 }
 
 #createWorkout .container #repsInput {
-    padding-top: 1.5rem;
+  padding-top: 1.5rem;
 }
 
 #createWorkout #lengthOfTime {
-    width: 70%;
+  width: 70%;
 }
 
 #createWorkout form button {
-    width: 90%;
-    margin: 0 5%;
-    margin-top: 1rem;
+  width: 90%;
+  margin: 0 5%;
+  margin-top: 1rem;
+}
+
+#getWorkoutName {
+  background-color: var(--platinum);
+  width: 90%;
+  margin: 2rem 5%;
+  padding: 0.8rem;
+  border-radius: 2rem;
+  border: 2px solid var(--alabaster);
+  text-align: center;
+}
+
+#workout #workoutName {
+  color: var(--erie-black);
+  text-align: center;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.7);
+  padding-bottom: 0.6rem;
+}
+
+#workout {
+  background-color: var(--platinum);
+  width: 90%;
+  margin: 1rem 5%;
+  padding: 0.8rem;
+  border-radius: 2rem;
+  border: 2px solid var(--alabaster);
+  display: none;
 }
