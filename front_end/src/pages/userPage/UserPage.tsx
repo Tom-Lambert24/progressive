@@ -8,19 +8,19 @@ const UserPage: React.FC = () => {
 
   const displayName = username ? username.split("@")[0] : "";
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const goToCreateWorkout = () => {
-    navigate(`/${username}/createWorkout`)
-  }
+    navigate(`/${username}/createWorkout`);
+  };
 
   return (
     <>
       <header>
         <h1>progressive</h1>
-        <h2>{displayName}</h2>
       </header>
       <body>
+        <h2>{displayName}</h2>
         <div className="center-button">
           <button onClick={goToCreateWorkout}>+</button>
         </div>

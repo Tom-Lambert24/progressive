@@ -1,12 +1,8 @@
-header h2 {
+body h2 {
   color: var(--anti-flash-white);
   font-size: 1.1rem;
-  margin-top: 0.8rem;
+  margin-top: 0.4rem;
   text-align: center;
-}
-
-header {
-  display: block;
 }
 
 .center-button {

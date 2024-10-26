@@ -1,0 +1,47 @@
+#createWorkout {
+  background-color: var(--platinum);
+  width: 90%;
+  margin: 1rem 5%;
+  padding: 0.8rem;
+  border-radius: 2rem;
+  border: 2px solid var(--alabaster);
+}
+
+#smallInput {
+    width: 4rem;
+}
+
+#createWorkout .margin-top {
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(28, 28, 28, 0.7);
+}
+
+.row {
+    padding-bottom: 0.75rem;
+}
+
+label {
+    margin-left: 0rem;
+}
+
+.center-input {
+    text-align: center;
+}
+
+#noOfReps {
+    width: 50%;
+}
+
+#createWorkout .container #repsInput {
+    padding-top: 1.5rem;
+}
+
+#lengthOfTime {
+    width: 70%;
+}
+
+form button {
+    width: 90%;
+    margin: 0 5%;
+    margin-top: 1rem;
+}

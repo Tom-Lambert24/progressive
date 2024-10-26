@@ -6,6 +6,7 @@ import Home from './pages/home/Home';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import UserPage from './pages/userPage/UserPage'
+import CreateWorkout from './pages/createWorkout/CreateWorkout';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login /> } />
       <Route path="/:username" element={<UserPage />} />
+      <Route path="/:username/createworkout" element={<CreateWorkout />} />
     </Routes>
   );
 }
