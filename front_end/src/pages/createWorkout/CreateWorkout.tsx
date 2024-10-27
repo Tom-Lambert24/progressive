@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./createWorkout.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useUser } from "../../UserContext";
+
+
 const CreateWorkout: React.FC = () => {
   const { username } = useUser();
   const [selectedOption, setSelectedOption] = useState("Weighted Reps");
   const displayName = username ? username.split("@")[0] : "";
   const [workoutName, setWorkoutName] = useState("");
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!displayName) {
+      navigate('/login')
+    }
+  }, [displayName, navigate])
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
