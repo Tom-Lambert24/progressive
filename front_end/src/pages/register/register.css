@@ -21,7 +21,7 @@ form .container .row {
 }
 
 form button {
-    margin-top: 1rem;
+    margin-top: 0.4rem;
     background-color: var(--ghost-white);
     border-radius: 0.4rem;
     border-color: var(--erie-black);

@@ -7,6 +7,7 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import UserPage from './pages/userPage/UserPage'
 import CreateWorkout from './pages/createWorkout/CreateWorkout';
+import EditWorkout from './pages/editWorkout/EditWorkout'
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login /> } />
-      <Route path="/:username" element={<UserPage />} />
-      <Route path="/:username/createworkout" element={<CreateWorkout />} />
+      <Route path="/:id" element={<UserPage />} />
+      <Route path="/:id/createworkout" element={<CreateWorkout />} />
+      <Route path="/:id/editWorkout/:workoutId" element={<EditWorkout />} />
     </Routes>
   );
 }

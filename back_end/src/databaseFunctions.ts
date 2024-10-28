@@ -35,10 +35,20 @@ export const getUserById = async (id: string): Promise<User | null> => {
 
 export const uploadWorkoutName = async (id: number, workoutName: string) => {
   const client = await getClient();
-
-  console.log('workoutName:')
-  console.log(workoutName)
-  const response = await client.query("INSERT INTO workouts (users_id, workout_name) VALUES ($1, $2)", [id, workoutName])
-  
+  const response = await client.query(
+    "INSERT INTO workouts (users_id, workout_name) VALUES ($1, $2) RETURNING id",
+    [id, workoutName]
+  );
   client.end();
+  return response.rows[0];
 };
+
+export const getWorkoutById = async (id: number) => {
+  const client = await getClient();
+  const response = await client.query(
+    "SELECT workout_name FROM workouts WHERE id = $1", [id]
+  );
+  client.end();
+
+  return response.rows[0]
+}
