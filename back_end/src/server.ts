@@ -5,7 +5,11 @@ import session from "express-session";
 import "./config/passportConfig";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import { getUserByUsername, getUserById } from "./databaseFunctions";
+import {
+  getUserByUsername,
+  getUserById,
+  uploadWorkoutName,
+} from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
 
@@ -96,9 +100,29 @@ app.post("/login", (req, res, next) => {
 
 app.get("/loggedin", isAuthenticated, (req: Request, res: Response) => {
   const user = req.user as User; // Cast req.user to the User type
-  console.log('loggedin ran!')
   res.json({ id: user.id, username: user.username });
 });
+
+app.post(
+  "/createWorkoutName",
+  isAuthenticated,
+  async (req: Request, res: Response) => {
+    const user = req.user as User;
+
+    console.log("req.body.workoutName");
+    console.log(req.body.workoutName);
+
+    const userDetails = await getUserByUsername(user.username);
+
+    if (userDetails) {
+      uploadWorkoutName(userDetails.id, req.body.workoutName);
+    } else {
+      res.status(500).json("Error");
+    }
+
+    res.json("Created workout");
+  }
+);
 
 function isAuthenticated(
   req: Request,

@@ -7,8 +7,9 @@ const CreateWorkout: React.FC = () => {
   const [username, setUsername] = useState("");
   const [selectedOption, setSelectedOption] = useState("Weighted Reps");
   const displayName = username ? username.split("@")[0] : "";
-  const [workoutName, setWorkoutName] = useState("");
+  const [workoutName, setWorkoutName] = useState('');
   const navigate = useNavigate();
+  const [id, setId] = useState();
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -23,6 +24,7 @@ const CreateWorkout: React.FC = () => {
         if (response.ok) {
           const data = await response.json();
           setUsername(data.username);
+          setId(data.id);
         } else {
           navigate("/login");
         }
@@ -39,11 +41,11 @@ const CreateWorkout: React.FC = () => {
   };
 
   const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
   };
 
   const handleSubmitWorkoutName = (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
     const workoutNameInput = document.getElementById(
       "workout-name"
     ) as HTMLInputElement | null;
@@ -78,6 +80,32 @@ const CreateWorkout: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const uploadWorkoutTitle = async () => {
+      if (workoutName) {
+        // only send request if workoutName is non-empty
+        try {
+          await fetch(process.env.REACT_APP_SERVER_URL + "/createWorkoutName", {
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify({ workoutName }),
+          });
+        } catch (error) {
+          console.error("Error uploading workout title:", error);
+        }
+      }
+    };
+
+    uploadWorkoutTitle();
+
+    if (workoutName) {
+      navigate(`/${id}/editWorkout`);
+    }
+  }, [workoutName]);
+
   return (
     <>
       <header>
@@ -91,7 +119,9 @@ const CreateWorkout: React.FC = () => {
             <br />
             <input type="text" maxLength={30} id="workout-name" />
             <br />
-            <button type="button" onClick={handleSubmitWorkoutName}>Submit</button>
+            <button type="button" onClick={handleSubmitWorkoutName}>
+              Submit
+            </button>
           </form>
         </div>
         <div id="workout">
