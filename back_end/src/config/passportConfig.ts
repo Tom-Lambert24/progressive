@@ -2,6 +2,7 @@ import passport, { PassportStatic } from "passport";
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 import "express";
+import { getUserById, getUserByUsername } from "../databaseFunctions";
 
 declare global {
   namespace Express {

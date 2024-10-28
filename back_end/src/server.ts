@@ -12,7 +12,12 @@ const { initialize } = require("./config/passportConfig");
 const app: Application = express();
 dotenv.config();
 // Middleware
-app.use(cors());
+const corsOptions = {
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  origin: "http://localhost:3000",
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Initialize Passport
@@ -22,12 +27,16 @@ app.use(
     secret: process.env.SESSION_SECRET as string,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true if using HTTPS
+      httpOnly: true, // Helps mitigate XSS
+    },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
-initialize(passport, getUserByUsername);
+initialize(passport, getUserByUsername, getUserById);
 
 type User = {
   id: string;
@@ -47,7 +56,7 @@ app.post("/register", async (req: Request, res: Response) => {
   const hashPassword = await bcrypt.hash(password, 10);
 
   //send to database
-  console.log('this ran!')
+  console.log("this ran!");
   try {
     const client = await getClient();
 
@@ -65,32 +74,41 @@ app.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-  app.post("/login", (req, res, next) => {
-    passport.authenticate(
-      "local",
-      (err: Error | null, user: User | false, info: any) => {
+app.post("/login", (req, res, next) => {
+  passport.authenticate(
+    "local",
+    (err: Error | null, user: User | false, info: any) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(401).json({ message: "Invalid login." });
+      }
+      req.logIn(user, (err) => {
         if (err) {
           return next(err);
         }
-        if (!user) {
-          return res.status(401).json({ message: "Invalid login." });
-        }
-        req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-          return res.json({ username: user.username, id: user.id });
-        });
-      }
-    )(req, res, next);
-  });
+        return res.json({ username: user.username, id: user.id });
+      });
+    }
+  )(req, res, next);
+});
 
-function isAuthenticated(req: Request, res: Response, next: NextFunction) {
+app.get("/loggedin", isAuthenticated, (req: Request, res: Response) => {
+  const user = req.user as User; // Cast req.user to the User type
+  console.log('loggedin ran!')
+  res.json({ id: user.id, username: user.username });
+});
+
+function isAuthenticated(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
   if (req.isAuthenticated()) {
-    return next();
+    return next(); // Proceed to the next middleware/route handler
   }
-
-  res.redirect("/login");
+  res.status(401).send("Unauthorized"); // Return a response if not authenticated
 }
 
 function isNotAuthenticated(req: Request, res: Response, next: NextFunction) {

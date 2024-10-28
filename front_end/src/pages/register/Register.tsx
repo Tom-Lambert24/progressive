@@ -1,7 +1,7 @@
 import React from "react";
 import "./register.css";
 import dotenv from "dotenv";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 dotenv.config();
@@ -16,6 +16,27 @@ const Register: React.FC = () => {
     password: "",
     repeatPassword: "",
   });
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
+          credentials: 'include' // Include credentials for same-origin requests
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // If logged in, redirect to user's page
+          setUsername(data.username)
+          navigate(`/${data.id}`);
+        }
+      } catch (error) {
+        console.error("Error checking logged in status:", error);
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -58,6 +79,7 @@ const Register: React.FC = () => {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: 'include',
             body: JSON.stringify({
               username: usernameInput.value,
               password: passwordInput.value,

@@ -2,21 +2,35 @@ import React, { useEffect } from "react";
 import "./createWorkout.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useUser } from "../../UserContext";
 
 
 const CreateWorkout: React.FC = () => {
-  const { username } = useUser();
+  const [ username, setUsername ] = useState('');
   const [selectedOption, setSelectedOption] = useState("Weighted Reps");
   const displayName = username ? username.split("@")[0] : "";
   const [workoutName, setWorkoutName] = useState("");
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!displayName) {
-      navigate('/login')
-    }
-  }, [displayName, navigate])
+    const checkLoggedIn = async () => {
+      try {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
+          credentials: 'include' // Include credentials for same-origin requests
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUsername(data.username)
+        } else {
+          navigate('/login')
+        }
+      } catch (error) {
+        console.error("Error checking logged in status:", error);
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);

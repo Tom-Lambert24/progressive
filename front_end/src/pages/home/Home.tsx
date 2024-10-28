@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
+          credentials: 'include' // Include credentials for same-origin requests
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          navigate(`/${data.id}`);
+        }
+      } catch (error) {
+        console.error("Error checking logged in status:", error);
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
 
   const goToRegister = () => {
     navigate('/register')

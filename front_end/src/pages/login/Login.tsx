@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
-import { useUser } from "../../UserContext";
-
 
 const Login: React.FC = () => {
-  const { username, setUsername } = useUser();
-  const { id, setId } = useUser();
+  const [ username, setUsername ] = useState('');
+  const [ id, setId ] = useState();
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ username: "", password: "" });
   const navigate = useNavigate();
+
+  //check if already logged in
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
+          credentials: 'include' // Include credentials for same-origin requests
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // If logged in, redirect to user's page
+          setUsername(data.username)
+          navigate(`/${data.id}`);
+        }
+      } catch (error) {
+        console.error("Error checking logged in status:", error);
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,13 +54,14 @@ const Login: React.FC = () => {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: 'include',
             body: JSON.stringify({ username, password }),
           }
         );
 
         if (response.ok) {
           const data = await response.json();
-          setId(data.id)
+          setId(data.id);
           navigate(`/${data.id}`);
         } else {
           const errorData = await response.json();

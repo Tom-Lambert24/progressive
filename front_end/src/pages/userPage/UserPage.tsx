@@ -1,22 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./userPage.css";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../UserContext";
 
 const UserPage: React.FC = () => {
-  const { id } = useUser()
-  const { username } = useUser();
+  const [ id, setId ] = useState()
+  const [username, setUsername] = useState('')
 
   const displayName = username ? username.split("@")[0] : "";
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!displayName) {
-      navigate('/login')
-    }
-  }, [displayName, navigate])
+    console.log('this ran!')
+    const checkLoggedIn = async () => {
+      try {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
+          credentials: 'include' // Include credentials for same-origin requests
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // If logged in, redirect to user's page
+          setUsername(data.username)
+          setId(data.id)
+        } else {
+          navigate('/login')
+        }
+      } catch (error) {
+        console.error("Error checking logged in status:", error);
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
 
   const goToCreateWorkout = () => {
     navigate(`/${id}/createWorkout`);
