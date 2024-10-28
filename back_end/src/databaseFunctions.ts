@@ -52,3 +52,11 @@ export const getWorkoutById = async (id: number) => {
 
   return response.rows[0]
 }
+
+export const uploadExercise = async (workoutId: number, workoutData: string) => {
+  const client = await getClient();
+  const response = await client.query(
+    "INSERT INTO exercises (workouts_id, workout_data) VALUES ($1, $2)", [workoutId, workoutData]
+  );
+  client.end();
+}

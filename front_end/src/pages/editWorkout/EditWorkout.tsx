@@ -10,6 +10,7 @@ const EditWorkout: React.FC = () => {
   const [workoutName, setWorkoutName] = useState("");
   const displayName = username ? username.split("@")[0] : "";
   const { workoutId } = useParams();
+  const Exercise = [];
 
   const navigate = useNavigate();
 
@@ -42,18 +43,20 @@ const EditWorkout: React.FC = () => {
     const getWorkoutNameById = async () => {
       try {
         const response = await fetch(
-          process.env.REACT_APP_SERVER_URL + "/getWorkout?workoutId=" + workoutId,
+          process.env.REACT_APP_SERVER_URL +
+            "/getWorkout?workoutId=" +
+            workoutId,
           {
             credentials: "include", // Include credentials for same-origin requests
             headers: {
-                "Content-Type" : "application/json"
+              "Content-Type": "application/json",
             },
           }
         );
 
         if (response.ok) {
           const data = await response.json();
-          setWorkoutName(data.workoutName)
+          setWorkoutName(data.workoutName);
         } else {
           navigate(`/${id}`);
         }
@@ -61,15 +64,69 @@ const EditWorkout: React.FC = () => {
         console.error("Error getting workout:", error);
       }
     };
-    getWorkoutNameById()
+    getWorkoutNameById();
   }, []);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const exerciseData = []
+
+    const typeOfExercise = ((event.target as HTMLFormElement)[1] as HTMLInputElement).value;
+
+    if (typeOfExercise === "Weighted Reps") {
+        const exerciseName = ((event.target as HTMLFormElement)[0] as HTMLInputElement).value;
+        const startingWeight = ((event.target as HTMLFormElement)[2] as HTMLInputElement).value;
+        const startingWeightUnit = ((event.target as HTMLFormElement)[3] as HTMLInputElement).value;
+        const noOfReps = ((event.target as HTMLFormElement)[4] as HTMLInputElement).value;
+
+        exerciseData.push(exerciseName)
+        exerciseData.push(typeOfExercise)
+        exerciseData.push(startingWeight)
+        exerciseData.push(startingWeightUnit)
+        exerciseData.push(noOfReps)
+    }
+
+    if (typeOfExercise === "Bodyweight Reps") {
+        const exerciseName = ((event.target as HTMLFormElement)[0] as HTMLInputElement).value;
+        const noOfReps = ((event.target as HTMLFormElement)[2] as HTMLInputElement).value;
+
+        exerciseData.push(exerciseName)
+        exerciseData.push(typeOfExercise)
+        exerciseData.push(noOfReps)
+    }
+
+    if (typeOfExercise === "Timed Exercise") {
+        const exerciseName = ((event.target as HTMLFormElement)[0] as HTMLInputElement).value;
+        const timeOfExercise = ((event.target as HTMLFormElement)[2] as HTMLInputElement).value;
+
+        exerciseData.push(exerciseName)
+        exerciseData.push(typeOfExercise)
+        exerciseData.push(timeOfExercise)
+    }
+
+
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/addExercise",
+        {
+          credentials: "include", // Include credentials for same-origin requests
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            workoutId: workoutId,
+            workoutData: exerciseData,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error("Error adding exercise:", error);
+    }
   };
 
   return (
@@ -87,7 +144,7 @@ const EditWorkout: React.FC = () => {
             <div className="container">
               <div className="row">
                 <div className="col-12">
-                  <label>Exersize Name</label>
+                  <label>Exercise Name</label>
                 </div>
                 <div className="col-12 center-input">
                   <input type="text" maxLength={30}></input>
@@ -95,7 +152,7 @@ const EditWorkout: React.FC = () => {
               </div>
               <div className="row margin-top">
                 <div className="col-12">
-                  <label>Exersize Type</label>
+                  <label>Exercise Type</label>
                 </div>
                 <div className="col-12 center-input">
                   <select
@@ -106,7 +163,7 @@ const EditWorkout: React.FC = () => {
                   >
                     <option value="Weighted Reps">Weighted Reps</option>
                     <option value="Bodyweight Reps">Bodyweight Reps</option>
-                    <option value="Timed Exersize">Timed Exersize</option>
+                    <option value="Timed Exercise">Timed Exercise</option>
                   </select>
                 </div>
               </div>
@@ -150,7 +207,7 @@ const EditWorkout: React.FC = () => {
                 </>
               )}
 
-              {selectedOption === "Timed Exersize" && (
+              {selectedOption === "Timed Exercise" && (
                 <>
                   <div
                     className="row justify-content-center margin-top"
@@ -162,7 +219,7 @@ const EditWorkout: React.FC = () => {
                 </>
               )}
             </div>
-            <button type="submit">Add Exersize</button>
+            <button type="submit">Add Exercise</button>
           </form>
         </div>
       </body>

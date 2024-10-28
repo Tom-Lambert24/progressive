@@ -10,6 +10,7 @@ import {
   getUserById,
   uploadWorkoutName,
   getWorkoutById,
+  uploadExercise
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
@@ -127,6 +128,16 @@ app.post(
     }
   }
 );
+
+app.post("/addExercise", isAuthenticated, async (req: Request, res: Response) => {
+  const workoutId: number = req.body.workoutId
+  const workoutData: any[] = req.body.workoutData
+  const workoutDataJSON: string = JSON.stringify({workoutData})
+
+  await uploadExercise(workoutId, workoutDataJSON)
+
+  res.json({ message: 'Exercise added' });
+})
 
 app.get("/getWorkout", isAuthenticated, async (req: Request, res: Response) => {
 
