@@ -53,6 +53,16 @@ export const getWorkoutById = async (id: number) => {
   return response.rows[0]
 }
 
+export const getWorkoutDataById = async (id: number) => {
+  const client = await getClient();
+  const response = await client.query(
+    "SELECT workout_data FROM exercises WHERE workouts_id = $1", [id]
+  );
+  client.end();
+
+  return response.rows
+}
+
 export const uploadExercise = async (workoutId: number, workoutData: string) => {
   const client = await getClient();
   const response = await client.query(

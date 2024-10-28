@@ -10,7 +10,9 @@ const EditWorkout: React.FC = () => {
   const [workoutName, setWorkoutName] = useState("");
   const displayName = username ? username.split("@")[0] : "";
   const { workoutId } = useParams();
-  const Exercise = [];
+  const [submitCount, setSubmitCount] = useState(0);
+  const [updateWorkoutData, setUpdateWorkoutData] = useState<any[]>([]);
+  let currentWorkoutData: any[] = [];
 
   const navigate = useNavigate();
 
@@ -67,47 +69,101 @@ const EditWorkout: React.FC = () => {
     getWorkoutNameById();
   }, []);
 
+  //fetch and display current workout exercises
+  useEffect(() => {
+    const getWorkoutDataById = async () => {
+      try {
+        const response = await fetch(
+          process.env.REACT_APP_SERVER_URL +
+            "/getWorkoutData?workoutId=" +
+            workoutId,
+          {
+            credentials: "include", // Include credentials for same-origin requests
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          currentWorkoutData = [];
+
+          for (let i = 0; i < data.workoutData.length; i++) {
+            currentWorkoutData.push(
+              data.workoutData[i].workout_data.workoutData
+            );
+          }
+
+          //generate current Workout list html
+
+          setUpdateWorkoutData(currentWorkoutData);
+        }
+      } catch (error) {
+        console.error("Error getting workout data:", error);
+      }
+    };
+    getWorkoutDataById();
+  }, [submitCount]);
+
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const exerciseData = []
+    const exerciseData = [];
 
-    const typeOfExercise = ((event.target as HTMLFormElement)[1] as HTMLInputElement).value;
+    const typeOfExercise = (
+      (event.target as HTMLFormElement)[1] as HTMLInputElement
+    ).value;
 
     if (typeOfExercise === "Weighted Reps") {
-        const exerciseName = ((event.target as HTMLFormElement)[0] as HTMLInputElement).value;
-        const startingWeight = ((event.target as HTMLFormElement)[2] as HTMLInputElement).value;
-        const startingWeightUnit = ((event.target as HTMLFormElement)[3] as HTMLInputElement).value;
-        const noOfReps = ((event.target as HTMLFormElement)[4] as HTMLInputElement).value;
+      const exerciseName = (
+        (event.target as HTMLFormElement)[0] as HTMLInputElement
+      ).value;
+      const startingWeight = (
+        (event.target as HTMLFormElement)[2] as HTMLInputElement
+      ).value;
+      const startingWeightUnit = (
+        (event.target as HTMLFormElement)[3] as HTMLInputElement
+      ).value;
+      const noOfReps = (
+        (event.target as HTMLFormElement)[4] as HTMLInputElement
+      ).value;
 
-        exerciseData.push(exerciseName)
-        exerciseData.push(typeOfExercise)
-        exerciseData.push(startingWeight)
-        exerciseData.push(startingWeightUnit)
-        exerciseData.push(noOfReps)
+      exerciseData.push(exerciseName);
+      exerciseData.push(typeOfExercise);
+      exerciseData.push(startingWeight);
+      exerciseData.push(startingWeightUnit);
+      exerciseData.push(noOfReps);
     }
 
     if (typeOfExercise === "Bodyweight Reps") {
-        const exerciseName = ((event.target as HTMLFormElement)[0] as HTMLInputElement).value;
-        const noOfReps = ((event.target as HTMLFormElement)[2] as HTMLInputElement).value;
+      const exerciseName = (
+        (event.target as HTMLFormElement)[0] as HTMLInputElement
+      ).value;
+      const noOfReps = (
+        (event.target as HTMLFormElement)[2] as HTMLInputElement
+      ).value;
 
-        exerciseData.push(exerciseName)
-        exerciseData.push(typeOfExercise)
-        exerciseData.push(noOfReps)
+      exerciseData.push(exerciseName);
+      exerciseData.push(typeOfExercise);
+      exerciseData.push(noOfReps);
     }
 
     if (typeOfExercise === "Timed Exercise") {
-        const exerciseName = ((event.target as HTMLFormElement)[0] as HTMLInputElement).value;
-        const timeOfExercise = ((event.target as HTMLFormElement)[2] as HTMLInputElement).value;
+      const exerciseName = (
+        (event.target as HTMLFormElement)[0] as HTMLInputElement
+      ).value;
+      const timeOfExercise = (
+        (event.target as HTMLFormElement)[2] as HTMLInputElement
+      ).value;
 
-        exerciseData.push(exerciseName)
-        exerciseData.push(typeOfExercise)
-        exerciseData.push(timeOfExercise)
+      exerciseData.push(exerciseName);
+      exerciseData.push(typeOfExercise);
+      exerciseData.push(timeOfExercise);
     }
-
 
     try {
       const response = await fetch(
@@ -127,6 +183,43 @@ const EditWorkout: React.FC = () => {
     } catch (error) {
       console.error("Error adding exercise:", error);
     }
+
+    //reset exercise form
+    const exerciseInput = document.getElementById(
+      "exerciseName"
+    ) as HTMLInputElement;
+    exerciseInput.value = "";
+
+    const weightInput = document.getElementById("weight") as HTMLInputElement;
+    if (weightInput) {
+      weightInput.value = "";
+    }
+
+    const repsInput = document.getElementById("smallInput") as HTMLInputElement;
+    if (repsInput) {
+      repsInput.value = "";
+    }
+
+    const timeInput = document.getElementById("time") as HTMLInputElement;
+    if (timeInput) {
+      timeInput.value = "";
+    }
+
+    const addExercise = document.getElementById(
+      "createWorkout"
+    ) as HTMLDivElement;
+    addExercise.style.display = "none";
+
+    setSubmitCount((prev) => prev + 1);
+  };
+
+  const showAddExercise = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    const addExercise = document.getElementById(
+      "createWorkout"
+    ) as HTMLDivElement;
+    addExercise.style.display = "block";
   };
 
   return (
@@ -138,6 +231,52 @@ const EditWorkout: React.FC = () => {
         <h2>{displayName}</h2>
         <div id="workout">
           <h3 id="workoutName">{workoutName}</h3>
+          <div id="exerciseList">
+            {updateWorkoutData.map((exercise, index) => (
+              <div key={index} className="exercise">
+                {/* Check the exercise type */}
+                {exercise[1] === "Weighted Reps" && (
+                  <>
+                    {/* Format for Weighted Reps */}
+                    <div className="exercise-row">
+                      <strong>{exercise[0]}:</strong>{" "}
+                      <div className="align-right">
+                        <strong>
+                          {exercise[2]} {exercise[3]}
+                        </strong>{" "}
+                        for <strong>{exercise[4]} reps</strong>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {exercise[1] === "Bodyweight Reps" && (
+                  <>
+                    {/* Format for Bodyweight Reps */}
+                    <div className="exercise-row">
+                      <strong>{exercise[0]}:</strong>{" "}
+                      <div className="align-right">
+                        <strong>{exercise[2]} reps</strong>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {exercise[1] === "Timed Exercise" && (
+                  <>
+                    {/* Format for Timed Exercise */}
+                    <div className="exercise-row">
+                      <strong>{exercise[0]}:</strong>{" "}
+                      <div className="align-right">
+                        <strong>{exercise[2]} seconds</strong>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+          <button type="button" onClick={showAddExercise}>
+            Add Exercise
+          </button>
         </div>
         <div id="createWorkout">
           <form onSubmit={handleSubmit}>
@@ -147,7 +286,7 @@ const EditWorkout: React.FC = () => {
                   <label>Exercise Name</label>
                 </div>
                 <div className="col-12 center-input">
-                  <input type="text" maxLength={30}></input>
+                  <input type="text" maxLength={30} id="exerciseName" />
                 </div>
               </div>
               <div className="row margin-top">
@@ -214,7 +353,7 @@ const EditWorkout: React.FC = () => {
                     id="repsInput"
                   >
                     <label id="lengthOfTime">Starting length of time(s):</label>
-                    <input type="number" id="smallInput" />
+                    <input type="number" id="time" />
                   </div>
                 </>
               )}

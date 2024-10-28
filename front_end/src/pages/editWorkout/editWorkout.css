@@ -1,0 +1,33 @@
+.exercise {
+  border-bottom: 1px solid var(--erie-black);
+  margin: 0;
+  padding: 0.4rem 0;
+}
+
+.exercise .exercise-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+#workoutName {
+  font-size: 1.7rem;
+  margin-bottom: 0;
+}
+
+#workout button {
+  width: 60%;
+  margin: 0 20%;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+#workout button:hover {
+    background-color: var(--platinum);
+}
+
+#workout button:active {
+    margin-top: 0.55rem;
+    margin-left: calc(20% + 0.05rem);
+    margin-bottom: -0.05rem;
+    margin-right: calc(20% - 0.05rem);
+}
