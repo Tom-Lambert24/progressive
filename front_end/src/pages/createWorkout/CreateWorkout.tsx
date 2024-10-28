@@ -3,26 +3,28 @@ import "./createWorkout.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-
 const CreateWorkout: React.FC = () => {
-  const [ username, setUsername ] = useState('');
+  const [username, setUsername] = useState("");
   const [selectedOption, setSelectedOption] = useState("Weighted Reps");
   const displayName = username ? username.split("@")[0] : "";
   const [workoutName, setWorkoutName] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
-          credentials: 'include' // Include credentials for same-origin requests
-        });
+        const response = await fetch(
+          process.env.REACT_APP_SERVER_URL + "/loggedin",
+          {
+            credentials: "include", // Include credentials for same-origin requests
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
-          setUsername(data.username)
+          setUsername(data.username);
         } else {
-          navigate('/login')
+          navigate("/login");
         }
       } catch (error) {
         console.error("Error checking logged in status:", error);
@@ -36,9 +38,12 @@ const CreateWorkout: React.FC = () => {
     setSelectedOption(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {};
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+  };
 
-  const handleSubmitWorkoutName = () => {
+  const handleSubmitWorkoutName = (event: React.FormEvent) => {
+    event.preventDefault()
     const workoutNameInput = document.getElementById(
       "workout-name"
     ) as HTMLInputElement | null;
@@ -81,11 +86,13 @@ const CreateWorkout: React.FC = () => {
       <body>
         <h2>{displayName}</h2>
         <div id="getWorkoutName">
-          <label>Workout Name</label>
-          <br />
-          <input type="text" maxLength={30} id="workout-name" />
-          <br />
-          <button onClick={handleSubmitWorkoutName}>Submit</button>
+          <form onSubmit={handleSubmitWorkoutName}>
+            <label>Workout Name</label>
+            <br />
+            <input type="text" maxLength={30} id="workout-name" />
+            <br />
+            <button type="button" onClick={handleSubmitWorkoutName}>Submit</button>
+          </form>
         </div>
         <div id="workout">
           <h3 id="workoutName">{workoutName}</h3>
