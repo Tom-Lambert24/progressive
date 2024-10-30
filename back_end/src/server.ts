@@ -142,13 +142,17 @@ app.post(
         return;
       }
 
-      if (workout.user_id !== user.id) {
+      if (workout.users_id !== user.id) {
         res.status(403).json({ message: "Access forbidden" });
         return;
       }
 
       const workoutData: any[] = req.body.workoutData;
       const workoutDataJSON: string = JSON.stringify({ workoutData });
+
+      console.log('uploading data')
+      console.log(workoutId)
+      console.log(workoutDataJSON)
 
       await uploadExercise(workoutId, workoutDataJSON);
       
@@ -217,8 +221,7 @@ app.get(
         return;
       }
     }
-    
-    console.log(workoutData)
+
     res.json({ workoutData: workoutData });
   }
 );
