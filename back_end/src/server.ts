@@ -16,8 +16,6 @@ import {
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
 
-
-
 const app: Application = express();
 dotenv.config();
 // Middleware
@@ -115,9 +113,6 @@ app.post(
     const user = req.user as User;
     var workout;
 
-    console.log("req.body.workoutName");
-    console.log(req.body.workoutName);
-
     const userDetails = await getUserByUsername(user.username);
 
     if (userDetails) {
@@ -136,15 +131,38 @@ app.post(
   "/addExercise",
   isAuthenticated,
   async (req: Request, res: Response) => {
-    const workoutId: number = req.body.workoutId;
-    const workoutData: any[] = req.body.workoutData;
-    const workoutDataJSON: string = JSON.stringify({ workoutData });
+    try {
+      const user = req.user as User;
+      const workoutId: number = req.body.workoutId;
 
-    await uploadExercise(workoutId, workoutDataJSON);
+      // Retrieve the workout data and verify ownership
+      const workout = await getWorkoutById(workoutId);
+      if (!workout) {
+        res.status(404).json({ message: "Workout not found" });
+        return;
+      }
 
-    res.json({ message: "Exercise added" });
+      if (workout.user_id !== user.id) {
+        res.status(403).json({ message: "Access forbidden" });
+        return;
+      }
+
+      const workoutData: any[] = req.body.workoutData;
+      const workoutDataJSON: string = JSON.stringify({ workoutData });
+
+      await uploadExercise(workoutId, workoutDataJSON);
+      
+      // If all conditions pass, send success response
+      res.json({ message: "Exercise added" });
+    } catch (error) {
+      console.error("Error adding exercise:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ message: "Server error" });
+      }
+    }
   }
 );
+
 
 app.get(
   "/getWorkout",
@@ -164,11 +182,6 @@ app.get(
       if (!workout) {
         res.status(404).json({ message: "Workout not found." });
         return;
-      }
-
-      if (req.user) {
-        console.log(workout);
-        console.log(req.user.id);
       }
 
       if (req.user) {
@@ -196,6 +209,16 @@ app.get(
 
     const workoutData = await getWorkoutDataById(workoutId);
 
+    const workout = await getWorkoutById(workoutData[0].workouts_id)
+
+    if (req.user) {
+      if (workout.users_id !== req.user.id) {
+        res.status(403).json({ message: "Access forbidden." });
+        return;
+      }
+    }
+    
+    console.log(workoutData)
     res.json({ workoutData: workoutData });
   }
 );

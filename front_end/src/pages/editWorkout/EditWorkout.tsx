@@ -96,7 +96,7 @@ const EditWorkout: React.FC = () => {
           }
 
           //generate current Workout list html
-
+          console.log(data)
           setUpdateWorkoutData(currentWorkoutData);
         }
       } catch (error) {

@@ -56,7 +56,7 @@ export const getWorkoutById = async (id: number) => {
 export const getWorkoutDataById = async (id: number) => {
   const client = await getClient();
   const response = await client.query(
-    "SELECT workout_data FROM exercises WHERE workouts_id = $1", [id]
+    "SELECT * FROM exercises WHERE workouts_id = $1", [id]
   );
   client.end();
 
