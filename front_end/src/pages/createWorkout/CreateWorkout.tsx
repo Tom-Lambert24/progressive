@@ -81,7 +81,7 @@ const CreateWorkout: React.FC = () => {
 
   useEffect(() => {
     if (workoutName) {
-      navigate(`/${id}/editWorkout/${workoutId}`);
+      navigate(`/editWorkout/${workoutId}`);
     }
   }, [workoutId]);
 

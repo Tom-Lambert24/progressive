@@ -11,10 +11,12 @@ import {
   uploadWorkoutName,
   getWorkoutById,
   uploadExercise,
-  getWorkoutDataById
+  getWorkoutDataById,
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
+
+
 
 const app: Application = express();
 dotenv.config();
@@ -111,7 +113,7 @@ app.post(
   isAuthenticated,
   async (req: Request, res: Response) => {
     const user = req.user as User;
-    var workout
+    var workout;
 
     console.log("req.body.workoutName");
     console.log(req.body.workoutName);
@@ -125,41 +127,78 @@ app.post(
     }
 
     if (workout) {
-      res.json({ id: workout.id })
+      res.json({ id: workout.id });
     }
   }
 );
 
-app.post("/addExercise", isAuthenticated, async (req: Request, res: Response) => {
-  const workoutId: number = req.body.workoutId
-  const workoutData: any[] = req.body.workoutData
-  const workoutDataJSON: string = JSON.stringify({workoutData})
+app.post(
+  "/addExercise",
+  isAuthenticated,
+  async (req: Request, res: Response) => {
+    const workoutId: number = req.body.workoutId;
+    const workoutData: any[] = req.body.workoutData;
+    const workoutDataJSON: string = JSON.stringify({ workoutData });
 
-  await uploadExercise(workoutId, workoutDataJSON)
+    await uploadExercise(workoutId, workoutDataJSON);
 
-  res.json({ message: 'Exercise added' });
-})
+    res.json({ message: "Exercise added" });
+  }
+);
 
-app.get("/getWorkout", isAuthenticated, async (req: Request, res: Response) => {
+app.get(
+  "/getWorkout",
+  isAuthenticated,
+  async (req: Request, res: Response): Promise<void> => {
+    const workoutIdString = req.query.workoutId as string | undefined;
+    const workoutId = workoutIdString ? parseInt(workoutIdString, 10) : NaN;
 
-  const workoutIdString = req.query.workoutId as string | undefined;
+    if (isNaN(workoutId)) {
+      res.status(400).json({ message: "Invalid workout ID." });
+      return;
+    }
 
-  const workoutId = workoutIdString ? parseInt(workoutIdString, 10) : NaN;
+    try {
+      const workout = await getWorkoutById(workoutId);
 
-  const workout = await getWorkoutById(workoutId)
+      if (!workout) {
+        res.status(404).json({ message: "Workout not found." });
+        return;
+      }
 
-  res.json({ workoutName: workout.workout_name })
-})
+      if (req.user) {
+        console.log(workout);
+        console.log(req.user.id);
+      }
 
-app.get('/getWorkoutData', isAuthenticated, async (req: Request, res: Response) => {
-  const workoutIdString = req.query.workoutId as string | undefined;
+      if (req.user) {
+        if (workout.users_id !== req.user.id) {
+          res.status(403).json({ message: "Access forbidden." });
+          return;
+        }
+      }
 
-  const workoutId = workoutIdString ? parseInt(workoutIdString, 10) : NaN;
+      res.json({ workoutName: workout.workout_name });
+    } catch (error) {
+      console.error("Error fetching workout:", error);
+      res.status(500).json({ message: "Server error." });
+    }
+  }
+);
 
-  const workoutData = await getWorkoutDataById(workoutId)
+app.get(
+  "/getWorkoutData",
+  isAuthenticated,
+  async (req: Request, res: Response) => {
+    const workoutIdString = req.query.workoutId as string | undefined;
 
-  res.json({ workoutData: workoutData})
-})
+    const workoutId = workoutIdString ? parseInt(workoutIdString, 10) : NaN;
+
+    const workoutData = await getWorkoutDataById(workoutId);
+
+    res.json({ workoutData: workoutData });
+  }
+);
 
 function isAuthenticated(
   req: Request,

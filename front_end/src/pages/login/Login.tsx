@@ -62,7 +62,7 @@ const Login: React.FC = () => {
         if (response.ok) {
           const data = await response.json();
           setId(data.id);
-          navigate(`/${data.id}`);
+          navigate(`/user`);
         } else {
           const errorData = await response.json();
           setErrors({ username: errorData.message, password: "" }); // Update error message

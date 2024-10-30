@@ -36,7 +36,7 @@ const UserPage: React.FC = () => {
   }, []);
 
   const goToCreateWorkout = () => {
-    navigate(`/${id}/createWorkout`);
+    navigate(`/createWorkout`);
   };
 
   return (

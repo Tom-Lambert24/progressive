@@ -1,7 +1,6 @@
 import passport, { PassportStatic } from "passport";
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require("bcrypt");
-import "express";
+import { Strategy as LocalStrategy } from "passport-local";
+import bcrypt from "bcrypt";
 import { getUserById, getUserByUsername } from "../databaseFunctions";
 
 declare global {
@@ -14,22 +13,14 @@ declare global {
   }
 }
 
-type User = {
-  id: string;
-  username: string;
-  password_hash: string;
-};
+type DoneFunction = (error: any, user?: Express.User | false, options?: { message: string }) => void;
 
 async function initialize(
   passport: PassportStatic,
-  getUserByUsername: (username: string) => Promise<User | null>,
-  getUserById: (id: string) => Promise<User | null>
+  getUserByUsername: (username: string) => Promise<Express.User | null>,
+  getUserById: (id: string) => Promise<Express.User | null>
 ) {
-  const authenticateUser = async (
-    username: string,
-    password: string,
-    done: (err: any, user?: any, info?: { message?: string }) => void
-  ) => {
+  const authenticateUser = async (username: string, password: string, done: DoneFunction) => {
     const user = await getUserByUsername(username);
 
     if (!user) {
@@ -37,8 +28,6 @@ async function initialize(
     }
 
     try {
-      console.log("User password from DB:", user.password_hash);
-      console.log("Password to compare:", password);
       if (await bcrypt.compare(password, user.password_hash)) {
         return done(null, user);
       } else {
@@ -49,17 +38,12 @@ async function initialize(
     }
   };
 
-  passport.use(
-    new LocalStrategy({ usernameField: "username" }, authenticateUser)
-  );
+  passport.use(new LocalStrategy({ usernameField: "username" }, authenticateUser));
 
-  passport.serializeUser((user: Express.User, done) => {
-    done(null, user.id);
-  });
-
+  passport.serializeUser((user: Express.User, done) => done(null, user.id));
   passport.deserializeUser(async (id: string, done) => {
     const user = await getUserById(id);
-    done(null, user || null);
+    return done(null, user || null);
   });
 }
 

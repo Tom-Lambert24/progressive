@@ -15,9 +15,9 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login /> } />
-      <Route path="/:id" element={<UserPage />} />
-      <Route path="/:id/createworkout" element={<CreateWorkout />} />
-      <Route path="/:id/editWorkout/:workoutId" element={<EditWorkout />} />
+      <Route path="/user" element={<UserPage />} />
+      <Route path="/createworkout" element={<CreateWorkout />} />
+      <Route path="/editWorkout/:workoutId" element={<EditWorkout />} />
     </Routes>
   );
 }

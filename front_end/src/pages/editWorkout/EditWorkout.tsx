@@ -60,7 +60,7 @@ const EditWorkout: React.FC = () => {
           const data = await response.json();
           setWorkoutName(data.workoutName);
         } else {
-          navigate(`/${id}`);
+          navigate(`/user`);
         }
       } catch (error) {
         console.error("Error getting workout:", error);
