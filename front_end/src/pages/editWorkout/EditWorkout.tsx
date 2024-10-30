@@ -96,7 +96,6 @@ const EditWorkout: React.FC = () => {
           }
 
           //generate current Workout list html
-          console.log(data)
           setUpdateWorkoutData(currentWorkoutData);
         }
       } catch (error) {
@@ -213,7 +212,9 @@ const EditWorkout: React.FC = () => {
     setSubmitCount((prev) => prev + 1);
 
     //show add exercise button
-    const addExerciseButton = document.getElementById("add-exercise-button") as HTMLButtonElement;
+    const addExerciseButton = document.getElementById(
+      "add-exercise-button"
+    ) as HTMLButtonElement;
     if (addExerciseButton) {
       addExerciseButton.style.display = "block";
     }
@@ -227,9 +228,32 @@ const EditWorkout: React.FC = () => {
     ) as HTMLDivElement;
     addExercise.style.display = "block";
 
-    const addExerciseButton = document.getElementById("add-exercise-button") as HTMLButtonElement;
+    const addExerciseButton = document.getElementById(
+      "add-exercise-button"
+    ) as HTMLButtonElement;
     if (addExerciseButton) {
       addExerciseButton.style.display = "none";
+    }
+  };
+
+  const removeExercise = async (index: number) => {
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/removeExercise",
+        {
+          credentials: "include", // Include credentials for same-origin requests
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            workoutId: workoutId,
+            index: index,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error("Error adding exercise:", error);
     }
   };
 
@@ -250,12 +274,18 @@ const EditWorkout: React.FC = () => {
                   <>
                     {/* Format for Weighted Reps */}
                     <div className="exercise-row">
-                      <strong>{exercise[0]}:</strong>{" "}
-                      <div className="align-right">
+                      <strong id="exercise-name">{exercise[0]}:</strong>
+                      <div id="exercise-details">
                         <strong>
                           {exercise[2]} {exercise[3]}
                         </strong>{" "}
                         for <strong>{exercise[4]} reps</strong>
+                        <button
+                          id="remove-exercise"
+                          onClick={() => removeExercise(index)}
+                        >
+                          remove
+                        </button>
                       </div>
                     </div>
                   </>
@@ -264,9 +294,16 @@ const EditWorkout: React.FC = () => {
                   <>
                     {/* Format for Bodyweight Reps */}
                     <div className="exercise-row">
-                      <strong>{exercise[0]}:</strong>{" "}
-                      <div className="align-right">
+                      <strong id="exercise-name">{exercise[0]}:</strong>
+                      <div id="exercise-details">
                         <strong>{exercise[2]} reps</strong>
+
+                        <button
+                          id="remove-exercise"
+                          onClick={() => removeExercise(index)}
+                        >
+                          remove
+                        </button>
                       </div>
                     </div>
                   </>
@@ -275,9 +312,15 @@ const EditWorkout: React.FC = () => {
                   <>
                     {/* Format for Timed Exercise */}
                     <div className="exercise-row">
-                      <strong>{exercise[0]}:</strong>{" "}
-                      <div className="align-right">
+                      <strong id="exercise-name">{exercise[0]}:</strong>
+                      <div id="exercise-details">
                         <strong>{exercise[2]} seconds</strong>
+                        <button
+                          id="remove-exercise"
+                          onClick={() => removeExercise(index)}
+                        >
+                          remove
+                        </button>
                       </div>
                     </div>
                   </>
@@ -285,7 +328,11 @@ const EditWorkout: React.FC = () => {
               </div>
             ))}
           </div>
-          <button type="button" onClick={showAddExercise} id="add-exercise-button">
+          <button
+            type="button"
+            onClick={showAddExercise}
+            id="add-exercise-button"
+          >
             Add Exercise
           </button>
         </div>

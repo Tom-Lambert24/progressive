@@ -70,3 +70,18 @@ export const uploadExercise = async (workoutId: number, workoutData: string) => 
   );
   client.end();
 }
+
+export const removeExercise = async (exerciseId: number) => {
+  const client = await getClient();
+  await client.query("DELETE FROM exercises WHERE id = $1", [exerciseId])
+  client.end();
+}
+
+export const getExerciseId = async (workoutId: number, index: number) => {
+  const client = await getClient();
+  const response = await client.query("SELECT * FROM exercises WHERE workouts_id = $1", [workoutId])
+
+  client.end()
+
+  return response.rows[index].id
+}

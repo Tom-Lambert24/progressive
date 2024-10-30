@@ -12,6 +12,8 @@ import {
   getWorkoutById,
   uploadExercise,
   getWorkoutDataById,
+  removeExercise,
+  getExerciseId,
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
@@ -150,16 +152,48 @@ app.post(
       const workoutData: any[] = req.body.workoutData;
       const workoutDataJSON: string = JSON.stringify({ workoutData });
 
-      console.log('uploading data')
-      console.log(workoutId)
-      console.log(workoutDataJSON)
-
       await uploadExercise(workoutId, workoutDataJSON);
       
       // If all conditions pass, send success response
       res.json({ message: "Exercise added" });
     } catch (error) {
       console.error("Error adding exercise:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ message: "Server error" });
+      }
+    }
+  }
+);
+
+app.post(
+  "/removeExercise",
+  isAuthenticated,
+  async (req: Request, res: Response) => {
+    try {
+      const user = req.user as User;
+      const workoutId: number = req.body.workoutId;
+      const index: number = req.body.index;
+
+      // Retrieve the workout data and verify ownership
+      const workout = await getWorkoutById(workoutId);
+      if (!workout) {
+        res.status(404).json({ message: "Workout not found" });
+        return;
+      }
+
+      if (workout.users_id !== user.id) {
+        res.status(403).json({ message: "Access forbidden" });
+        return;
+      }
+
+      const exerciseId = await getExerciseId(workoutId, index)
+
+      await removeExercise(exerciseId);
+      
+      // If all conditions pass, send success response
+      res.json({ message: "Exercise removed" });
+    } catch (error) {
+      console.error("Error removing exercise:", error);
       if (!res.headersSent) {
         res.status(500).json({ message: "Server error" });
       }
