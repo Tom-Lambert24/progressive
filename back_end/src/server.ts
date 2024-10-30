@@ -153,7 +153,7 @@ app.post(
       const workoutDataJSON: string = JSON.stringify({ workoutData });
 
       await uploadExercise(workoutId, workoutDataJSON);
-      
+
       // If all conditions pass, send success response
       res.json({ message: "Exercise added" });
     } catch (error) {
@@ -186,10 +186,10 @@ app.post(
         return;
       }
 
-      const exerciseId = await getExerciseId(workoutId, index)
+      const exerciseId = await getExerciseId(workoutId, index);
 
       await removeExercise(exerciseId);
-      
+
       // If all conditions pass, send success response
       res.json({ message: "Exercise removed" });
     } catch (error) {
@@ -200,7 +200,6 @@ app.post(
     }
   }
 );
-
 
 app.get(
   "/getWorkout",
@@ -247,16 +246,18 @@ app.get(
 
     const workoutData = await getWorkoutDataById(workoutId);
 
-    const workout = await getWorkoutById(workoutData[0].workouts_id)
-
-    if (req.user) {
-      if (workout.users_id !== req.user.id) {
-        res.status(403).json({ message: "Access forbidden." });
-        return;
+    if (workoutData[0]) {
+      const workout = await getWorkoutById(workoutData[0].workouts_id);
+      if (req.user) {
+        if (workout.users_id !== req.user.id) {
+          res.status(403).json({ message: "Access forbidden." });
+          return;
+        }
       }
+      res.json({ workoutData: workoutData });
+    } else {
+      res.json({ workoutData: null})
     }
-
-    res.json({ workoutData: workoutData });
   }
 );
 

@@ -89,10 +89,12 @@ const EditWorkout: React.FC = () => {
           const data = await response.json();
           currentWorkoutData = [];
 
-          for (let i = 0; i < data.workoutData.length; i++) {
-            currentWorkoutData.push(
-              data.workoutData[i].workout_data.workoutData
-            );
+          if (data.workoutData) {
+            for (let i = 0; i < data.workoutData.length; i++) {
+              currentWorkoutData.push(
+                data.workoutData[i].workout_data.workoutData
+              );
+            }
           }
 
           //generate current Workout list html
@@ -232,7 +234,7 @@ const EditWorkout: React.FC = () => {
       "add-exercise-button"
     ) as HTMLButtonElement;
     if (addExerciseButton) {
-      addExerciseButton.style.display = "none";
+      addExerciseButton.style.display = "block";
     }
   };
 
@@ -255,6 +257,8 @@ const EditWorkout: React.FC = () => {
     } catch (error) {
       console.error("Error adding exercise:", error);
     }
+
+    setSubmitCount((prev) => prev - 1);
   };
 
   return (

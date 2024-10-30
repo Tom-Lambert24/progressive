@@ -33,10 +33,6 @@
     margin-right: calc(20% - 0.05rem);
 }
 
-#add-exercise-button {
-  display: none;
-}
-
 .exercise-row #remove-exercise {
   height: 1.6rem;
   font-size: 0.8rem;
@@ -63,9 +59,12 @@
 #exercise-name {
   width: 48%;
   border-right: 1px solid rgba(28, 28, 28, 0.2);;
-  
 }
 
 #exercise-details {
   margin: auto 0;
+}
+
+#createWorkout { 
+  display: none;
 }
