@@ -31,3 +31,7 @@
     margin-bottom: -0.05rem;
     margin-right: calc(20% - 0.05rem);
 }
+
+#add-exercise-button {
+  display: none;
+}

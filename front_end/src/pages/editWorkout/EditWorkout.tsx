@@ -211,6 +211,12 @@ const EditWorkout: React.FC = () => {
     addExercise.style.display = "none";
 
     setSubmitCount((prev) => prev + 1);
+
+    //show add exercise button
+    const addExerciseButton = document.getElementById("add-exercise-button") as HTMLButtonElement;
+    if (addExerciseButton) {
+      addExerciseButton.style.display = "block";
+    }
   };
 
   const showAddExercise = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -220,6 +226,11 @@ const EditWorkout: React.FC = () => {
       "createWorkout"
     ) as HTMLDivElement;
     addExercise.style.display = "block";
+
+    const addExerciseButton = document.getElementById("add-exercise-button") as HTMLButtonElement;
+    if (addExerciseButton) {
+      addExerciseButton.style.display = "none";
+    }
   };
 
   return (
@@ -274,7 +285,7 @@ const EditWorkout: React.FC = () => {
               </div>
             ))}
           </div>
-          <button type="button" onClick={showAddExercise}>
+          <button type="button" onClick={showAddExercise} id="add-exercise-button">
             Add Exercise
           </button>
         </div>
