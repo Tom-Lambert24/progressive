@@ -62,7 +62,6 @@ const UserPage: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setWorkouts(data.workouts);
-        console.log(data.workouts);
       }
     } catch (error) {
       console.error("Error getting workout data:", error);
@@ -75,17 +74,17 @@ const UserPage: React.FC = () => {
 
   useEffect(() => {
     if (workouts) {
-      console.log(workouts[0]);
-      console.log(workouts[1]);
       setWorkoutNames(workouts[0]);
       setWorkoutExercises(workouts[1]);
     }
   }, [workouts]);
 
   useEffect(() => {
-    console.log(workoutNames);
-    console.log(workoutExercises);
   }, [workoutNames]);
+
+  const editWorkout = (workoutIndex: number) => {
+    navigate('/editWorkout/' + workoutNames[workoutIndex].id)
+  }
 
   return (
     <>
@@ -167,7 +166,7 @@ const UserPage: React.FC = () => {
                   </div>
                   <div id="button-row">
                     <button id="start">Start</button>
-                    <button id="edit">Edit</button>
+                    <button id="edit" onClick={(() => editWorkout(index))}>Edit</button>
                     <button id="delete">Delete</button>
                   </div>
                 </div>
