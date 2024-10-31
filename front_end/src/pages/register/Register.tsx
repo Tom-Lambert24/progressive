@@ -102,10 +102,14 @@ const Register: React.FC = () => {
     }
   };
 
+  const goToHome = () => {
+    navigate('/')
+  }
+
   return (
     <>
       <header>
-        <h1>progressive</h1>
+        <a onClick={goToHome}><h1>progressive</h1></a>
       </header>
       <div id="registration">
         <h1>Register</h1>
