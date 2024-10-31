@@ -91,10 +91,14 @@ const CreateWorkout: React.FC = () => {
     navigate('/login')
   }
 
+  const goToHome = () => {
+    navigate('/user')
+  }
+
   return (
     <>
       <header>
-        <h1>progressive</h1>
+        <a onClick={goToHome}><h1>progressive</h1></a>
         <button id="logout" onClick={logoutApp}>Logout</button>
       </header>
       <body>
