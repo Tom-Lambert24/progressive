@@ -261,6 +261,16 @@ app.get(
   }
 );
 
+app.post('/logout', (req, res) => {
+  req.logout(err => {
+      if (err) return res.status(500).send({ message: "Error logging out." });
+      req.session.destroy(() => {
+          res.clearCookie('connect.sid'); // Adjust the cookie name if needed
+          res.status(200).send({ message: "Logged out successfully" });
+      });
+  });
+});
+
 function isAuthenticated(
   req: Request,
   res: Response,

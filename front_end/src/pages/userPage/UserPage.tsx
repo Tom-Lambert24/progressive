@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./userPage.css";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../helperFunctions";
 
 const UserPage: React.FC = () => {
   const [ id, setId ] = useState()
@@ -39,10 +40,16 @@ const UserPage: React.FC = () => {
     navigate(`/createWorkout`);
   };
 
+  const logoutApp = () => {
+    logout()
+    navigate('/login')
+  }
+
   return (
     <>
       <header>
         <h1>progressive</h1>
+        <button id="logout" onClick={logoutApp}>Logout</button>
       </header>
       <body>
         <h2>{displayName}</h2>

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import "./createWorkout.css";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { logout } from "../../helperFunctions";
 
 const CreateWorkout: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -85,10 +86,16 @@ const CreateWorkout: React.FC = () => {
     }
   }, [workoutId]);
 
+  const logoutApp = () => {
+    logout()
+    navigate('/login')
+  }
+
   return (
     <>
       <header>
         <h1>progressive</h1>
+        <button id="logout" onClick={logoutApp}>Logout</button>
       </header>
       <body>
         <h2>{displayName}</h2>

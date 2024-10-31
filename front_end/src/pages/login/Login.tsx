@@ -21,7 +21,7 @@ const Login: React.FC = () => {
           const data = await response.json();
           // If logged in, redirect to user's page
           setUsername(data.username)
-          navigate(`/${data.id}`);
+          navigate(`/user`);
         }
       } catch (error) {
         console.error("Error checking logged in status:", error);

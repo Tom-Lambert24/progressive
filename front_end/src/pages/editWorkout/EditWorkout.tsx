@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./editWorkout.css";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { logout } from "../../helperFunctions";
 
 const EditWorkout: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -261,10 +262,16 @@ const EditWorkout: React.FC = () => {
     setSubmitCount((prev) => prev - 1);
   };
 
+  const logoutApp = () => {
+    logout()
+    navigate('/login')
+  }
+
   return (
     <>
       <header>
         <h1>progressive</h1>
+        <button id="logout" onClick={logoutApp}>Logout</button>
       </header>
       <body>
         <h2>{displayName}</h2>

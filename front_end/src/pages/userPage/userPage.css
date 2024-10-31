@@ -30,3 +30,22 @@ body h2 {
 .center-button button:hover {
     background-color: var(--platinum);
 }
+
+header #logout {
+  margin-right: 1rem;
+  font-size: 0.8rem;
+  background-color: rgba(218, 221, 216, 0.3);
+  color: var(--anti-flash-white);
+  border-radius: 0.4rem;
+}
+
+header #logout:hover {
+  background-color: rgba(218, 221, 216, 0.6);
+}
+
+header #loagout:active {
+  margin-top: 0.05rem;
+  margin-left: 0.05rem;
+  margin-bottom: -0.05rem;
+  margin-right: 0.95rem;
+}
