@@ -49,3 +49,35 @@ header #loagout:active {
   margin-bottom: -0.05rem;
   margin-right: 0.95rem;
 }
+
+#workout-block {
+    background-color: var(--platinum);
+    width: 90%;
+    margin: 1rem 5%;
+    border-radius: 1.5rem;
+    border: 2px solid var(--alabaster);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+#workout-title {
+  text-align: center;
+  font-weight: 600;
+}
+
+.exercise .exercise-row-userpage {
+  display: flex;
+  justify-content: space-between;
+  width: 96%;
+  margin: 0 2%;
+  
+}
+
+#exercise-name-userpage {
+  width: 48%;
+  border-right: 1px solid rgba(28, 28, 28, 0.2);
+}
+
+#exercise-details-userpage {
+  margin: auto 0;
+}

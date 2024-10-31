@@ -14,6 +14,7 @@ import {
   getWorkoutDataById,
   removeExercise,
   getExerciseId,
+  getWorkoutList,
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
@@ -65,7 +66,6 @@ app.post("/register", async (req: Request, res: Response) => {
   const hashPassword = await bcrypt.hash(password, 10);
 
   //send to database
-  console.log("this ran!");
   try {
     const client = await getClient();
 
@@ -256,19 +256,47 @@ app.get(
       }
       res.json({ workoutData: workoutData });
     } else {
-      res.json({ workoutData: null})
+      res.json({ workoutData: null });
     }
   }
 );
 
-app.post('/logout', (req, res) => {
-  req.logout(err => {
-      if (err) return res.status(500).send({ message: "Error logging out." });
-      req.session.destroy(() => {
-          res.clearCookie('connect.sid'); // Adjust the cookie name if needed
-          res.status(200).send({ message: "Logged out successfully" });
-      });
+app.post("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) return res.status(500).send({ message: "Error logging out." });
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid"); // Adjust the cookie name if needed
+      res.status(200).send({ message: "Logged out successfully" });
+    });
   });
+});
+
+app.get("/getWorkoutList", async (req: Request, res: Response) => {
+  if (!req.user) {
+    res.status(401).json({ message: "Unauthorized" });
+  } else {
+    const user = req.user as User;
+    const id = parseInt(user.id);
+    const allData = [];
+
+    const workoutList = await getWorkoutList(id);
+    allData.push(workoutList);
+
+    const workoutDataList = [];
+    for (let i = 0; i < workoutList.length; i++) {
+      const workoutId = workoutList[i].id;
+      const workoutData = await getWorkoutDataById(workoutId);
+      if (workoutData[0] !== "") {
+        workoutDataList.push(workoutData);
+      } else {
+        workoutDataList.push(null);
+      }
+    }
+
+    allData.push(workoutDataList);
+
+    res.json({ workouts: allData });
+  }
 });
 
 function isAuthenticated(

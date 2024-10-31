@@ -14,7 +14,7 @@ const Home: React.FC = () => {
 
         if (response.ok) {
           const data = await response.json();
-          navigate(`/${data.id}`);
+          navigate(`/user`);
         }
       } catch (error) {
         console.error("Error checking logged in status:", error);
