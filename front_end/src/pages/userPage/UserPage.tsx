@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./userPage.css";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../helperFunctions";
 
@@ -79,12 +78,38 @@ const UserPage: React.FC = () => {
     }
   }, [workouts]);
 
-  useEffect(() => {
-  }, [workoutNames]);
+  useEffect(() => {}, [workoutNames]);
 
   const editWorkout = (workoutIndex: number) => {
-    navigate('/editWorkout/' + workoutNames[workoutIndex].id)
-  }
+    navigate("/editWorkout/" + workoutNames[workoutIndex].id);
+  };
+
+  const deleteWorkout = async (workoutIndex: number) => {
+    const workoutId = workoutNames[workoutIndex].id;
+
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/deleteWorkout",
+        {
+          credentials: "include",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            workoutId: workoutId,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        getWorkouts()
+      }
+
+    } catch (error) {
+      console.error("Error deleting workout:", error);
+    }
+  };
 
   return (
     <>
@@ -166,8 +191,12 @@ const UserPage: React.FC = () => {
                   </div>
                   <div id="button-row">
                     <button id="start">Start</button>
-                    <button id="edit" onClick={(() => editWorkout(index))}>Edit</button>
-                    <button id="delete">Delete</button>
+                    <button id="edit" onClick={() => editWorkout(index)}>
+                      Edit
+                    </button>
+                    <button id="delete" onClick={() => deleteWorkout(index)}>
+                      Delete
+                    </button>
                   </div>
                 </div>
               );

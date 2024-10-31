@@ -15,6 +15,7 @@ import {
   removeExercise,
   getExerciseId,
   getWorkoutList,
+  deleteWorkoutById,
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
@@ -270,6 +271,26 @@ app.post("/logout", (req, res) => {
     });
   });
 });
+
+app.post("/deleteWorkout", async (req, res) => {
+  const user = req.user as User;
+  const workoutId = req.body.workoutId
+
+  const workout = await getWorkoutById(workoutId)
+
+  if (workout.users_id !== user.id) {
+    res.status(403).json({ message: "Access forbidden" });
+    return;
+  }
+
+  try {
+  await deleteWorkoutById(workoutId)
+
+  res.status(200).json()
+  } catch (e) {
+    res.status(500).json({message: 'server error'})
+  }
+})
 
 app.get("/getWorkoutList", async (req: Request, res: Response) => {
   if (!req.user) {

@@ -94,3 +94,10 @@ export const getWorkoutList = async (id: number) => {
 
   return response.rows
 }
+
+export const deleteWorkoutById = async (id: number) => {
+  const client = await getClient()
+  await client.query("DELETE FROM workouts WHERE id = $1", [id])
+
+  client.end()
+}
