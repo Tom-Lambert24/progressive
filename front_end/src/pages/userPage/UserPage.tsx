@@ -75,8 +75,8 @@ const UserPage: React.FC = () => {
 
   useEffect(() => {
     if (workouts) {
-      console.log(workouts[0])
-      console.log(workouts[1])
+      console.log(workouts[0]);
+      console.log(workouts[1]);
       setWorkoutNames(workouts[0]);
       setWorkoutExercises(workouts[1]);
     }
@@ -85,7 +85,7 @@ const UserPage: React.FC = () => {
   useEffect(() => {
     console.log(workoutNames);
     console.log(workoutExercises);
-  }, [workoutNames])
+  }, [workoutNames]);
 
   return (
     <>
@@ -100,7 +100,6 @@ const UserPage: React.FC = () => {
         <div id="exercises">
           {workoutNames !== undefined &&
             workoutNames.map((workout, index) => {
-
               return (
                 <div id="workout-block">
                   <h4 id="workout-title">{workout.workout_name}</h4>
@@ -109,7 +108,8 @@ const UserPage: React.FC = () => {
                       workoutExercises[index].map((exercise: any) => (
                         <div className="exercise">
                           {/* Check the exercise type */}
-                          {exercise.workout_data.workoutData[1] === "Weighted Reps" && (
+                          {exercise.workout_data.workoutData[1] ===
+                            "Weighted Reps" && (
                             <>
                               {/* Format for Weighted Reps */}
                               <div className="exercise-row-userpage">
@@ -118,14 +118,19 @@ const UserPage: React.FC = () => {
                                 </strong>
                                 <div id="exercise-details-userpage">
                                   <strong>
-                                    {exercise.workout_data.workoutData[2]} {exercise.workout_data.workoutData[3]}
+                                    {exercise.workout_data.workoutData[2]}{" "}
+                                    {exercise.workout_data.workoutData[3]}
                                   </strong>{" "}
-                                  for <strong>{exercise.workout_data.workoutData[4]} reps</strong>
+                                  for{" "}
+                                  <strong>
+                                    {exercise.workout_data.workoutData[4]} reps
+                                  </strong>
                                 </div>
                               </div>
                             </>
                           )}
-                          {exercise.workout_data.workoutData[1] === "Bodyweight Reps" && (
+                          {exercise.workout_data.workoutData[1] ===
+                            "Bodyweight Reps" && (
                             <>
                               {/* Format for Bodyweight Reps */}
                               <div className="exercise-row-userpage">
@@ -133,12 +138,15 @@ const UserPage: React.FC = () => {
                                   {exercise.workout_data.workoutData[0]}:
                                 </strong>
                                 <div id="exercise-details-userpage">
-                                  <strong>{exercise.workout_data.workoutData[2]} reps</strong>
+                                  <strong>
+                                    {exercise.workout_data.workoutData[2]} reps
+                                  </strong>
                                 </div>
                               </div>
                             </>
                           )}
-                          {exercise.workout_data.workoutData[1] === "Timed Exercise" && (
+                          {exercise.workout_data.workoutData[1] ===
+                            "Timed Exercise" && (
                             <>
                               {/* Format for Timed Exercise */}
                               <div className="exercise-row-userpage">
@@ -146,13 +154,21 @@ const UserPage: React.FC = () => {
                                   {exercise.workout_data.workoutData[0]}:
                                 </strong>
                                 <div id="exercise-details-userpage">
-                                  <strong>{exercise.workout_data.workoutData[2]} seconds</strong>
+                                  <strong>
+                                    {exercise.workout_data.workoutData[2]}{" "}
+                                    seconds
+                                  </strong>
                                 </div>
                               </div>
                             </>
                           )}
                         </div>
                       ))}
+                  </div>
+                  <div id="button-row">
+                    <button id="start">Start</button>
+                    <button id="edit">Edit</button>
+                    <button id="delete">Delete</button>
                   </div>
                 </div>
               );
