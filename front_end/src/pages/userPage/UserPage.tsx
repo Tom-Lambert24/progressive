@@ -111,6 +111,12 @@ const UserPage: React.FC = () => {
     }
   };
 
+  const startExercise = async (workoutIndex: number) => {
+    const workoutId = workoutNames[workoutIndex].id;
+
+    navigate('/workout/' + workoutId)
+  }
+
   return (
     <>
       <header>
@@ -190,7 +196,7 @@ const UserPage: React.FC = () => {
                       ))}
                   </div>
                   <div id="button-row">
-                    <button id="start">Start</button>
+                    <button id="start" onClick={() => startExercise(index)}>Start</button>
                     <button id="edit" onClick={() => editWorkout(index)}>
                       Edit
                     </button>
