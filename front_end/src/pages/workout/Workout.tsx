@@ -133,9 +133,17 @@ const Workout: React.FC = () => {
     setWorkoutIndex((prev) => prev + 1);
   }
 
+  const skipExercise = () => {
+    //put exercise back to the end of the list
+    const tempExercises = exercises
+    tempExercises.push(exercises[workoutIndex])
+    setExercises(tempExercises)
+    setWorkoutIndex((prev) => prev + 1)
+  }
+
   useEffect(() => {
-    console.log(workoutIndex)
-  }, [workoutIndex])
+    console.log(exercises)
+  }, [exercises])
 
   return (
     <>
@@ -202,7 +210,7 @@ const Workout: React.FC = () => {
           </div>
           <div id="skip-row">
             Machine Taken?
-            <button id="skip-exercise">Skip Exercise for Now</button>
+            <button id="skip-exercise" onClick={skipExercise}>Skip Exercise for Now</button>
           </div>
           <div id="complete-exercise">
             <h5>Was the last rep difficult?</h5>
