@@ -318,7 +318,7 @@ const EditWorkout: React.FC = () => {
                         id="remove-exercise"
                         onClick={() => removeExercise(index)}
                       >
-                        remove
+                        -
                       </button>
                     </div>
                   </>
@@ -337,7 +337,7 @@ const EditWorkout: React.FC = () => {
                         id="remove-exercise"
                         onClick={() => removeExercise(index)}
                       >
-                        remove
+                        -
                       </button>
                     </div>
                   </>
@@ -356,7 +356,7 @@ const EditWorkout: React.FC = () => {
                           id="remove-exercise"
                           onClick={() => removeExercise(index)}
                         >
-                          remove
+                          -
                         </button>
                     </div>
                   </>
