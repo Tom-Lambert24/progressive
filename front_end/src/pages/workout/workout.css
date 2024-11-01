@@ -99,10 +99,43 @@
     background-color: rgba(255, 0, 0, 0.25);
 }
 
+#hard:hover {
+    background-color: rgba(255, 0, 0, 0.4);
+}
+
+#hard:active {
+    margin-top: 0.35rem;
+    margin-left: 0.35rem;
+    margin-bottom: 0.25rem;
+    margin-right: 0.25rem;
+}
+
 #medium {
     background-color: rgba(255, 165, 0, 0.25);
 }
 
+#medium:hover {
+    background-color: (255, 165, 0, 0.4);
+}
+
+#medium:active {
+    margin-top: 0.35rem;
+    margin-left: 0.35rem;
+    margin-bottom: 0.25rem;
+    margin-right: 0.25rem;
+}
+
 #easy {
     background-color: rgba(0, 255, 0, 0.25);
+}
+
+#easy:hover {
+    background-color: rgba(0, 255, 0, 0.4);
+}
+
+#easy:active {
+    margin-top: 0.35rem;
+    margin-left: 0.35rem;
+    margin-bottom: 0.25rem;
+    margin-right: 0.25rem;
 }
