@@ -235,7 +235,7 @@ const EditWorkout: React.FC = () => {
       "add-exercise-button"
     ) as HTMLButtonElement;
     if (addExerciseButton) {
-      addExerciseButton.style.display = "block";
+      addExerciseButton.style.display = "none";
     }
   };
 
