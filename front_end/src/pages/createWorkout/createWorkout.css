@@ -21,7 +21,7 @@
 }
 
 #createWorkout .row {
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
 }
 
 #createWorkout label {
@@ -37,7 +37,7 @@
 }
 
 #createWorkout .container #repsInput {
-  padding-top: 1.5rem;
+  padding-top: 1rem;
 }
 
 #createWorkout #lengthOfTime {

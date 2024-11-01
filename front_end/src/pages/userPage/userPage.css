@@ -75,12 +75,15 @@ header #loagout:active {
 }
 
 #exercise-name-userpage {
-  width: 48%;
+  width: 47%;
   border-right: 1px solid rgba(28, 28, 28, 0.2);
+  margin: auto 0;
+  margin-left: 1%
 }
 
 #exercise-details-userpage {
   margin: auto 0;
+  text-align: right;
 }
 
 #workout-block #button-row {

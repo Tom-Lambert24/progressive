@@ -103,9 +103,8 @@ const UserPage: React.FC = () => {
       );
 
       if (response.ok) {
-        getWorkouts()
+        getWorkouts();
       }
-
     } catch (error) {
       console.error("Error deleting workout:", error);
     }
@@ -114,8 +113,8 @@ const UserPage: React.FC = () => {
   const startExercise = async (workoutIndex: number) => {
     const workoutId = workoutNames[workoutIndex].id;
 
-    navigate('/workout/' + workoutId)
-  }
+    navigate("/workout/" + workoutId);
+  };
 
   return (
     <>
@@ -155,6 +154,8 @@ const UserPage: React.FC = () => {
                                   <strong>
                                     {exercise.workout_data.workoutData[4]} reps
                                   </strong>
+                                  <br />
+                                  for <strong>{exercise[5]} sets</strong>
                                 </div>
                               </div>
                             </>
@@ -171,6 +172,7 @@ const UserPage: React.FC = () => {
                                   <strong>
                                     {exercise.workout_data.workoutData[2]} reps
                                   </strong>
+                                  &nbsp; for <strong>{exercise[3]} sets</strong>
                                 </div>
                               </div>
                             </>
@@ -188,6 +190,8 @@ const UserPage: React.FC = () => {
                                     {exercise.workout_data.workoutData[2]}{" "}
                                     seconds
                                   </strong>
+                                  <br />
+                                  for <strong>{exercise[3]} sets</strong>
                                 </div>
                               </div>
                             </>
@@ -196,7 +200,9 @@ const UserPage: React.FC = () => {
                       ))}
                   </div>
                   <div id="button-row">
-                    <button id="start" onClick={() => startExercise(index)}>Start</button>
+                    <button id="start" onClick={() => startExercise(index)}>
+                      Start
+                    </button>
                     <button id="edit" onClick={() => editWorkout(index)}>
                       Edit
                     </button>

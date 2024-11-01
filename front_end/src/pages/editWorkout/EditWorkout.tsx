@@ -133,12 +133,16 @@ const EditWorkout: React.FC = () => {
       const noOfReps = (
         (event.target as HTMLFormElement)[4] as HTMLInputElement
       ).value;
+      const noOfSets = (
+        (event.target as HTMLFormElement)[5] as HTMLInputElement
+      ).value;
 
       exerciseData.push(exerciseName);
       exerciseData.push(typeOfExercise);
       exerciseData.push(startingWeight);
       exerciseData.push(startingWeightUnit);
       exerciseData.push(noOfReps);
+      exerciseData.push(noOfSets);
     }
 
     if (typeOfExercise === "Bodyweight Reps") {
@@ -148,10 +152,14 @@ const EditWorkout: React.FC = () => {
       const noOfReps = (
         (event.target as HTMLFormElement)[2] as HTMLInputElement
       ).value;
+      const noOfSets = (
+        (event.target as HTMLFormElement)[3] as HTMLInputElement
+      ).value;
 
       exerciseData.push(exerciseName);
       exerciseData.push(typeOfExercise);
       exerciseData.push(noOfReps);
+      exerciseData.push(noOfSets);
     }
 
     if (typeOfExercise === "Timed Exercise") {
@@ -161,10 +169,14 @@ const EditWorkout: React.FC = () => {
       const timeOfExercise = (
         (event.target as HTMLFormElement)[2] as HTMLInputElement
       ).value;
+      const noOfSets = (
+        (event.target as HTMLFormElement)[3] as HTMLInputElement
+      ).value;
 
       exerciseData.push(exerciseName);
       exerciseData.push(typeOfExercise);
       exerciseData.push(timeOfExercise);
+      exerciseData.push(noOfSets);
     }
 
     try {
@@ -263,19 +275,23 @@ const EditWorkout: React.FC = () => {
   };
 
   const logoutApp = () => {
-    logout()
-    navigate('/login')
-  }
+    logout();
+    navigate("/login");
+  };
 
   const goToHome = () => {
-    navigate('/user')
-  }
+    navigate("/user");
+  };
 
   return (
     <>
       <header>
-        <a onClick={goToHome}><h1>progressive</h1></a>
-        <button id="logout" onClick={logoutApp}>Logout</button>
+        <a onClick={goToHome}>
+          <h1>progressive</h1>
+        </a>
+        <button id="logout" onClick={logoutApp}>
+          Logout
+        </button>
       </header>
       <body>
         <h2>{displayName}</h2>
@@ -295,13 +311,15 @@ const EditWorkout: React.FC = () => {
                           {exercise[2]} {exercise[3]}
                         </strong>{" "}
                         for <strong>{exercise[4]} reps</strong>
-                        <button
-                          id="remove-exercise"
-                          onClick={() => removeExercise(index)}
-                        >
-                          remove
-                        </button>
+                        <br />
+                        for <strong>{exercise[5]} sets</strong>
                       </div>
+                      <button
+                        id="remove-exercise"
+                        onClick={() => removeExercise(index)}
+                      >
+                        remove
+                      </button>
                     </div>
                   </>
                 )}
@@ -312,14 +330,15 @@ const EditWorkout: React.FC = () => {
                       <strong id="exercise-name">{exercise[0]}:</strong>
                       <div id="exercise-details">
                         <strong>{exercise[2]} reps</strong>
-
-                        <button
-                          id="remove-exercise"
-                          onClick={() => removeExercise(index)}
-                        >
-                          remove
-                        </button>
+                        &nbsp;for <strong>{exercise[3]} sets</strong>
                       </div>
+
+                      <button
+                        id="remove-exercise"
+                        onClick={() => removeExercise(index)}
+                      >
+                        remove
+                      </button>
                     </div>
                   </>
                 )}
@@ -330,13 +349,15 @@ const EditWorkout: React.FC = () => {
                       <strong id="exercise-name">{exercise[0]}:</strong>
                       <div id="exercise-details">
                         <strong>{exercise[2]} seconds</strong>
+                        <br />
+                        for <strong>{exercise[3]} sets</strong>
+                        </div>
                         <button
                           id="remove-exercise"
                           onClick={() => removeExercise(index)}
                         >
                           remove
                         </button>
-                      </div>
                     </div>
                   </>
                 )}
@@ -430,6 +451,14 @@ const EditWorkout: React.FC = () => {
                   </div>
                 </>
               )}
+
+              <div
+                className="row justify-content-center margin-top"
+                id="setsInput"
+              >
+                <label id="number-of-sets">Number of Sets</label>
+                <input type="number" id="sets" />
+              </div>
             </div>
             <button type="submit">Add Exercise</button>
           </form>
