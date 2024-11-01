@@ -89,9 +89,7 @@ const Workout: React.FC = () => {
 
           if (data.workoutData) {
             for (let i = 0; i < data.workoutData.length; i++) {
-              currentWorkoutData.push(
-                data.workoutData[i].workout_data.workoutData
-              );
+              currentWorkoutData.push(data.workoutData[i]);
             }
           }
 
@@ -105,11 +103,15 @@ const Workout: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setCurrentExercise(exercises[workoutIndex]);
+    if (exercises[workoutIndex]) {
+      setCurrentExercise(exercises[workoutIndex].workout_data.workoutData);
+    }
   }, [exercises]);
 
   useEffect(() => {
-    setCurrentExercise(exercises[workoutIndex]);
+    if (exercises[workoutIndex]) {
+        setCurrentExercise(exercises[workoutIndex].workout_data.workoutData);
+      }
   }, [workoutIndex]);
 
   const logoutApp = () => {
@@ -123,27 +125,27 @@ const Workout: React.FC = () => {
 
   const hardClick = () => {
     setWorkoutIndex((prev) => prev + 1);
-  }
+  };
 
   const mediumClick = () => {
     setWorkoutIndex((prev) => prev + 1);
-  }
+  };
 
   const easyClick = () => {
     setWorkoutIndex((prev) => prev + 1);
-  }
+  };
 
   const skipExercise = () => {
     //put exercise back to the end of the list
-    const tempExercises = exercises
-    tempExercises.push(exercises[workoutIndex])
-    setExercises(tempExercises)
-    setWorkoutIndex((prev) => prev + 1)
-  }
+    const tempExercises = exercises;
+    tempExercises.push(exercises[workoutIndex]);
+    setExercises(tempExercises);
+    setWorkoutIndex((prev) => prev + 1);
+  };
 
   useEffect(() => {
-    console.log(exercises)
-  }, [exercises])
+    console.log(exercises);
+  }, [exercises]);
 
   return (
     <>
@@ -158,12 +160,11 @@ const Workout: React.FC = () => {
       <body>
         <h2>{displayName}</h2>
         <div id="current-exercise">
-        <h3>{workoutName}</h3>
+          <h3>{workoutName}</h3>
           <div id="current-exercise-details">
             {currentExercise !== undefined &&
               currentExercise[1] === "Weighted Reps" && (
                 <>
-                  
                   <h4 id="current-exercise-text">Current Exercise</h4>
                   <div id="workout-details">
                     <strong id="exercise-name">{currentExercise[0]}</strong>
@@ -183,7 +184,7 @@ const Workout: React.FC = () => {
             {currentExercise !== undefined &&
               currentExercise[1] === "Bodyweight Reps" && (
                 <>
-                <h4 id="current-exercise-text">Current Exercise</h4>
+                  <h4 id="current-exercise-text">Current Exercise</h4>
                   <div id="workout-details">
                     <strong id="exercise-name">{currentExercise[0]}</strong>
                     <div id="workout-data">
@@ -196,7 +197,7 @@ const Workout: React.FC = () => {
             {currentExercise !== undefined &&
               currentExercise[1] === "Timed Exercise" && (
                 <>
-                <h4 id="current-exercise-text">Current Exercise</h4>
+                  <h4 id="current-exercise-text">Current Exercise</h4>
                   <div id="workout-details">
                     <strong id="exercise-name">{currentExercise[0]}</strong>
                     <div id="workout-data">
@@ -210,15 +211,23 @@ const Workout: React.FC = () => {
           </div>
           <div id="skip-row">
             Machine Taken?
-            <button id="skip-exercise" onClick={skipExercise}>Skip Exercise for Now</button>
+            <button id="skip-exercise" onClick={skipExercise}>
+              Skip Exercise for Now
+            </button>
           </div>
           <div id="complete-exercise">
             <h5>Was the last rep difficult?</h5>
-            <button id="hard" onClick={hardClick}>I could not do it...</button>
+            <button id="hard" onClick={hardClick}>
+              I could not do it...
+            </button>
             <br />
-            <button id="medium" onClick={mediumClick}>It was slow and difficult</button>
+            <button id="medium" onClick={mediumClick}>
+              It was slow and difficult
+            </button>
             <br />
-            <button id="easy" onClick={easyClick}>It moved easily!</button>
+            <button id="easy" onClick={easyClick}>
+              It moved easily!
+            </button>
           </div>
         </div>
       </body>
