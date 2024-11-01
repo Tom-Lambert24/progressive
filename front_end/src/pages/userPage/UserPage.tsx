@@ -154,7 +154,7 @@ const UserPage: React.FC = () => {
                                     {exercise.workout_data.workoutData[4]} reps
                                   </strong>
                                   <br />
-                                  for <strong>{exercise[5]} sets</strong>
+                                  for <strong>{exercise.workout_data.workoutData[5]} sets</strong>
                                 </div>
                               </div>
                             </>
@@ -171,7 +171,7 @@ const UserPage: React.FC = () => {
                                   <strong>
                                     {exercise.workout_data.workoutData[2]} reps
                                   </strong>
-                                  &nbsp; for <strong>{exercise[3]} sets</strong>
+                                  &nbsp; for <strong>{exercise.workout_data.workoutData[3]} sets</strong>
                                 </div>
                               </div>
                             </>
@@ -190,7 +190,7 @@ const UserPage: React.FC = () => {
                                     seconds
                                   </strong>
                                   <br />
-                                  for <strong>{exercise[3]} sets</strong>
+                                  for <strong>{exercise.workout_data.workoutData[3]} sets</strong>
                                 </div>
                               </div>
                             </>
