@@ -8,6 +8,7 @@ import Login from './pages/login/Login';
 import UserPage from './pages/userPage/UserPage'
 import CreateWorkout from './pages/createWorkout/CreateWorkout';
 import EditWorkout from './pages/editWorkout/EditWorkout'
+import Workout from './pages/workout/Workout';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/user" element={<UserPage />} />
       <Route path="/createworkout" element={<CreateWorkout />} />
       <Route path="/editWorkout/:workoutId" element={<EditWorkout />} />
+      <Route path="/workout/:workoutId" element={<Workout />} />
     </Routes>
   );
 }
