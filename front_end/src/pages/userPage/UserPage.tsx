@@ -28,7 +28,6 @@ const UserPage: React.FC = () => {
           const data = await response.json();
           // If logged in, redirect to user's page
           setUsername(data.username);
-          setId(data.id);
         } else {
           navigate("/login");
         }

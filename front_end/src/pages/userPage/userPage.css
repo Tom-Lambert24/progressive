@@ -43,7 +43,7 @@ header #logout:hover {
   background-color: rgba(218, 221, 216, 0.6);
 }
 
-header #loagout:active {
+header #logout:active {
   margin-top: 0.05rem;
   margin-left: 0.05rem;
   margin-bottom: -0.05rem;

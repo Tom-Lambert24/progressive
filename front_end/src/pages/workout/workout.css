@@ -1,0 +1,108 @@
+#current-exercise {
+  background-color: var(--platinum);
+  width: 90%;
+  margin: 1rem 5%;
+  border-radius: 1.5rem;
+  border: 2px solid var(--alabaster);
+  padding-top: 0.75rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+#current-exercise h3 {
+  text-align: center;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.4);
+  width: 96%;
+  margin: 0 2%;
+  padding-bottom: 1rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  padding-top: 0.4rem;
+}
+
+#current-exercise #workout-details {
+  font-size: 1.1rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 92%;
+  padding-bottom: 2.5rem;
+}
+
+#current-exercise #workout-details #exercise-name {
+  font-size: 1.2rem;
+  font-weight: 580;
+}
+#current-exercise #workout-details #workout-data {
+  text-align: right;
+  width: 53%;
+}
+
+#current-exercise #workout-details #workout-data strong {
+  font-weight: 600;
+}
+
+#skip-row {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 5%;
+  padding-top: 1rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.4);
+  padding-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+#skip-row #skip-exercise {
+  border-radius: 0.4rem;
+}
+
+#skip-row #skip-exercise:hover {
+  background-color: var(--platinum);
+}
+
+#skip-row #skip-exercise:active {
+  margin-top: 0.05rem;
+  margin-left: 0.05rem;
+  margin-bottom: -0.05rem;
+  margin-right: -0.05rem;
+}
+
+#complete-exercise {
+  justify-items: center;
+  margin-top: 1rem;
+}
+
+#complete-exercise button {
+    width: 15rem;
+    margin: 0.3rem;
+    border-radius: 0.3rem;
+}
+
+#current-exercise-text {
+    text-align: center;
+    margin: 0 10%;
+    padding-top: 2rem;
+    font-size: 1.5rem;
+    border-bottom: 1px solid rgba(28, 28, 28, 0.4);
+    width: 80%;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+#current-exercise-details {
+    background-color: var(--anti-flash-white);
+}
+
+#hard {
+    background-color: rgba(255, 0, 0, 0.25);
+}
+
+#medium {
+    background-color: rgba(255, 165, 0, 0.25);
+}
+
+#easy {
+    background-color: rgba(0, 255, 0, 0.25);
+}
