@@ -188,8 +188,7 @@ const UserPage: React.FC = () => {
                                   <strong>
                                     {exercise.workout_data.workoutData[2]}{" "}
                                     seconds
-                                  </strong>
-                                  <br />
+                                  </strong>&nbsp;
                                   for <strong>{exercise.workout_data.workoutData[3]} sets</strong>
                                 </div>
                               </div>
