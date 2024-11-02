@@ -410,11 +410,11 @@ const Workout: React.FC = () => {
                     <form onSubmit={progressExerciseBodyweight}>
                       Add <strong>5%</strong> to reps, or not?
                       <br />
-                      <label>
+                      <label id="radio-yes-no">
                         <input type="radio" name="increaseReps" value="true" />{" "}
                         Yes!
                       </label>
-                      <label>
+                      <label id="radio-yes-no">
                         <input type="radio" name="increaseReps" value="false" />{" "}
                         No
                       </label>
@@ -427,11 +427,11 @@ const Workout: React.FC = () => {
                     <form onSubmit={progressExerciseTimed}>
                       Add <strong>5%</strong> to time, or not?
                       <br />
-                      <label>
+                      <label id="radio-yes-no">
                         <input type="radio" name="increaseTime" value="true" />{" "}
                         Yes!
                       </label>
-                      <label>
+                      <label id="radio-yes-no">
                         <input type="radio" name="increaseTime" value="false" />{" "}
                         No
                       </label>
@@ -527,7 +527,7 @@ const Workout: React.FC = () => {
                       <br />
                       <strong>5%</strong> added
                       <br />
-                      <button onClick={hideProgression} id="continue">Continue</button>
+                      <button onClick={hideProgression} id="continue">Continue{'>>'}</button>
                     </>
                   )}
 
@@ -538,7 +538,7 @@ const Workout: React.FC = () => {
                       <br />
                       <strong>5%</strong> added
                       <br />
-                      <button onClick={hideProgression} id="continue">Continue</button>
+                      <button onClick={hideProgression} id="continue">Continue{'>>'}</button>
                     </>
                   )}
               </>
