@@ -124,7 +124,7 @@ const Workout: React.FC = () => {
   };
 
   const nextExercise = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const difficulty = formData.get("difficulty");
@@ -133,13 +133,23 @@ const Workout: React.FC = () => {
 
     setWorkoutIndex((prev) => prev + 1);
 
+    if (workoutIndex >= exercises.length - 1) {
+      navigate(`/workoutReview/${workoutId}`);
+    }
+
     event.currentTarget.reset();
   };
 
   const skipExercise = () => {
     //put exercise back to the end of the list
     const tempExercises = exercises;
-    tempExercises.push(exercises[workoutIndex]);
+
+    for (let i = exercises.length - 1; i > workoutIndex + 1; i--) {
+      tempExercises[i + 1] = tempExercises[i];
+    }
+
+    tempExercises[workoutIndex + 2] = tempExercises[workoutIndex];
+
     setExercises(tempExercises);
     setWorkoutIndex((prev) => prev + 1);
   };
@@ -163,10 +173,15 @@ const Workout: React.FC = () => {
         <div id="current-exercise">
           <h3>{workoutName}</h3>
           <div id="current-exercise-details">
+            {workoutIndex < exercises.length - 1 && (
+              <h4 id="current-exercise-text">Current Exercise</h4>
+            )}
+            {workoutIndex >= exercises.length - 1 && (
+              <h4 id="current-exercise-text">Last Exercise</h4>
+            )}
             {currentExercise !== undefined &&
               currentExercise[1] === "Weighted Reps" && (
                 <>
-                  <h4 id="current-exercise-text">Current Exercise</h4>
                   <div id="workout-details">
                     <strong id="exercise-name">{currentExercise[0]}</strong>
                     <div id="workout-data">
@@ -185,7 +200,6 @@ const Workout: React.FC = () => {
             {currentExercise !== undefined &&
               currentExercise[1] === "Bodyweight Reps" && (
                 <>
-                  <h4 id="current-exercise-text">Current Exercise</h4>
                   <div id="workout-details">
                     <strong id="exercise-name">{currentExercise[0]}</strong>
                     <div id="workout-data">
@@ -198,7 +212,6 @@ const Workout: React.FC = () => {
             {currentExercise !== undefined &&
               currentExercise[1] === "Timed Exercise" && (
                 <>
-                  <h4 id="current-exercise-text">Current Exercise</h4>
                   <div id="workout-details">
                     <strong id="exercise-name">{currentExercise[0]}</strong>
                     <div id="workout-data">
@@ -210,25 +223,38 @@ const Workout: React.FC = () => {
                 </>
               )}
           </div>
-          <div id="skip-row">
-            Machine Taken?
-            <button id="skip-exercise" onClick={skipExercise}>
-              Skip Exercise for Now
-            </button>
-          </div>
+          {workoutIndex < exercises.length - 1 && (
+            <div id="skip-row">
+              Machine Taken?
+              <button id="skip-exercise" onClick={skipExercise}>
+                Skip Exercise for Now
+              </button>
+            </div>
+          )}
           <div id="complete-exercise">
             <h5>Was the last rep difficult?</h5>
             <form onSubmit={nextExercise}>
               <label id="hard">
-                <input type="radio" name="difficulty" value="hard" /> I could not do it...
-              </label><br />
+                <input type="radio" name="difficulty" value="hard" /> I could
+                not do it...
+              </label>
+              <br />
               <label id="medium">
-                <input type="radio" name="difficulty" value="medium" /> It was slow and hard.
-              </label><br />
+                <input type="radio" name="difficulty" value="medium" /> It was
+                slow and hard.
+              </label>
+              <br />
               <label id="easy">
-                <input type="radio" name="difficulty" value="easy" /> It moved easily!
-              </label><br />
-              <button type="submit">Next Exercise{'>>'}</button>
+                <input type="radio" name="difficulty" value="easy" /> It moved
+                easily!
+              </label>
+              <br />
+              {workoutIndex < exercises.length - 1 && (
+                <button type="submit">Next Exercise{">>"}</button>
+              )}
+              {workoutIndex >= exercises.length - 1 && (
+                <button type="submit">Finish Workout! {">>"}</button>
+              )}
             </form>
           </div>
         </div>
