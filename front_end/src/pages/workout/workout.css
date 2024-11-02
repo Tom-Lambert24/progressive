@@ -96,46 +96,41 @@
 }
 
 #hard {
-    background-color: rgba(255, 0, 0, 0.25);
+  background-color: rgba(255, 0, 0, 0.25);
+  width: 14rem;
+  text-align: center;
+  border-radius: 0.4rem;
+  margin-bottom: 0.4rem;
 }
 
 #hard:hover {
-    background-color: rgba(255, 0, 0, 0.4);
-}
-
-#hard:active {
-    margin-top: 0.35rem;
-    margin-left: 0.35rem;
-    margin-bottom: 0.25rem;
-    margin-right: 0.25rem;
+  cursor: pointer;
 }
 
 #medium {
-    background-color: rgba(255, 165, 0, 0.25);
+  background-color: rgba(255, 165, 0, 0.25);
+  width: 14rem;
+  text-align: center;
+  border-radius: 0.4rem;
+  margin-bottom: 0.4rem;
 }
 
 #medium:hover {
-    background-color: (255, 165, 0, 0.4);
-}
-
-#medium:active {
-    margin-top: 0.35rem;
-    margin-left: 0.35rem;
-    margin-bottom: 0.25rem;
-    margin-right: 0.25rem;
+  cursor: pointer;
 }
 
 #easy {
-    background-color: rgba(0, 255, 0, 0.25);
+  background-color: rgba(0, 255, 0, 0.22);
+  width: 14rem;
+  text-align: center;
+  border-radius: 0.4rem;
+  margin-bottom: 0.4rem;
 }
 
 #easy:hover {
-    background-color: rgba(0, 255, 0, 0.4);
+  cursor: pointer;
 }
 
-#easy:active {
-    margin-top: 0.35rem;
-    margin-left: 0.35rem;
-    margin-bottom: 0.25rem;
-    margin-right: 0.25rem;
+#complete-exercise form {
+  text-align: center;
 }

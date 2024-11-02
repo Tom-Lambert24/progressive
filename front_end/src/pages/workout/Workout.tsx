@@ -110,8 +110,8 @@ const Workout: React.FC = () => {
 
   useEffect(() => {
     if (exercises[workoutIndex]) {
-        setCurrentExercise(exercises[workoutIndex].workout_data.workoutData);
-      }
+      setCurrentExercise(exercises[workoutIndex].workout_data.workoutData);
+    }
   }, [workoutIndex]);
 
   const logoutApp = () => {
@@ -123,16 +123,17 @@ const Workout: React.FC = () => {
     navigate("/user");
   };
 
-  const hardClick = () => {
-    setWorkoutIndex((prev) => prev + 1);
-  };
+  const nextExercise = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-  const mediumClick = () => {
-    setWorkoutIndex((prev) => prev + 1);
-  };
+    const formData = new FormData(event.currentTarget);
+    const difficulty = formData.get("difficulty");
 
-  const easyClick = () => {
+    console.log("Selected option:", difficulty);
+
     setWorkoutIndex((prev) => prev + 1);
+
+    event.currentTarget.reset();
   };
 
   const skipExercise = () => {
@@ -217,17 +218,18 @@ const Workout: React.FC = () => {
           </div>
           <div id="complete-exercise">
             <h5>Was the last rep difficult?</h5>
-            <button id="hard" onClick={hardClick}>
-              I could not do it...
-            </button>
-            <br />
-            <button id="medium" onClick={mediumClick}>
-              It was slow and difficult
-            </button>
-            <br />
-            <button id="easy" onClick={easyClick}>
-              It moved easily!
-            </button>
+            <form onSubmit={nextExercise}>
+              <label id="hard">
+                <input type="radio" name="difficulty" value="hard" /> I could not do it...
+              </label><br />
+              <label id="medium">
+                <input type="radio" name="difficulty" value="medium" /> It was slow and hard.
+              </label><br />
+              <label id="easy">
+                <input type="radio" name="difficulty" value="easy" /> It moved easily!
+              </label><br />
+              <button type="submit">Next Exercise{'>>'}</button>
+            </form>
           </div>
         </div>
       </body>
