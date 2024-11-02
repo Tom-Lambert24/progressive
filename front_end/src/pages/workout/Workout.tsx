@@ -128,10 +128,12 @@ const Workout: React.FC = () => {
 
     const formData = new FormData(event.currentTarget);
     const difficulty = formData.get("difficulty") as string;
-  
-    const newWorkoutData = exercises[workoutIndex].workout_data.workoutData
 
-    console.log(newWorkoutData)
+    event.currentTarget.reset();
+
+    const newWorkoutData = exercises[workoutIndex].workout_data.workoutData;
+
+    console.log(newWorkoutData);
     //upload feedback
     try {
       const response = await fetch(
@@ -145,7 +147,7 @@ const Workout: React.FC = () => {
           body: JSON.stringify({
             exerciseId: exercises[workoutIndex].id,
             difficulty: difficulty[0],
-            workoutData: newWorkoutData
+            workoutData: newWorkoutData,
           }),
         }
       );
@@ -158,8 +160,6 @@ const Workout: React.FC = () => {
     if (workoutIndex >= exercises.length - 1) {
       navigate(`/workoutReview/${workoutId}`);
     }
-
-    event.currentTarget.reset();
   };
 
   const skipExercise = () => {
@@ -182,6 +182,137 @@ const Workout: React.FC = () => {
     }
   }, [exercises]);
 
+  const progressExercise = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const newWeight = formData.get("progress") as string;
+
+    const progressExerciseDiv = document.getElementById("progress-exercise");
+    const currentExerciseDiv = document.getElementById("current-exercise");
+
+    if (progressExerciseDiv) {
+      progressExerciseDiv.style.display = 'none'
+    }
+
+    if (currentExerciseDiv) {
+      currentExerciseDiv.style.display = 'block'
+    }
+  };
+
+  const progressExerciseBodyweight = (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const increaseReps = formData.get("increaseReps") as string;
+    const progressExerciseDiv = document.getElementById("progress-exercise");
+    const currentExerciseDiv = document.getElementById("current-exercise");
+
+    if (progressExerciseDiv) {
+      progressExerciseDiv.style.display = 'none'
+    }
+
+    if (currentExerciseDiv) {
+      currentExerciseDiv.style.display = 'block'
+    }
+
+    console.log(increaseReps);
+  };
+
+  const progressExerciseTimed = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const increaseReps = formData.get("increaseTime") as string;
+    const progressExerciseDiv = document.getElementById("progress-exercise");
+    const currentExerciseDiv = document.getElementById("current-exercise");
+
+    if (progressExerciseDiv) {
+      progressExerciseDiv.style.display = 'none'
+    }
+
+    if (currentExerciseDiv) {
+      currentExerciseDiv.style.display = 'block'
+    }
+
+    console.log(increaseReps);
+  };
+
+  useEffect(() => {
+    const progressExerciseDiv = document.getElementById("progress-exercise");
+    const currentExerciseDiv = document.getElementById("current-exercise");
+
+    if (exercises[workoutIndex]) {
+      if (exercises[workoutIndex].last_difficulty === "h") {
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "none";
+        }
+      }
+
+      if (exercises[workoutIndex].last_difficulty === "m") {
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "none";
+        }
+      }
+
+      if (exercises[workoutIndex].last_difficulty === "e") {
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "none";
+        }
+      }
+    }
+  }, [exercises]);
+
+  useEffect(() => {
+    const progressExerciseDiv = document.getElementById("progress-exercise");
+    const currentExerciseDiv = document.getElementById("current-exercise");
+
+    if (exercises[workoutIndex]) {
+      if (exercises[workoutIndex].last_difficulty === "h") {
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "none";
+        }
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "block";
+        }
+      }
+
+      if (exercises[workoutIndex].last_difficulty === "m") {
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "none";
+        }
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "block";
+        }
+      }
+
+      if (exercises[workoutIndex].last_difficulty === "e") {
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "none";
+        }
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "block";
+        }
+      }
+    }
+  }, [workoutIndex]);
+
+  const hideProgression = () => {
+    //hide progress and show current workout
+    const progressExerciseDiv = document.getElementById("progress-exercise");
+    const currentExerciseDiv = document.getElementById("current-exercise");
+
+    if (progressExerciseDiv) {
+      progressExerciseDiv.style.display = "none";
+    }
+
+    if (currentExerciseDiv) {
+      currentExerciseDiv.style.display = "block"
+    }
+  };
+
   return (
     <>
       <header>
@@ -194,6 +325,225 @@ const Workout: React.FC = () => {
       </header>
       <body>
         <h2>{displayName}</h2>
+        <div id="progress-exercise">
+          {exercises[workoutIndex] &&
+            exercises[workoutIndex].last_difficulty === "m" && (
+              <>
+                <h3>{workoutName}</h3>
+                <h5>You struggled but completed these sets last time</h5>
+                <div id="current-exercise-details">
+                  {currentExercise !== undefined &&
+                    currentExercise[1] === "Weighted Reps" && (
+                      <>
+                        <div id="workout-details">
+                          <strong id="exercise-name">
+                            {currentExercise[0]}
+                          </strong>
+                          <div id="workout-data">
+                            <strong>
+                              {currentExercise[2]}
+                              {currentExercise[3]}
+                            </strong>{" "}
+                            for&nbsp;
+                            <strong>{currentExercise[4]} reps</strong>
+                            <br />
+                            for <strong>{currentExercise[5]} sets</strong>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  {currentExercise !== undefined &&
+                    currentExercise[1] === "Bodyweight Reps" && (
+                      <>
+                        <div id="workout-details">
+                          <strong id="exercise-name">
+                            {currentExercise[0]}
+                          </strong>
+                          <div id="workout-data">
+                            <strong>{currentExercise[2]} reps</strong> for&nbsp;
+                            <strong>{currentExercise[3]} sets</strong>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  {currentExercise !== undefined &&
+                    currentExercise[1] === "Timed Exercise" && (
+                      <>
+                        <div id="workout-details">
+                          <strong id="exercise-name">
+                            {currentExercise[0]}
+                          </strong>
+                          <div id="workout-data">
+                            <strong>{currentExercise[2]} seconds</strong>
+                            <br /> for&nbsp;
+                            <strong>{currentExercise[3]} sets</strong>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                </div>
+                <h5 id="second-h5">Increase difficulty if you wish</h5>
+                {currentExercise !== undefined &&
+                  currentExercise[1] === "Weighted Reps" && (
+                    <form onSubmit={progressExercise}>
+                      Pick you're next available weight up or keep it the same
+                      <br />
+                      <select id="progress" name="progress">
+                        {[0, 1, 2, 2.5, 3, 4, 5, 6, 7, 8, 9, 10].map(
+                          (increment) => (
+                            <option
+                              key={increment}
+                              value={parseInt(currentExercise[2]) + increment}
+                            >
+                              {parseInt(currentExercise[2]) + increment}
+                            </option>
+                          )
+                        )}
+                      </select>
+                      &nbsp;{currentExercise[3]}
+                      <br />
+                      <button type="submit" id="update">Update</button>
+                    </form>
+                  )}
+                {currentExercise !== undefined &&
+                  currentExercise[1] === "Bodyweight Reps" && (
+                    <form onSubmit={progressExerciseBodyweight}>
+                      Add <strong>5%</strong> to reps, or not?
+                      <br />
+                      <label>
+                        <input type="radio" name="increaseReps" value="true" />{" "}
+                        Yes!
+                      </label>
+                      <label>
+                        <input type="radio" name="increaseReps" value="false" />{" "}
+                        No
+                      </label>
+                      <br />
+                      <button type="submit" id="update">Update</button>
+                    </form>
+                  )}
+                {currentExercise !== undefined &&
+                  currentExercise[1] === "Timed Exercise" && (
+                    <form onSubmit={progressExerciseTimed}>
+                      Add <strong>5%</strong> to time, or not?
+                      <br />
+                      <label>
+                        <input type="radio" name="increaseTime" value="true" />{" "}
+                        Yes!
+                      </label>
+                      <label>
+                        <input type="radio" name="increaseTime" value="false" />{" "}
+                        No
+                      </label>
+                      <br />
+                      <button type="submit" id="update">Update</button>
+                    </form>
+                  )}
+              </>
+            )}
+          {exercises[workoutIndex] &&
+            exercises[workoutIndex].last_difficulty === "e" && (
+              <>
+                <h3>{workoutName}</h3>
+                <h5>You said these sets were easy last time!</h5>
+                <div id="current-exercise-details">
+                  {currentExercise !== undefined &&
+                    currentExercise[1] === "Weighted Reps" && (
+                      <>
+                        <div id="workout-details">
+                          <strong id="exercise-name">
+                            {currentExercise[0]}
+                          </strong>
+                          <div id="workout-data">
+                            <strong>
+                              {currentExercise[2]}
+                              {currentExercise[3]}
+                            </strong>{" "}
+                            for&nbsp;
+                            <strong>{currentExercise[4]} reps</strong>
+                            <br />
+                            for <strong>{currentExercise[5]} sets</strong>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  {currentExercise !== undefined &&
+                    currentExercise[1] === "Bodyweight Reps" && (
+                      <>
+                        <div id="workout-details">
+                          <strong id="exercise-name">
+                            {currentExercise[0]}
+                          </strong>
+                          <div id="workout-data">
+                            <strong>{currentExercise[2]} reps</strong> for&nbsp;
+                            <strong>{currentExercise[3]} sets</strong>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  {currentExercise !== undefined &&
+                    currentExercise[1] === "Timed Exercise" && (
+                      <>
+                        <div id="workout-details">
+                          <strong id="exercise-name">
+                            {currentExercise[0]}
+                          </strong>
+                          <div id="workout-data">
+                            <strong>{currentExercise[2]} seconds</strong>
+                            <br /> for&nbsp;
+                            <strong>{currentExercise[3]} sets</strong>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                </div>
+                <h5 id="second-h5">Time to up the difficulty!</h5>
+                {currentExercise !== undefined &&
+                  currentExercise[1] === "Weighted Reps" && (
+                    <form onSubmit={progressExercise}>
+                      Pick you're next available weight up
+                      <br />
+                      <select id="progress" name="progress">
+                        {[1, 2, 2.5, 3, 4, 5, 6, 7, 8, 9, 10].map(
+                          (increment) => (
+                            <option
+                              key={increment}
+                              value={parseInt(currentExercise[2]) + increment}
+                            >
+                              {parseInt(currentExercise[2]) + increment}
+                            </option>
+                          )
+                        )}
+                      </select>
+                      &nbsp;{currentExercise[3]}
+                      <br />
+                      <button type="submit" id="update">Update</button>
+                    </form>
+                  )}
+                {currentExercise !== undefined &&
+                  currentExercise[1] === "Bodyweight Reps" && (
+                    <>
+                      Lets increase those reps!
+                      <br />
+                      <strong>5%</strong> added
+                      <br />
+                      <button onClick={hideProgression} id="continue">Continue</button>
+                    </>
+                  )}
+
+                {currentExercise !== undefined &&
+                  currentExercise[1] === "Timed Exercise" && (
+                    <>
+                      Lets bump up that time!
+                      <br />
+                      <strong>5%</strong> added
+                      <br />
+                      <button onClick={hideProgression} id="continue">Continue</button>
+                    </>
+                  )}
+              </>
+            )}
+        </div>
         <div id="current-exercise">
           <h3>{workoutName}</h3>
           <div id="current-exercise-details">

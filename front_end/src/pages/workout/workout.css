@@ -75,24 +75,24 @@
 }
 
 #complete-exercise button {
-    width: 15rem;
-    margin: 0.3rem;
-    border-radius: 0.3rem;
+  width: 15rem;
+  margin: 0.3rem;
+  border-radius: 0.3rem;
 }
 
 #current-exercise-text {
-    text-align: center;
-    margin: 0 10%;
-    padding-top: 2rem;
-    font-size: 1.5rem;
-    border-bottom: 1px solid rgba(28, 28, 28, 0.4);
-    width: 80%;
-    margin-bottom: 0.3rem;
-    padding-bottom: 0.3rem;
+  text-align: center;
+  margin: 0 10%;
+  padding-top: 2rem;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.4);
+  width: 80%;
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.3rem;
 }
 
 #current-exercise-details {
-    background-color: var(--anti-flash-white);
+  background-color: var(--anti-flash-white);
 }
 
 #hard {
@@ -133,4 +133,98 @@
 
 #complete-exercise form {
   text-align: center;
+}
+
+#progress-exercise {
+  background-color: var(--platinum);
+  width: 90%;
+  margin: 1rem 5%;
+  border-radius: 1.5rem;
+  border: 2px solid var(--alabaster);
+  padding-top: 0.75rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+#progress-exercise h3 {
+  text-align: center;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.4);
+  width: 96%;
+  margin: 0 2%;
+  padding-bottom: 1rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  padding-top: 0.4rem;
+}
+
+#progress-exercise #workout-details {
+  font-size: 1.1rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 92%;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+#progress-exercise #workout-details #exercise-name {
+  font-size: 1.2rem;
+  font-weight: 580;
+}
+#progress-exercise #workout-details #workout-data {
+  text-align: right;
+  width: 53%;
+}
+
+#progress-exercise #workout-details #workout-data strong {
+  font-weight: 600;
+}
+
+#progress-exercise form #progress {
+  max-height: 5rem;
+  overflow-y: auto;
+}
+
+#progress-exercise h5 {
+  width: 90%;
+  margin: 1rem 5%;
+  margin-top: 1rem;
+}
+
+#progress-exercise #update {
+  margin-top: 0.75rem;
+  border-radius: 0.2rem;
+}
+
+#progress-exercise #update:hover {
+  background-color: var(--platinum);
+}
+
+#progress-exercise #update:active {
+  margin-top: 0.8rem;
+  margin-left: 0.05rem;
+  margin-bottom: -0.05rem;
+  margin-right: -0.05rem
+}
+
+#progress-exercise #continue {
+  margin-top: 0.75rem;
+  border-radius: 0.2rem;
+}
+
+#progress-exercise #continue:hover {
+  background-color: var(--platinum);
+}
+
+#progress-exercise #continue:active {
+  margin-top: 0.8rem;
+  margin-left: 0.05rem;
+  margin-bottom: -0.05rem;
+  margin-right: -0.05rem
+}
+
+#progress-exercise #second-h5 {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(28, 28, 28, 0.2);
 }
