@@ -45,59 +45,91 @@ export const uploadWorkoutName = async (id: number, workoutName: string) => {
 
 export const getWorkoutById = async (id: number) => {
   const client = await getClient();
-  const response = await client.query(
-    "SELECT * FROM workouts WHERE id = $1", [id]
-  );
+  const response = await client.query("SELECT * FROM workouts WHERE id = $1", [
+    id,
+  ]);
   client.end();
 
-  return response.rows[0]
-}
+  return response.rows[0];
+};
 
 export const getWorkoutDataById = async (id: number) => {
   const client = await getClient();
   const response = await client.query(
-    "SELECT * FROM exercises WHERE workouts_id = $1", [id]
+    "SELECT * FROM exercises WHERE workouts_id = $1 ORDER BY id ASC",
+    [id]
   );
   client.end();
 
-  return response.rows
-}
+  return response.rows;
+};
 
-export const uploadExercise = async (workoutId: number, workoutData: string) => {
+export const uploadExercise = async (
+  workoutId: number,
+  workoutData: string
+) => {
   const client = await getClient();
   const response = await client.query(
-    "INSERT INTO exercises (workouts_id, workout_data) VALUES ($1, $2)", [workoutId, workoutData]
+    "INSERT INTO exercises (workouts_id, workout_data) VALUES ($1, $2)",
+    [workoutId, workoutData]
   );
   client.end();
-}
+};
 
 export const removeExercise = async (exerciseId: number) => {
   const client = await getClient();
-  await client.query("DELETE FROM exercises WHERE id = $1", [exerciseId])
+  await client.query("DELETE FROM exercises WHERE id = $1", [exerciseId]);
   client.end();
-}
+};
 
 export const getExerciseId = async (workoutId: number, index: number) => {
   const client = await getClient();
-  const response = await client.query("SELECT * FROM exercises WHERE workouts_id = $1", [workoutId])
+  const response = await client.query(
+    "SELECT * FROM exercises WHERE workouts_id = $1",
+    [workoutId]
+  );
 
-  client.end()
+  client.end();
 
-  return response.rows[index].id
-}
+  return response.rows[index].id;
+};
 
 export const getWorkoutList = async (id: number) => {
-  const client = await getClient()
-  const response = await client.query("SELECT id, workout_name FROM workouts WHERE users_id = $1", [id])
+  const client = await getClient();
+  const response = await client.query(
+    "SELECT id, workout_name FROM workouts WHERE users_id = $1",
+    [id]
+  );
 
-  client.end()
+  client.end();
 
-  return response.rows
-}
+  return response.rows;
+};
+
+export const addDifficultyByExerciseId = async (
+  id: number,
+  difficulty: string,
+  workoutData: string
+) => {
+  const client = await getClient();
+  await client.query(
+    "UPDATE exercises SET workout_data = $1, last_difficulty = $2 WHERE id = $3",
+    [workoutData, difficulty, id]
+  );
+
+  client.end();
+};
 
 export const deleteWorkoutById = async (id: number) => {
-  const client = await getClient()
-  await client.query("DELETE FROM workouts WHERE id = $1", [id])
+  const client = await getClient();
+  await client.query("DELETE FROM workouts WHERE id = $1", [id]);
 
-  client.end()
+  client.end();
+};
+
+export const getWorkoutIdByExerciseId = async (id: number) => {
+  const client = await getClient();
+  const response = await client.query("SELECT workouts_id FROM exercises WHERE id = $1", [id])
+
+  return response.rows[0]
 }

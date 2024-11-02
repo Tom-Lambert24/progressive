@@ -123,13 +123,35 @@ const Workout: React.FC = () => {
     navigate("/user");
   };
 
-  const nextExercise = (event: React.FormEvent<HTMLFormElement>) => {
+  const nextExercise = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const difficulty = formData.get("difficulty");
+    const difficulty = formData.get("difficulty") as string;
+  
+    const newWorkoutData = exercises[workoutIndex].workout_data.workoutData
 
-    console.log("Selected option:", difficulty);
+    console.log(newWorkoutData)
+    //upload feedback
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
+        {
+          method: "POST",
+          credentials: "include", // Include credentials for same-origin requests
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            exerciseId: exercises[workoutIndex].id,
+            difficulty: difficulty[0],
+            workoutData: newWorkoutData
+          }),
+        }
+      );
+    } catch (error) {
+      console.error("Error uploading feedback data:", error);
+    }
 
     setWorkoutIndex((prev) => prev + 1);
 
@@ -155,7 +177,9 @@ const Workout: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(exercises);
+    if (exercises[workoutIndex]) {
+      console.log(exercises[workoutIndex]);
+    }
   }, [exercises]);
 
   return (

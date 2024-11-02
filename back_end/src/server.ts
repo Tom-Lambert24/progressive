@@ -16,6 +16,8 @@ import {
   getExerciseId,
   getWorkoutList,
   deleteWorkoutById,
+  addDifficultyByExerciseId,
+  getWorkoutIdByExerciseId,
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
@@ -274,9 +276,9 @@ app.post("/logout", (req, res) => {
 
 app.post("/deleteWorkout", async (req, res) => {
   const user = req.user as User;
-  const workoutId = req.body.workoutId
+  const workoutId = req.body.workoutId;
 
-  const workout = await getWorkoutById(workoutId)
+  const workout = await getWorkoutById(workoutId);
 
   if (workout.users_id !== user.id) {
     res.status(403).json({ message: "Access forbidden" });
@@ -284,13 +286,13 @@ app.post("/deleteWorkout", async (req, res) => {
   }
 
   try {
-  await deleteWorkoutById(workoutId)
+    await deleteWorkoutById(workoutId);
 
-  res.status(200).json()
+    res.status(200).json();
   } catch (e) {
-    res.status(500).json({message: 'server error'})
+    res.status(500).json({ message: "server error" });
   }
-})
+});
 
 app.get("/getWorkoutList", async (req: Request, res: Response) => {
   if (!req.user) {
@@ -318,6 +320,30 @@ app.get("/getWorkoutList", async (req: Request, res: Response) => {
 
     res.json({ workouts: allData });
   }
+});
+
+app.post("/uploadExerciseDifficulty", isAuthenticated,  async (req: Request, res: Response) => {
+  const user = req.user as User;
+
+  const id = req.body.exerciseId
+
+  const difficulty = req.body.difficulty
+
+  const workoutData: any[] = req.body.workoutData;
+  const workoutDataJSON: string = JSON.stringify({ workoutData });
+
+  const workout = await getWorkoutIdByExerciseId(id)
+
+  const fullWorkoutData = await getWorkoutById(workout.workouts_id)
+
+  if (fullWorkoutData.users_id !== user.id) {
+    res.status(403).json({ message: "Access forbidden" });
+    return;
+  }
+
+  await addDifficultyByExerciseId(id, difficulty, workoutDataJSON);
+
+  res.status(200).json()
 });
 
 function isAuthenticated(
