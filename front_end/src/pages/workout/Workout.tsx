@@ -401,7 +401,7 @@ const Workout: React.FC = () => {
 
     if (tempExercise[1] === "Bodyweight Reps") {
       const increaseBy = () => {
-        const value = Math.floor(parseFloat(tempExercise[2]) * 0.05);
+        const value = Math.round(parseFloat(tempExercise[2]) * 0.05);
         if (value > 0) {
           return value;
         } else {
