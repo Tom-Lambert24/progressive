@@ -240,7 +240,7 @@ const Workout: React.FC = () => {
 
     if (unitToIncrease === "true" && tempExercise[1] === "Bodyweight Reps") {
       const increaseBy = () => {
-        const value = Math.floor(parseInt(tempExercise[2]) * 0.05);
+        const value = Math.floor(parseFloat(tempExercise[2]) * 0.05);
         if (value > 0) {
           return value;
         } else {
@@ -248,17 +248,17 @@ const Workout: React.FC = () => {
         }
       };
 
-      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
+      tempExercise[2] = parseFloat(tempExercise[2]) + increaseBy();
     }
 
     if (unitToIncrease === "true" && tempExercise[1] === "Timed Exercise") {
       const increaseBy = () => {
         let value;
-        if (parseInt(tempExercise[2]) < 60) {
+        if (parseFloat(tempExercise[2]) < 60) {
           value = 5;
         } else if (
-          59 < parseInt(tempExercise[2]) &&
-          parseInt(tempExercise[2]) < 150
+          59 < parseFloat(tempExercise[2]) &&
+          parseFloat(tempExercise[2]) < 150
         ) {
           value = 10;
         } else {
@@ -267,7 +267,7 @@ const Workout: React.FC = () => {
         return value;
       };
 
-      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
+      tempExercise[2] = parseFloat(tempExercise[2]) + increaseBy();
     }
     setCurrentExercise(tempExercise);
 
@@ -401,7 +401,7 @@ const Workout: React.FC = () => {
 
     if (tempExercise[1] === "Bodyweight Reps") {
       const increaseBy = () => {
-        const value = Math.floor(parseInt(tempExercise[2]) * 0.05);
+        const value = Math.floor(parseFloat(tempExercise[2]) * 0.05);
         if (value > 0) {
           return value;
         } else {
@@ -409,17 +409,17 @@ const Workout: React.FC = () => {
         }
       };
 
-      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
+      tempExercise[2] = parseFloat(tempExercise[2]) + increaseBy();
     }
 
     if (tempExercise[1] === "Timed Exercise") {
       const increaseBy = () => {
         let value;
-        if (parseInt(tempExercise[2]) < 60) {
+        if (parseFloat(tempExercise[2]) < 60) {
           value = 5;
         } else if (
-          59 < parseInt(tempExercise[2]) &&
-          parseInt(tempExercise[2]) < 150
+          59 < parseFloat(tempExercise[2]) &&
+          parseFloat(tempExercise[2]) < 150
         ) {
           value = 10;
         } else {
@@ -428,7 +428,7 @@ const Workout: React.FC = () => {
         return value;
       };
 
-      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
+      tempExercise[2] = parseFloat(tempExercise[2]) + increaseBy();
     }
     setCurrentExercise(tempExercise);
 
@@ -545,13 +545,13 @@ const Workout: React.FC = () => {
                       Pick you're next available weight up or keep it the same
                       <br />
                       <select id="progress" name="progress">
-                        {[0, 1, 2, 2.5, 3, 4, 5, 6, 7, 8, 9, 10].map(
+                        {[0, 1, 2, 2.5, 3, 4, 5, 6, 7, 7.5, 8, 9, 10].map(
                           (increment) => (
                             <option
                               key={increment}
-                              value={parseInt(currentExercise[2]) + increment}
+                              value={parseFloat(currentExercise[2]) + increment}
                             >
-                              {parseInt(currentExercise[2]) + increment}
+                              {parseFloat(currentExercise[2]) + increment}
                             </option>
                           )
                         )}
@@ -682,13 +682,13 @@ const Workout: React.FC = () => {
                       Pick you're next available weight up
                       <br />
                       <select id="progress" name="progress">
-                        {[1, 2, 2.5, 3, 4, 5, 6, 7, 8, 9, 10].map(
+                        {[1, 2, 2.5, 3, 4, 5, 6, 7, 7.5, 8, 9, 10].map(
                           (increment) => (
                             <option
                               key={increment}
-                              value={parseInt(currentExercise[2]) + increment}
+                              value={parseFloat(currentExercise[2]) + increment}
                             >
-                              {parseInt(currentExercise[2]) + increment}
+                              {parseFloat(currentExercise[2]) + increment}
                             </option>
                           )
                         )}
