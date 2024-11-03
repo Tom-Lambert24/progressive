@@ -132,8 +132,6 @@ const Workout: React.FC = () => {
     event.currentTarget.reset();
 
     const newWorkoutData = exercises[workoutIndex].workout_data.workoutData;
-
-    console.log(newWorkoutData);
     //upload feedback
     try {
       const response = await fetch(
@@ -182,11 +180,40 @@ const Workout: React.FC = () => {
     }
   }, [exercises]);
 
-  const progressExercise = (event: React.FormEvent<HTMLFormElement>) => {
+  const progressExercise = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const newWeight = formData.get("progress") as string;
+
+    const tempExercise = [...currentExercise]
+    tempExercise[2] = newWeight
+
+    setCurrentExercise(tempExercise)
+
+    const newWorkoutData = tempExercise
+    const difficulty = exercises[workoutIndex].last_difficulty
+    
+    //upload feedback
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
+        {
+          method: "POST",
+          credentials: "include", // Include credentials for same-origin requests
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            exerciseId: exercises[workoutIndex].id,
+            difficulty: difficulty,
+            workoutData: newWorkoutData,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error("Error uploading feedback data:", error);
+    }
 
     const progressExerciseDiv = document.getElementById("progress-exercise");
     const currentExerciseDiv = document.getElementById("current-exercise");
@@ -249,17 +276,26 @@ const Workout: React.FC = () => {
         if (progressExerciseDiv) {
           progressExerciseDiv.style.display = "none";
         }
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "block";
+        }
       }
 
       if (exercises[workoutIndex].last_difficulty === "m") {
         if (currentExerciseDiv) {
           currentExerciseDiv.style.display = "none";
         }
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "block";
+        }
       }
 
       if (exercises[workoutIndex].last_difficulty === "e") {
         if (currentExerciseDiv) {
           currentExerciseDiv.style.display = "none";
+        }
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "block";
         }
       }
     }
@@ -325,7 +361,7 @@ const Workout: React.FC = () => {
       </header>
       <body>
         <h2>{displayName}</h2>
-        <div id="progress-exercise">
+        <div id="progress-exercise" style={{ display: "none" }}>
           {exercises[workoutIndex] &&
             exercises[workoutIndex].last_difficulty === "m" && (
               <>
@@ -544,7 +580,7 @@ const Workout: React.FC = () => {
               </>
             )}
         </div>
-        <div id="current-exercise">
+        <div id="current-exercise" style={{ display: "none" }}>
           <h3>{workoutName}</h3>
           <div id="current-exercise-details">
             {workoutIndex < exercises.length - 1 && (
