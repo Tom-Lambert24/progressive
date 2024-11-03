@@ -8,11 +8,11 @@ body h2 {
 .center-button {
   display: flex;
   justify-content: space-around;
-  margin: 0 auto;
   align-items: center;
   color: var(--platinum);
   width: 78%;
-  position: sticky;
+  margin: 0 11%;
+  position: fixed;
   font-size: 0.9rem;
   bottom: 1rem;
   background-color: rgba(28, 28, 28, 0.8);
@@ -135,4 +135,8 @@ header #logout:active {
   margin-left: 0.05rem;
   margin-bottom: -0.05rem;
   margin-right: -0.05rem;
+}
+
+#exercises {
+  margin-bottom: 5rem;
 }
