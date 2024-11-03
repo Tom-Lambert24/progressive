@@ -2,7 +2,7 @@ import React from "react";
 import "./register.css";
 import dotenv from "dotenv";
 import { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 dotenv.config();
 
@@ -39,7 +39,7 @@ const Register: React.FC = () => {
     };
 
     checkLoggedIn();
-  }, []);
+  }, [navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -110,16 +110,12 @@ const Register: React.FC = () => {
     }
   };
 
-  const goToHome = () => {
-    navigate("/");
-  };
-
   return (
     <>
       <header>
-        <a onClick={goToHome}>
+        <Link to="/login">
           <h1>progressive</h1>
-        </a>
+        </Link>
       </header>
       <div id="registration">
         <h1>Register</h1>

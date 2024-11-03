@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "../../helperFunctions";
 
 const UserPage: React.FC = () => {
-  const [id, setId] = useState();
   const [username, setUsername] = useState("");
   const [workouts, setWorkouts] = useState();
   const [workoutNames, setWorkoutNames] = useState<any[]>([]);
@@ -37,7 +36,7 @@ const UserPage: React.FC = () => {
     };
 
     checkLoggedIn();
-  }, []);
+  }, [navigate]);
 
   const goToCreateWorkout = () => {
     navigate(`/createWorkout`);

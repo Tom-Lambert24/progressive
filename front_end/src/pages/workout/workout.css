@@ -234,3 +234,7 @@
 #radio-yes-no {
   margin: 0 0.75rem;
 }
+
+header a {
+  text-decoration: none;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./createWorkout.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { logout } from "../../helperFunctions";
 
@@ -9,7 +9,6 @@ const CreateWorkout: React.FC = () => {
   const displayName = username ? username.split("@")[0] : "";
   const [workoutName, setWorkoutName] = useState("");
   const navigate = useNavigate();
-  const [id, setId] = useState();
   const [workoutId, setWorkoutId] = useState();
 
   useEffect(() => {
@@ -25,7 +24,6 @@ const CreateWorkout: React.FC = () => {
         if (response.ok) {
           const data = await response.json();
           setUsername(data.username);
-          setId(data.id);
         } else {
           navigate("/login");
         }
@@ -35,7 +33,7 @@ const CreateWorkout: React.FC = () => {
     };
 
     checkLoggedIn();
-  }, []);
+  }, [navigate]);
 
   const handleSubmitWorkoutName = (event: React.FormEvent) => {
     event.preventDefault();
@@ -84,21 +82,17 @@ const CreateWorkout: React.FC = () => {
     if (workoutName) {
       navigate(`/editWorkout/${workoutId}`);
     }
-  }, [workoutId]);
+  }, [workoutId, navigate, workoutName]);
 
   const logoutApp = () => {
     logout()
     navigate('/login')
   }
 
-  const goToHome = () => {
-    navigate('/user')
-  }
-
   return (
     <>
       <header>
-        <a onClick={goToHome}><h1>progressive</h1></a>
+        <Link to="/user"><h1>progressive</h1></Link>
         <button id="logout" onClick={logoutApp}>Logout</button>
       </header>
       <body>

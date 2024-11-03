@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./login.css";
 
 const Login: React.FC = () => {
   const [ username, setUsername ] = useState('');
-  const [ id, setId ] = useState();
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ username: "", password: "" });
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const Login: React.FC = () => {
     };
 
     checkLoggedIn();
-  }, []);
+  }, [navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -60,8 +59,6 @@ const Login: React.FC = () => {
         );
 
         if (response.ok) {
-          const data = await response.json();
-          setId(data.id);
           navigate(`/user`);
         } else {
           const errorData = await response.json();
@@ -75,14 +72,11 @@ const Login: React.FC = () => {
     }
   };
 
-  const goToHome = () => {
-    navigate('/')
-  }
 
   return (
     <>
       <header>
-        <a onClick={goToHome}><h1>progressive</h1></a>
+        <Link to={"/"}><h1>progressive</h1></Link>
       </header>
       <div id="registration">
         <h1>Login</h1>

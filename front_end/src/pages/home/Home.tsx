@@ -13,7 +13,6 @@ const Home: React.FC = () => {
         });
 
         if (response.ok) {
-          const data = await response.json();
           navigate(`/user`);
         }
       } catch (error) {
@@ -22,7 +21,7 @@ const Home: React.FC = () => {
     };
 
     checkLoggedIn();
-  }, []);
+  }, [navigate]);
 
   const goToRegister = () => {
     navigate('/register')
@@ -36,9 +35,8 @@ const Home: React.FC = () => {
     <>
       <header>
         <h1>progressive</h1>
-        <a id="login" onClick={goToLogin}>Login</a>
+        <button id="login" onClick={goToLogin}>Login</button>
       </header>
-      <body>
         <div id="intro">
             Progressive overload is hard...
             <br />
@@ -52,7 +50,6 @@ const Home: React.FC = () => {
 
         </div>
         <button id="register" onClick={goToRegister} >Register For Free</button>
-      </body>
     </>
   );
 };

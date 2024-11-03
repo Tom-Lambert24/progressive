@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./workout.css";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { logout } from "../../helperFunctions";
 
 const Workout: React.FC = () => {
@@ -9,7 +9,6 @@ const Workout: React.FC = () => {
   const [exercises, setExercises] = useState<any[]>([]);
   const [workoutName, setWorkoutName] = useState();
   const [workoutIndex, setWorkoutIndex] = useState(0);
-  let currentWorkoutData: any[];
   const [currentExercise, setCurrentExercise] = useState<any[]>([]);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -39,7 +38,7 @@ const Workout: React.FC = () => {
     };
 
     checkLoggedIn();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const getWorkoutNameById = async () => {
@@ -65,9 +64,10 @@ const Workout: React.FC = () => {
       }
     };
     getWorkoutNameById();
-  }, []);
+  }, [workoutId]);
 
   useEffect(() => {
+    let currentWorkoutData: any[];
     const getWorkoutDataById = async () => {
       try {
         const response = await fetch(
@@ -100,27 +100,17 @@ const Workout: React.FC = () => {
       }
     };
     getWorkoutDataById();
-  }, []);
+  }, [workoutId]);
 
   useEffect(() => {
     if (exercises[workoutIndex]) {
       setCurrentExercise(exercises[workoutIndex].workout_data.workoutData);
     }
-  }, [exercises]);
-
-  useEffect(() => {
-    if (exercises[workoutIndex]) {
-      setCurrentExercise(exercises[workoutIndex].workout_data.workoutData);
-    }
-  }, [workoutIndex]);
+  }, [exercises, workoutIndex]);
 
   const logoutApp = () => {
     logout();
     navigate("/login");
-  };
-
-  const goToHome = () => {
-    navigate("/user");
   };
 
   const nextExercise = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -135,7 +125,7 @@ const Workout: React.FC = () => {
 
     //upload feedback
     try {
-      const response = await fetch(
+      await fetch(
         process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
         {
           method: "POST",
@@ -175,12 +165,6 @@ const Workout: React.FC = () => {
     setWorkoutIndex((prev) => prev + 1);
   };
 
-  useEffect(() => {
-    if (exercises[workoutIndex]) {
-      console.log(exercises[workoutIndex]);
-    }
-  }, [exercises]);
-
   const progressExercise = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -197,7 +181,7 @@ const Workout: React.FC = () => {
 
     //upload feedback
     try {
-      const response = await fetch(
+      await fetch(
         process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
         {
           method: "POST",
@@ -274,10 +258,9 @@ const Workout: React.FC = () => {
     const difficulty = exercises[workoutIndex].last_difficulty;
     const newWorkoutData = tempExercise;
 
-
     //upload new data
     try {
-      const response = await fetch(
+      await fetch(
         process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
         {
           method: "POST",
@@ -349,50 +332,7 @@ const Workout: React.FC = () => {
         }
       }
     }
-  }, [exercises]);
-
-  useEffect(() => {
-    const progressExerciseDiv = document.getElementById("progress-exercise");
-    const currentExerciseDiv = document.getElementById("current-exercise");
-
-    if (exercises[workoutIndex]) {
-      if (exercises[workoutIndex].last_difficulty === "h") {
-        if (progressExerciseDiv) {
-          progressExerciseDiv.style.display = "none";
-        }
-        if (currentExerciseDiv) {
-          currentExerciseDiv.style.display = "block";
-        }
-      }
-
-      if (exercises[workoutIndex].last_difficulty === "m") {
-        if (currentExerciseDiv) {
-          currentExerciseDiv.style.display = "none";
-        }
-        if (progressExerciseDiv) {
-          progressExerciseDiv.style.display = "block";
-        }
-      }
-
-      if (exercises[workoutIndex].last_difficulty === "e") {
-        if (currentExerciseDiv) {
-          currentExerciseDiv.style.display = "none";
-        }
-        if (progressExerciseDiv) {
-          progressExerciseDiv.style.display = "block";
-        }
-      }
-
-      if (exercises[workoutIndex].last_difficulty === null) {
-        if (currentExerciseDiv) {
-          currentExerciseDiv.style.display = "block";
-        }
-        if (progressExerciseDiv) {
-          progressExerciseDiv.style.display = "none";
-        }
-      }
-    }
-  }, [workoutIndex]);
+  }, [exercises, workoutIndex]);
 
   const hideProgression = async () => {
     //hide progress and show current workout
@@ -435,10 +375,9 @@ const Workout: React.FC = () => {
     const difficulty = exercises[workoutIndex].last_difficulty;
     const newWorkoutData = tempExercise;
 
-
     //upload new data
     try {
-      const response = await fetch(
+      await fetch(
         process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
         {
           method: "POST",
@@ -472,9 +411,9 @@ const Workout: React.FC = () => {
   return (
     <>
       <header>
-        <a onClick={goToHome}>
+        <Link to="/user">
           <h1>progressive</h1>
-        </a>
+        </Link>
         <button id="logout" onClick={logoutApp}>
           Logout
         </button>
@@ -735,7 +674,7 @@ const Workout: React.FC = () => {
               <h4 id="current-exercise-text">Current Exercise</h4>
             )}
             {workoutIndex >= exercises.length - 1 && (
-              <h4 id="current-exercise-text">Last Exercise</h4>
+              <h4 id="current-exercise-text">Final Exercise</h4>
             )}
             {currentExercise !== undefined &&
               currentExercise[1] === "Weighted Reps" && (

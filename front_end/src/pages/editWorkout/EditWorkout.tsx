@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./editWorkout.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { logout } from "../../helperFunctions";
 
 const EditWorkout: React.FC = () => {
   const [username, setUsername] = useState("");
-  const [id, setId] = useState();
   const [selectedOption, setSelectedOption] = useState("Weighted Reps");
   const [workoutName, setWorkoutName] = useState("");
   const displayName = username ? username.split("@")[0] : "";
   const { workoutId } = useParams();
   const [submitCount, setSubmitCount] = useState(0);
   const [updateWorkoutData, setUpdateWorkoutData] = useState<any[]>([]);
-  let currentWorkoutData: any[] = [];
 
   const navigate = useNavigate();
 
@@ -30,7 +28,6 @@ const EditWorkout: React.FC = () => {
         if (response.ok) {
           const data = await response.json();
           setUsername(data.username);
-          setId(data.id);
         } else {
           navigate("/login");
         }
@@ -40,7 +37,7 @@ const EditWorkout: React.FC = () => {
     };
 
     checkLoggedIn();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const getWorkoutNameById = async () => {
@@ -68,10 +65,11 @@ const EditWorkout: React.FC = () => {
       }
     };
     getWorkoutNameById();
-  }, []);
+  }, [navigate, workoutId]);
 
   //fetch and display current workout exercises
   useEffect(() => {
+    let currentWorkoutData: any[] = [];
     const getWorkoutDataById = async () => {
       try {
         const response = await fetch(
@@ -106,7 +104,7 @@ const EditWorkout: React.FC = () => {
       }
     };
     getWorkoutDataById();
-  }, [submitCount]);
+  }, [submitCount, workoutId]);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
@@ -180,7 +178,7 @@ const EditWorkout: React.FC = () => {
     }
 
     try {
-      const response = await fetch(
+      await fetch(
         process.env.REACT_APP_SERVER_URL + "/addExercise",
         {
           credentials: "include", // Include credentials for same-origin requests
@@ -258,7 +256,7 @@ const EditWorkout: React.FC = () => {
 
   const removeExercise = async (index: number) => {
     try {
-      const response = await fetch(
+      await fetch(
         process.env.REACT_APP_SERVER_URL + "/removeExercise",
         {
           credentials: "include", // Include credentials for same-origin requests
@@ -284,16 +282,12 @@ const EditWorkout: React.FC = () => {
     navigate("/login");
   };
 
-  const goToHome = () => {
-    navigate("/user");
-  };
-
   return (
     <>
       <header>
-        <a onClick={goToHome}>
+        <Link to="/user">
           <h1>progressive</h1>
-        </a>
+        </Link>
         <button id="logout" onClick={logoutApp}>
           Logout
         </button>
