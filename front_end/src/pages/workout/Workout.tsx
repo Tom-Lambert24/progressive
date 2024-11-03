@@ -238,7 +238,7 @@ const Workout: React.FC = () => {
 
     const tempExercise = [...currentExercise]
 
-    if (increaseReps) {
+    if (increaseReps === 'true') {
       const increaseBy = () => {
         const value = Math.floor(parseInt(tempExercise[2]) * .05)
         if (value > 0) {
