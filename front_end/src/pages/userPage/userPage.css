@@ -140,3 +140,42 @@ header #logout:active {
 #exercises {
   margin-bottom: 5rem;
 }
+
+@media only screen and (min-width: 480px) {
+  #workout-block {
+    max-width: 380px;
+    margin: 1.5rem auto
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  #workout-block {
+    margin: 2.5rem auto;
+  }
+
+  #exercises {
+    margin-bottom: 8rem;
+  }
+
+  .center-button {
+    bottom: 3rem;
+    width: 60%;
+    margin: 0 20%;
+  }
+
+  header #logout {
+    margin-right: 5rem;
+  }
+
+  header #logout:active {
+    margin-right: 4.95rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .center-button {
+    bottom: 2rem;
+    width: 30%;
+    margin: 0 35%;
+  }
+}

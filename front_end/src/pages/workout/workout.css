@@ -238,3 +238,24 @@
 header a {
   text-decoration: none;
 }
+
+@media only screen and (min-width: 480px) {
+  #progress-exercise {
+    max-width: 380px;
+    margin: 1.5rem auto
+  }
+
+  #current-exercise {
+    max-width: 380px;
+    margin: 1.5rem auto
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  #progress-exercise {
+    margin: 2.5rem auto;
+  }
+  #current-exercise {
+    margin: 2.5rem auto;
+  }
+}

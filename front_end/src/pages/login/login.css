@@ -1,0 +1,28 @@
+#registration {
+    padding: 0.5rem 0.3rem;
+}
+
+#registration h1 {
+    margin-bottom: 0.5rem;
+}
+
+#registration #login-button {
+    margin-top: 0.8rem;
+}
+
+#registration .col-9 {
+    text-align: right;
+}
+
+@media only screen and (min-width: 480px) {
+  #registration {
+    max-width: 380px;
+    margin: 1.5rem auto;
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  #registration {
+    margin: 2.5rem auto;
+  }
+}

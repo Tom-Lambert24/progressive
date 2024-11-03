@@ -127,10 +127,10 @@ const Register: React.FC = () => {
               )}
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-3">
                 <label>Email</label>
               </div>
-              <div className="col">
+              <div className="col-9">
                 <input
                   type="email"
                   name="email"
@@ -148,10 +148,10 @@ const Register: React.FC = () => {
               )}
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-3">
                 <label>Password</label>
               </div>
-              <div className="col">
+              <div className="col-9">
                 <input
                   type="password"
                   name="password"
@@ -167,10 +167,10 @@ const Register: React.FC = () => {
               )}
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-3">
                 <label>Confirm Password</label>
               </div>
-              <div className="col">
+              <div className="col-9">
                 <input
                   type="password"
                   name="repeatPassword"

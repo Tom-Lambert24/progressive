@@ -88,10 +88,10 @@ const Login: React.FC = () => {
               )}
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-3">
                 <label>Email</label>
               </div>
-              <div className="col">
+              <div className="col-9">
                 <input
                   type="email"
                   value={username}
@@ -106,10 +106,10 @@ const Login: React.FC = () => {
               )}
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-3">
                 <label>Password</label>
               </div>
-              <div className="col">
+              <div className="col-9">
                 <input
                   type="password"
                   value={password}
@@ -121,7 +121,7 @@ const Login: React.FC = () => {
           </div>
           <div className="row justify-content-center">
             <div className="col-auto">
-              <button type="submit">Login</button>
+              <button type="submit" id="login-button">Login</button>
             </div>
           </div>
         </form>

@@ -46,3 +46,6 @@ form button:hover {
     margin-bottom: -0.6rem;
 }
 
+#registration .col-9 {
+    text-align: right;
+}

@@ -110,3 +110,16 @@
     margin-bottom: -0.1rem;
     margin-right: -0.1rem;
 }
+
+@media only screen and (min-width: 480px) {
+  #getWorkoutName {
+    max-width: 380px;
+    margin: 1.5rem auto
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  #getWorkoutName {
+    margin: 2.5rem auto;
+  }
+}
