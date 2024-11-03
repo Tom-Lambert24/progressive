@@ -129,7 +129,28 @@ export const deleteWorkoutById = async (id: number) => {
 
 export const getWorkoutIdByExerciseId = async (id: number) => {
   const client = await getClient();
-  const response = await client.query("SELECT workouts_id FROM exercises WHERE id = $1", [id])
+  const response = await client.query(
+    "SELECT workouts_id FROM exercises WHERE id = $1",
+    [id]
+  );
 
-  return response.rows[0]
-}
+  return response.rows[0];
+};
+
+export const checkForUsername = async (username: string) => {
+  const client = await getClient();
+  const existingUser = await client.query(
+    "SELECT username FROM users WHERE username = $1",
+    [username]
+  );
+
+  console.log(existingUser.rowCount);
+
+  if (existingUser.rowCount > 0) {
+    return true
+  } else {
+    return false
+  }
+
+  client.end();
+};

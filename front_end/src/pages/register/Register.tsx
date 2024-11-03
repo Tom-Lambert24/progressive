@@ -20,14 +20,17 @@ const Register: React.FC = () => {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
-          credentials: 'include' // Include credentials for same-origin requests
-        });
+        const response = await fetch(
+          process.env.REACT_APP_SERVER_URL + "/loggedin",
+          {
+            credentials: "include", // Include credentials for same-origin requests
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
           // If logged in, redirect to user's page
-          setUsername(data.username)
+          setUsername(data.username);
           navigate(`/user`);
         }
       } catch (error) {
@@ -47,6 +50,7 @@ const Register: React.FC = () => {
     const newErrors = { username: "", password: "", repeatPassword: "" };
 
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
     if (!emailPattern.test(username)) {
       newErrors.username = "Enter a valid email address.";
       isValid = false;
@@ -71,6 +75,8 @@ const Register: React.FC = () => {
       const usernameInput = form[0] as HTMLInputElement;
       const passwordInput = form[1] as HTMLInputElement;
 
+      const newErrors = { username: "", password: "", repeatPassword: "" };
+
       try {
         const response = await fetch(
           process.env.REACT_APP_SERVER_URL + "/register",
@@ -79,7 +85,7 @@ const Register: React.FC = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            credentials: 'include',
+            credentials: "include",
             body: JSON.stringify({
               username: usernameInput.value,
               password: passwordInput.value,
@@ -88,7 +94,11 @@ const Register: React.FC = () => {
         );
 
         if (!response.ok) {
+          newErrors.username = "Email already exists";
+          setErrors(newErrors)
           throw new Error(`Error: ${response.status} ${response.statusText}`);
+        } else {
+          navigate("/login");
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -97,19 +107,19 @@ const Register: React.FC = () => {
           console.error("Unexpected error:", error);
         }
       }
-
-      navigate("/login");
     }
   };
 
   const goToHome = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
 
   return (
     <>
       <header>
-        <a onClick={goToHome}><h1>progressive</h1></a>
+        <a onClick={goToHome}>
+          <h1>progressive</h1>
+        </a>
       </header>
       <div id="registration">
         <h1>Register</h1>

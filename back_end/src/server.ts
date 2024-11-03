@@ -18,6 +18,7 @@ import {
   deleteWorkoutById,
   addDifficultyByExerciseId,
   getWorkoutIdByExerciseId,
+  checkForUsername,
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
@@ -62,10 +63,30 @@ app.get("/", (req: Request, res: Response) => {
   res.send();
 });
 
+const validateEmailFormat = (username: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username);
+const validatePassword = (password: string) => password.length >= 8; // Minimum 8 characters for password strength
+
 app.post("/register", async (req: Request, res: Response) => {
   const username = req.body.username;
   const password = req.body.password;
 
+  // Validate username as email and password
+  if (!username || !validateEmailFormat(username)) {
+    res.status(400).json({ error: "Invalid email format." });
+    return;
+  }
+  if (!password || !validatePassword(password)) {
+    res
+      .status(400)
+      .json({ error: "Invalid password. Must be at least 8 characters long." });
+    return;
+  }
+
+  if (await checkForUsername(username)) {
+    res.status(400).json({ error: "Email is already registered." });
+    return
+  }
   const hashPassword = await bcrypt.hash(password, 10);
 
   //send to database
@@ -322,29 +343,33 @@ app.get("/getWorkoutList", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/uploadExerciseDifficulty", isAuthenticated,  async (req: Request, res: Response) => {
-  const user = req.user as User;
+app.post(
+  "/uploadExerciseDifficulty",
+  isAuthenticated,
+  async (req: Request, res: Response) => {
+    const user = req.user as User;
 
-  const id = req.body.exerciseId
+    const id = req.body.exerciseId;
 
-  const difficulty = req.body.difficulty
+    const difficulty = req.body.difficulty;
 
-  const workoutData: any[] = req.body.workoutData;
-  const workoutDataJSON: string = JSON.stringify({ workoutData });
+    const workoutData: any[] = req.body.workoutData;
+    const workoutDataJSON: string = JSON.stringify({ workoutData });
 
-  const workout = await getWorkoutIdByExerciseId(id)
+    const workout = await getWorkoutIdByExerciseId(id);
 
-  const fullWorkoutData = await getWorkoutById(workout.workouts_id)
+    const fullWorkoutData = await getWorkoutById(workout.workouts_id);
 
-  if (fullWorkoutData.users_id !== user.id) {
-    res.status(403).json({ message: "Access forbidden" });
-    return;
+    if (fullWorkoutData.users_id !== user.id) {
+      res.status(403).json({ message: "Access forbidden" });
+      return;
+    }
+
+    await addDifficultyByExerciseId(id, difficulty, workoutDataJSON);
+
+    res.status(200).json();
   }
-
-  await addDifficultyByExerciseId(id, difficulty, workoutDataJSON);
-
-  res.status(200).json()
-});
+);
 
 function isAuthenticated(
   req: Request,
