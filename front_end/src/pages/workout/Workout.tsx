@@ -186,13 +186,13 @@ const Workout: React.FC = () => {
     const formData = new FormData(event.currentTarget);
     const newWeight = formData.get("progress") as string;
 
-    const tempExercise = [...currentExercise]
-    tempExercise[2] = newWeight
+    const tempExercise = [...currentExercise];
+    tempExercise[2] = newWeight;
 
-    setCurrentExercise(tempExercise)
+    setCurrentExercise(tempExercise);
 
-    const newWorkoutData = tempExercise
-    const difficulty = exercises[workoutIndex].last_difficulty
+    const newWorkoutData = tempExercise;
+    const difficulty = exercises[workoutIndex].last_difficulty;
 
     //upload feedback
     try {
@@ -219,43 +219,61 @@ const Workout: React.FC = () => {
     const currentExerciseDiv = document.getElementById("current-exercise");
 
     if (progressExerciseDiv) {
-      progressExerciseDiv.style.display = 'none'
+      progressExerciseDiv.style.display = "none";
     }
 
     if (currentExerciseDiv) {
-      currentExerciseDiv.style.display = 'block'
+      currentExerciseDiv.style.display = "block";
     }
   };
 
-  const progressExerciseBodyweight = async (
+  const progressExerciseUnit = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const increaseReps = formData.get("increaseReps") as string;
-    console.log(increaseReps)
+    const unitToIncrease = formData.get("unitToIncrease") as string;
 
-    const tempExercise = [...currentExercise]
+    const tempExercise = [...currentExercise];
 
-    if (increaseReps === 'true') {
+    if (unitToIncrease === "true" && tempExercise[1] === "Bodyweight Reps") {
       const increaseBy = () => {
-        const value = Math.floor(parseInt(tempExercise[2]) * .05)
+        const value = Math.floor(parseInt(tempExercise[2]) * 0.05);
         if (value > 0) {
-          return value
+          return value;
         } else {
-          return 1
+          return 1;
         }
-      }
+      };
 
-
-      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy()
+      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
     }
 
-    setCurrentExercise(tempExercise)
+    if (unitToIncrease === "true" && tempExercise[1] === "Timed Exercise") {
+      const increaseBy = () => {
+        let value;
+        if (parseInt(tempExercise[2]) < 60) {
+          value = 5;
+        } else if (
+          59 < parseInt(tempExercise[2]) &&
+          parseInt(tempExercise[2]) < 150
+        ) {
+          value = 10;
+        } else {
+          value = 30;
+        }
+        return value;
+      };
 
-    const difficulty = exercises[workoutIndex].last_difficulty
-    const newWorkoutData = tempExercise
+      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
+    }
+    setCurrentExercise(tempExercise);
+
+    const difficulty = exercises[workoutIndex].last_difficulty;
+    const newWorkoutData = tempExercise;
+
+    
     //upload new data
     try {
       const response = await fetch(
@@ -277,38 +295,16 @@ const Workout: React.FC = () => {
       console.error("Error uploading feedback data:", error);
     }
 
-
     const progressExerciseDiv = document.getElementById("progress-exercise");
     const currentExerciseDiv = document.getElementById("current-exercise");
 
     if (progressExerciseDiv) {
-      progressExerciseDiv.style.display = 'none'
+      progressExerciseDiv.style.display = "none";
     }
 
     if (currentExerciseDiv) {
-      currentExerciseDiv.style.display = 'block'
+      currentExerciseDiv.style.display = "block";
     }
-
-    console.log(increaseReps);
-  };
-
-  const progressExerciseTimed = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const increaseReps = formData.get("increaseTime") as string;
-    const progressExerciseDiv = document.getElementById("progress-exercise");
-    const currentExerciseDiv = document.getElementById("current-exercise");
-
-    if (progressExerciseDiv) {
-      progressExerciseDiv.style.display = 'none'
-    }
-
-    if (currentExerciseDiv) {
-      currentExerciseDiv.style.display = 'block'
-    }
-
-    console.log(increaseReps);
   };
 
   useEffect(() => {
@@ -389,7 +385,7 @@ const Workout: React.FC = () => {
     }
 
     if (currentExerciseDiv) {
-      currentExerciseDiv.style.display = "block"
+      currentExerciseDiv.style.display = "block";
     }
   };
 
@@ -482,41 +478,63 @@ const Workout: React.FC = () => {
                       </select>
                       &nbsp;{currentExercise[3]}
                       <br />
-                      <button type="submit" id="update">Update</button>
+                      <button type="submit" id="update">
+                        Update
+                      </button>
                     </form>
                   )}
                 {currentExercise !== undefined &&
                   currentExercise[1] === "Bodyweight Reps" && (
-                    <form onSubmit={progressExerciseBodyweight}>
+                    <form onSubmit={progressExerciseUnit}>
                       Add <strong>5%</strong> to reps, or not?
                       <br />
                       <label id="radio-yes-no">
-                        <input type="radio" name="increaseReps" value="true" />{" "}
+                        <input
+                          type="radio"
+                          name="unitToIncrease"
+                          value="true"
+                        />{" "}
                         Yes!
                       </label>
                       <label id="radio-yes-no">
-                        <input type="radio" name="increaseReps" value="false" />{" "}
+                        <input
+                          type="radio"
+                          name="unitToIncrease"
+                          value="false"
+                        />{" "}
                         No
                       </label>
                       <br />
-                      <button type="submit" id="update">Update</button>
+                      <button type="submit" id="update">
+                        Update
+                      </button>
                     </form>
                   )}
                 {currentExercise !== undefined &&
                   currentExercise[1] === "Timed Exercise" && (
-                    <form onSubmit={progressExerciseTimed}>
-                      Add <strong>5%</strong> to time, or not?
+                    <form onSubmit={progressExerciseUnit}>
+                      Add <strong>more time</strong>, or not?
                       <br />
                       <label id="radio-yes-no">
-                        <input type="radio" name="increaseTime" value="true" />{" "}
+                        <input
+                          type="radio"
+                          name="unitToIncrease"
+                          value="true"
+                        />{" "}
                         Yes!
                       </label>
                       <label id="radio-yes-no">
-                        <input type="radio" name="increaseTime" value="false" />{" "}
+                        <input
+                          type="radio"
+                          name="unitToIncrease"
+                          value="false"
+                        />{" "}
                         No
                       </label>
                       <br />
-                      <button type="submit" id="update">Update</button>
+                      <button type="submit" id="update">
+                        Update
+                      </button>
                     </form>
                   )}
               </>
@@ -597,7 +615,9 @@ const Workout: React.FC = () => {
                       </select>
                       &nbsp;{currentExercise[3]}
                       <br />
-                      <button type="submit" id="update">Update</button>
+                      <button type="submit" id="update">
+                        Update
+                      </button>
                     </form>
                   )}
                 {currentExercise !== undefined &&
@@ -607,7 +627,9 @@ const Workout: React.FC = () => {
                       <br />
                       <strong>5%</strong> added
                       <br />
-                      <button onClick={hideProgression} id="continue">Continue{'>>'}</button>
+                      <button onClick={hideProgression} id="continue">
+                        Continue{">>"}
+                      </button>
                     </>
                   )}
 
@@ -616,9 +638,11 @@ const Workout: React.FC = () => {
                     <>
                       Lets bump up that time!
                       <br />
-                      <strong>5%</strong> added
+                      <strong>Time increased!</strong>
                       <br />
-                      <button onClick={hideProgression} id="continue">Continue{'>>'}</button>
+                      <button onClick={hideProgression} id="continue">
+                        Continue{">>"}
+                      </button>
                     </>
                   )}
               </>
