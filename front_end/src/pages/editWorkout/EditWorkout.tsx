@@ -219,6 +219,11 @@ const EditWorkout: React.FC = () => {
       timeInput.value = "";
     }
 
+    const setsInput = document.getElementById("sets") as HTMLInputElement;
+    if (setsInput) {
+      setsInput.value = "";
+    }
+
     const addExercise = document.getElementById(
       "createWorkout"
     ) as HTMLDivElement;
