@@ -49,7 +49,7 @@ const Home: React.FC = () => {
         <div id="details">
 
         </div>
-        <button id="register" onClick={goToRegister} >Register For Free</button>
+        <button id="register" onClick={goToRegister} >Register</button>
     </>
   );
 };
