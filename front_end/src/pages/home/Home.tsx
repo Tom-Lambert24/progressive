@@ -8,13 +8,13 @@ const Home: React.FC = () => {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
-          credentials: 'include' // Include credentials for same-origin requests
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/notLoggedIn", {
+          credentials: "include"
         });
 
-        if (response.ok) {
+        if (!response.ok) {
           navigate(`/user`);
-        }
+        } 
       } catch (error) {
         console.error("Error checking logged in status:", error);
       }

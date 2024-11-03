@@ -85,7 +85,7 @@ app.post("/register", async (req: Request, res: Response) => {
 
   if (await checkForUsername(username)) {
     res.status(400).json({ error: "Email is already registered." });
-    return
+    return;
   }
   const hashPassword = await bcrypt.hash(password, 10);
 
@@ -128,8 +128,12 @@ app.post("/login", (req, res, next) => {
 });
 
 app.get("/loggedin", isAuthenticated, (req: Request, res: Response) => {
-  const user = req.user as User; // Cast req.user to the User type
+  const user = req.user as User;
   res.json({ id: user.id, username: user.username });
+});
+
+app.get("/notLoggedIn", isNotAuthenticated, (req: Request, res: Response) => {
+  res.json();
 });
 
 app.post(
@@ -377,14 +381,16 @@ function isAuthenticated(
   next: NextFunction
 ): void {
   if (req.isAuthenticated()) {
-    return next(); // Proceed to the next middleware/route handler
+    return next();
+  } else {
+    res.status(401).send("Unauthorized");
   }
-  res.status(401).send("Unauthorized"); // Return a response if not authenticated
 }
 
-function isNotAuthenticated(req: Request, res: Response, next: NextFunction) {
+function isNotAuthenticated(req: Request, res: Response, next: NextFunction): void {
   if (req.isAuthenticated()) {
-    res.redirect("/");
+    res.status(401).send("Unauthorized");
+    return;
   }
 
   next();

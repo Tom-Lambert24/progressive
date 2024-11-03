@@ -95,7 +95,6 @@ const CreateWorkout: React.FC = () => {
         <Link to="/user"><h1>progressive</h1></Link>
         <button id="logout" onClick={logoutApp}>Logout</button>
       </header>
-      <body>
         <h2>{displayName}</h2>
         <div id="getWorkoutName">
           <form onSubmit={handleSubmitWorkoutName}>
@@ -108,7 +107,6 @@ const CreateWorkout: React.FC = () => {
             </button>
           </form>
         </div>
-      </body>
     </>
   );
 };

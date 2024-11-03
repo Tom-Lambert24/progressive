@@ -122,18 +122,17 @@ const UserPage: React.FC = () => {
           Logout
         </button>
       </header>
-      <body>
         <h2>{displayName}</h2>
         <div id="exercises">
           {workoutNames !== undefined &&
             workoutNames.map((workout, index) => {
               return (
-                <div id="workout-block">
+                <div id="workout-block" key={index}>
                   <h4 id="workout-title">{workout.workout_name}</h4>
-                  <div key={index} id="exerciseList">
+                  <div id="exerciseList">
                     {workoutExercises[index] !== undefined &&
                       workoutExercises[index].map((exercise: any) => (
-                        <div className="exercise">
+                        <div className="exercise" key={exercise.workout_data.workoutData[0] + index}>
                           {/* Check the exercise type */}
                           {exercise.workout_data.workoutData[1] ===
                             "Weighted Reps" && (
@@ -216,7 +215,6 @@ const UserPage: React.FC = () => {
           <button onClick={goToCreateWorkout}>+</button>
           create workout
         </div>
-      </body>
     </>
   );
 };

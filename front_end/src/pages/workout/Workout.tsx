@@ -418,7 +418,6 @@ const Workout: React.FC = () => {
           Logout
         </button>
       </header>
-      <body>
         <h2>{displayName}</h2>
         <div id="progress-exercise" style={{ display: "none" }}>
           {exercises[workoutIndex] &&
@@ -755,7 +754,6 @@ const Workout: React.FC = () => {
             </form>
           </div>
         </div>
-      </body>
     </>
   );
 };

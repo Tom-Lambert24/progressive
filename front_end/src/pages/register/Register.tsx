@@ -21,16 +21,13 @@ const Register: React.FC = () => {
     const checkLoggedIn = async () => {
       try {
         const response = await fetch(
-          process.env.REACT_APP_SERVER_URL + "/loggedin",
-          {
-            credentials: "include", // Include credentials for same-origin requests
+          process.env.REACT_APP_SERVER_URL + "/notLoggedIn",{
+            credentials: "include"
           }
         );
 
-        if (response.ok) {
-          const data = await response.json();
+        if (!response.ok) {
           // If logged in, redirect to user's page
-          setUsername(data.username);
           navigate(`/user`);
         }
       } catch (error) {

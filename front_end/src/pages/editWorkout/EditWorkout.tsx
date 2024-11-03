@@ -292,7 +292,6 @@ const EditWorkout: React.FC = () => {
           Logout
         </button>
       </header>
-      <body>
         <h2>{displayName}</h2>
         <div id="workout">
           <h3 id="workoutName">{workoutName}</h3>
@@ -464,7 +463,6 @@ const EditWorkout: React.FC = () => {
             <button type="submit">Add Exercise</button>
           </form>
         </div>
-      </body>
     </>
   );
 };

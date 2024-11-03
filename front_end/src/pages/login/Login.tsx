@@ -12,14 +12,12 @@ const Login: React.FC = () => {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/loggedin", {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + "/notLoggedIn", {
           credentials: 'include' // Include credentials for same-origin requests
         });
 
-        if (response.ok) {
-          const data = await response.json();
+        if (!response.ok) {
           // If logged in, redirect to user's page
-          setUsername(data.username)
           navigate(`/user`);
         }
       } catch (error) {
