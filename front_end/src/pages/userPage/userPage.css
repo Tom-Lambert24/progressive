@@ -7,12 +7,17 @@ body h2 {
 
 .center-button {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  margin: 0 auto;
+  align-items: center;
+  margin-top: -1rem;
+  padding-bottom: 2rem;
+  color: var(--platinum);
+  width: 70%;
+  font-size: 0.9rem;
 }
 
 .center-button button {
-  position: fixed;
-  bottom: 1.8rem;
   width: 2.5rem;
   height: 2.5rem;
   font-size: 1.5rem;

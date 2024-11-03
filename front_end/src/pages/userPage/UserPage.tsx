@@ -213,7 +213,9 @@ const UserPage: React.FC = () => {
             })}
         </div>
         <div className="center-button">
+          create workout
           <button onClick={goToCreateWorkout}>+</button>
+          create workout
         </div>
       </body>
     </>
