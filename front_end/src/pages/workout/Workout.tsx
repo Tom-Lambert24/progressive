@@ -157,7 +157,7 @@ const Workout: React.FC = () => {
     setWorkoutIndex((prev) => prev + 1);
 
     if (workoutIndex >= exercises.length - 1) {
-      navigate(`/workoutReview/${workoutId}`);
+      navigate(`/user`);
     }
   };
 
