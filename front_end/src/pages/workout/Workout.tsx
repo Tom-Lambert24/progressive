@@ -193,7 +193,7 @@ const Workout: React.FC = () => {
 
     const newWorkoutData = tempExercise
     const difficulty = exercises[workoutIndex].last_difficulty
-    
+
     //upload feedback
     try {
       const response = await fetch(
@@ -227,13 +227,57 @@ const Workout: React.FC = () => {
     }
   };
 
-  const progressExerciseBodyweight = (
+  const progressExerciseBodyweight = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const increaseReps = formData.get("increaseReps") as string;
+    console.log(increaseReps)
+
+    const tempExercise = [...currentExercise]
+
+    if (increaseReps) {
+      const increaseBy = () => {
+        const value = Math.floor(parseInt(tempExercise[2]) * .05)
+        if (value > 0) {
+          return value
+        } else {
+          return 1
+        }
+      }
+
+
+      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy()
+    }
+
+    setCurrentExercise(tempExercise)
+
+    const difficulty = exercises[workoutIndex].last_difficulty
+    const newWorkoutData = tempExercise
+    //upload new data
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
+        {
+          method: "POST",
+          credentials: "include", // Include credentials for same-origin requests
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            exerciseId: exercises[workoutIndex].id,
+            difficulty: difficulty,
+            workoutData: newWorkoutData,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error("Error uploading feedback data:", error);
+    }
+
+
     const progressExerciseDiv = document.getElementById("progress-exercise");
     const currentExerciseDiv = document.getElementById("current-exercise");
 
