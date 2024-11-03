@@ -102,7 +102,6 @@ app.post("/register", async (req: Request, res: Response) => {
 
     res.send("User registered");
   } catch (e) {
-    console.log(e);
     res.send("error while registering");
   }
 });

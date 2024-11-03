@@ -18,7 +18,6 @@ export const getUserByUsername = async (
   );
   client.end();
 
-  console.log(response.rows[0]);
   return response.rows[0] || null; // Return the user object or null if not found
 };
 
@@ -143,8 +142,6 @@ export const checkForUsername = async (username: string) => {
     "SELECT username FROM users WHERE username = $1",
     [username]
   );
-
-  console.log(existingUser.rowCount);
 
   if (existingUser.rowCount > 0) {
     return true
