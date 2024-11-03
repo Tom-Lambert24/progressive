@@ -131,7 +131,8 @@ const Workout: React.FC = () => {
 
     event.currentTarget.reset();
 
-    const newWorkoutData = exercises[workoutIndex].workout_data.workoutData;
+    const newWorkoutData = currentExercise;
+
     //upload feedback
     try {
       const response = await fetch(
@@ -273,7 +274,7 @@ const Workout: React.FC = () => {
     const difficulty = exercises[workoutIndex].last_difficulty;
     const newWorkoutData = tempExercise;
 
-    
+
     //upload new data
     try {
       const response = await fetch(
@@ -338,6 +339,15 @@ const Workout: React.FC = () => {
           progressExerciseDiv.style.display = "block";
         }
       }
+
+      if (exercises[workoutIndex].last_difficulty === null) {
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "block";
+        }
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "none";
+        }
+      }
     }
   }, [exercises]);
 
@@ -372,11 +382,81 @@ const Workout: React.FC = () => {
           progressExerciseDiv.style.display = "block";
         }
       }
+
+      if (exercises[workoutIndex].last_difficulty === null) {
+        if (currentExerciseDiv) {
+          currentExerciseDiv.style.display = "block";
+        }
+        if (progressExerciseDiv) {
+          progressExerciseDiv.style.display = "none";
+        }
+      }
     }
   }, [workoutIndex]);
 
-  const hideProgression = () => {
+  const hideProgression = async () => {
     //hide progress and show current workout
+
+    const tempExercise = [...currentExercise];
+
+    if (tempExercise[1] === "Bodyweight Reps") {
+      const increaseBy = () => {
+        const value = Math.floor(parseInt(tempExercise[2]) * 0.05);
+        if (value > 0) {
+          return value;
+        } else {
+          return 1;
+        }
+      };
+
+      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
+    }
+
+    if (tempExercise[1] === "Timed Exercise") {
+      const increaseBy = () => {
+        let value;
+        if (parseInt(tempExercise[2]) < 60) {
+          value = 5;
+        } else if (
+          59 < parseInt(tempExercise[2]) &&
+          parseInt(tempExercise[2]) < 150
+        ) {
+          value = 10;
+        } else {
+          value = 30;
+        }
+        return value;
+      };
+
+      tempExercise[2] = parseInt(tempExercise[2]) + increaseBy();
+    }
+    setCurrentExercise(tempExercise);
+
+    const difficulty = exercises[workoutIndex].last_difficulty;
+    const newWorkoutData = tempExercise;
+
+
+    //upload new data
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_SERVER_URL + "/uploadExerciseDifficulty",
+        {
+          method: "POST",
+          credentials: "include", // Include credentials for same-origin requests
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            exerciseId: exercises[workoutIndex].id,
+            difficulty: difficulty,
+            workoutData: newWorkoutData,
+          }),
+        }
+      );
+    } catch (error) {
+      console.error("Error uploading feedback data:", error);
+    }
+
     const progressExerciseDiv = document.getElementById("progress-exercise");
     const currentExerciseDiv = document.getElementById("current-exercise");
 
