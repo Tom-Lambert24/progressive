@@ -416,6 +416,8 @@ const EditWorkout: React.FC = () => {
                         name="StartingWeight"
                         style={{ textAlign: "right" }}
                         id="weight"
+                        min="0"
+                        max="9999"
                       />
                       <select id="unit">
                         <option value="kg">Kg</option>
@@ -428,7 +430,7 @@ const EditWorkout: React.FC = () => {
                     id="repsInput"
                   >
                     <label id="noOfReps">Number of Reps</label>
-                    <input type="number" id="smallInput" />
+                    <input type="number" id="smallInput" min="1" max="99"/>
                   </div>
                 </>
               )}
@@ -440,7 +442,7 @@ const EditWorkout: React.FC = () => {
                     id="repsInput"
                   >
                     <label id="noOfReps">Number of Reps</label>
-                    <input type="number" id="smallInput" />
+                    <input type="number" id="smallInput" min="1" max="99"/>
                   </div>
                 </>
               )}
@@ -452,7 +454,7 @@ const EditWorkout: React.FC = () => {
                     id="repsInput"
                   >
                     <label id="lengthOfTime">Starting length of time(s):</label>
-                    <input type="number" id="time" />
+                    <input type="number" id="time" min="1" max="99999"/>
                   </div>
                 </>
               )}
