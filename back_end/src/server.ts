@@ -24,7 +24,6 @@ const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
 const path = require("path");
 const pgSession = require('connect-pg-simple')(session);
-const { Pool } = require('pg');
 
 const app: Application = express();
 dotenv.config();

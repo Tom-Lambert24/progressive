@@ -13,7 +13,8 @@ const pool = process.env.PG_HOST === 'localhost'
       connectionString: process.env.DATABASE_URL,
       ssl: {
         rejectUnauthorized: false
-      }
+      },
+      max: 20,
     });
 
 // Export the function to get the existing pool instance
