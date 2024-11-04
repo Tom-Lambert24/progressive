@@ -398,7 +398,7 @@ function isNotAuthenticated(req: Request, res: Response, next: NextFunction): vo
 }
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../front_end/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../front_end/static/index.html'));
 });
 
 // Start the server
