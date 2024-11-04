@@ -13,5 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^9.0.1"
+  },
+  "engines": {
+    "node": "16.20.2"
   }
 }
