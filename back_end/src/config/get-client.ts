@@ -14,7 +14,10 @@ module.exports.getClient = async () => {
     })
   } else {
     client = new Client({
-      connectionString: process.env.DATABASE_URL
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
     });
   }
 
