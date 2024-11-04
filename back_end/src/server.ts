@@ -57,18 +57,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Initialize Passport
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET as string,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false, // Set to true if using HTTPS
-      httpOnly: true, // Helps mitigate XSS
-    },
-  })
-);
 app.use(passport.initialize());
 app.use(passport.session());
 
