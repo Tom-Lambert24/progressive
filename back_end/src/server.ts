@@ -32,6 +32,7 @@ const corsOptions = {
   origin: "http://localhost:3000",
 };
 
+app.use(express.static(path.join(__dirname, '../front_end/build')));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
