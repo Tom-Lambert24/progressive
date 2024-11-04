@@ -30,7 +30,10 @@ dotenv.config();
 // Middleware
 const corsOptions = {
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    "https://progressive-o-fe2e995ace2f.herokuapp.com/"
+  ]
 };
 
 const pool = getClient()
