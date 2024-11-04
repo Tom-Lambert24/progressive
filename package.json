@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"cd front_end && npm start\" \"cd back_end && npm start\""
+    "dev": "concurrently \"cd front_end && npm start\" \"cd back_end && npm start\"",
+    "build": "cd front_end && npm install && npm run build",
+    "start": "npm run build && node back_end/dist/server.js/"
   },
   "author": "",
   "license": "ISC",
