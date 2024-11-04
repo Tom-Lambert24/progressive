@@ -52,7 +52,7 @@ app.use(session({
   cookie: { secure: process.env.NODE_ENV === 'production' }, // Secure cookie in production
 }));
 
-app.use(express.static(path.join(__dirname, 'front_end/build')));
+app.use(express.static(path.join(__dirname, '../../front_end/build')));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -406,7 +406,7 @@ function isNotAuthenticated(req: Request, res: Response, next: NextFunction): vo
 }
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'front_end/build/index.html'));
+  res.sendFile(path.join(__dirname, '../../front_end/build/index.html'));
 });
 
 // Start the server
