@@ -45,13 +45,16 @@ const pool = new Pool({
 
 app.use(session({
   store: new pgSession({
-    pool: pool, // Connection pool
-    tableName: 'session' // Use the default "session" table
+    pool: pool,
+    tableName: 'session' 
   }),
-  secret: process.env.SESSION_SECRET || '', // Your session secret
+  secret: process.env.SESSION_SECRET || '',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production' }, // Secure cookie in production
+  cookie: { secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax',
+   },
 }));
 
 app.use(express.static(path.join(__dirname, '../../front_end/build')));
