@@ -22,6 +22,7 @@ import {
 } from "./databaseFunctions";
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
+const path = require("path");
 
 const app: Application = express();
 dotenv.config();
@@ -394,6 +395,10 @@ function isNotAuthenticated(req: Request, res: Response, next: NextFunction): vo
 
   next();
 }
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../front_end/build', 'index.html'));
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;
