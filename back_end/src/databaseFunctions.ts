@@ -143,11 +143,11 @@ export const checkForUsername = async (username: string) => {
     [username]
   );
 
+  client.end()
+  
   if (existingUser.rowCount > 0) {
     return true
   } else {
     return false
   }
-
-  client.end();
 };
