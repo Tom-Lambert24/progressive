@@ -34,12 +34,7 @@ const corsOptions = {
   origin: "http://localhost:3000",
 };
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+const pool = getClient()
 
 app.use(session({
   store: new pgSession({
