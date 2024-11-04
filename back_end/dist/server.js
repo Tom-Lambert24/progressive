@@ -22,6 +22,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const databaseFunctions_1 = require("./databaseFunctions");
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
+const path = require("path");
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 // Middleware
@@ -29,6 +30,7 @@ const corsOptions = {
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
     origin: "http://localhost:3000",
 };
+app.use(express_1.default.static(path.join(__dirname, '../front_end/build')));
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -297,6 +299,9 @@ function isNotAuthenticated(req, res, next) {
     }
     next();
 }
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../front_end/build', 'index.html'));
+});
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
