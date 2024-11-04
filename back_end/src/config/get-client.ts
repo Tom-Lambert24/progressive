@@ -1,19 +1,18 @@
-const { Client } = require('pg');
-require('dotenv').config();
+const { Pool } = require('pg');
 
-module.exports.getClient = async () => {
-  var client
+module.exports.getClient = () => {
+  let pool;
 
   if (process.env.PG_HOST === 'localhost') {
-    client = new Client({
+    pool = new Pool({
       host: process.env.PG_HOST,
       port: process.env.PG_PORT,
       user: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DATABASE,
-    })
+    });
   } else {
-    client = new Client({
+    pool = new Pool({
       connectionString: process.env.DATABASE_URL,
       ssl: {
         rejectUnauthorized: false
@@ -21,6 +20,5 @@ module.exports.getClient = async () => {
     });
   }
 
-  await client.connect();
-  return client;
+  return pool;
 };

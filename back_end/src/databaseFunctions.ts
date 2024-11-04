@@ -10,55 +10,53 @@ type User = {
 export const getUserByUsername = async (
   username: string
 ): Promise<User | null> => {
-  const client = await getClient();
+  const pool = await getClient();
 
-  const response = await client.query(
+  const response = await pool.query(
     "SELECT * FROM users WHERE username = $1",
     [username]
   );
-  client.end();
 
   return response.rows[0] || null; // Return the user object or null if not found
 };
 
 export const getUserById = async (id: string): Promise<User | null> => {
-  const client = await getClient();
+  const pool = await getClient();
 
-  const response = await client.query("SELECT * FROM users WHERE id = $1", [
+  const response = await pool.query("SELECT * FROM users WHERE id = $1", [
     id,
   ]);
-  client.end();
+ 
 
   return response.rows[0] || null; // Return the user object or null if not found
 };
 
 export const uploadWorkoutName = async (id: number, workoutName: string) => {
-  const client = await getClient();
-  const response = await client.query(
+  const pool = await getClient();
+  const response = await pool.query(
     "INSERT INTO workouts (users_id, workout_name) VALUES ($1, $2) RETURNING id",
     [id, workoutName]
   );
-  client.end();
+  
   return response.rows[0];
 };
 
 export const getWorkoutById = async (id: number) => {
-  const client = await getClient();
-  const response = await client.query("SELECT * FROM workouts WHERE id = $1", [
+  const pool = await getClient();
+  const response = await pool.query("SELECT * FROM workouts WHERE id = $1", [
     id,
   ]);
-  client.end();
-
+ 
   return response.rows[0];
 };
 
 export const getWorkoutDataById = async (id: number) => {
-  const client = await getClient();
-  const response = await client.query(
+  const pool = await getClient();
+  const response = await pool.query(
     "SELECT * FROM exercises WHERE workouts_id = $1 ORDER BY id ASC",
     [id]
   );
-  client.end();
+ 
 
   return response.rows;
 };
@@ -67,40 +65,37 @@ export const uploadExercise = async (
   workoutId: number,
   workoutData: string
 ) => {
-  const client = await getClient();
-  const response = await client.query(
+  const pool = await getClient();
+  const response = await pool.query(
     "INSERT INTO exercises (workouts_id, workout_data) VALUES ($1, $2)",
     [workoutId, workoutData]
   );
-  client.end();
 };
 
 export const removeExercise = async (exerciseId: number) => {
-  const client = await getClient();
-  await client.query("DELETE FROM exercises WHERE id = $1", [exerciseId]);
-  client.end();
+  const pool = await getClient();
+  await pool.query("DELETE FROM exercises WHERE id = $1", [exerciseId]);
+ 
 };
 
 export const getExerciseId = async (workoutId: number, index: number) => {
-  const client = await getClient();
-  const response = await client.query(
+  const pool = await getClient();
+  const response = await pool.query(
     "SELECT * FROM exercises WHERE workouts_id = $1",
     [workoutId]
   );
 
-  client.end();
 
   return response.rows[index].id;
 };
 
 export const getWorkoutList = async (id: number) => {
-  const client = await getClient();
-  const response = await client.query(
+  const pool = await getClient();
+  const response = await pool.query(
     "SELECT id, workout_name FROM workouts WHERE users_id = $1",
     [id]
   );
 
-  client.end();
 
   return response.rows;
 };
@@ -110,42 +105,38 @@ export const addDifficultyByExerciseId = async (
   difficulty: string,
   workoutData: string
 ) => {
-  const client = await getClient();
-  await client.query(
+  const pool = await getClient();
+  await pool.query(
     "UPDATE exercises SET workout_data = $1, last_difficulty = $2 WHERE id = $3",
     [workoutData, difficulty, id]
   );
 
-  client.end();
 };
 
 export const deleteWorkoutById = async (id: number) => {
-  const client = await getClient();
-  await client.query("DELETE FROM workouts WHERE id = $1", [id]);
+  const pool = await getClient();
+  await pool.query("DELETE FROM workouts WHERE id = $1", [id]);
 
-  client.end();
 };
 
 export const getWorkoutIdByExerciseId = async (id: number) => {
-  const client = await getClient();
-  const response = await client.query(
+  const pool = await getClient();
+  const response = await pool.query(
     "SELECT workouts_id FROM exercises WHERE id = $1",
     [id]
   );
 
-  client.end()
 
   return response.rows[0];
 };
 
 export const checkForUsername = async (username: string) => {
-  const client = await getClient();
-  const existingUser = await client.query(
+  const pool = await getClient();
+  const existingUser = await pool.query(
     "SELECT username FROM users WHERE username = $1",
     [username]
   );
 
-  client.end()
 
   if (existingUser.rowCount > 0) {
     return true
