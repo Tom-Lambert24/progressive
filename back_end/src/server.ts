@@ -23,6 +23,8 @@ import {
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
 const path = require("path");
+const pgSession = require('connect-pg-simple')(session);
+const { Pool } = require('pg');
 
 const app: Application = express();
 dotenv.config();
@@ -31,6 +33,21 @@ const corsOptions = {
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   origin: "http://localhost:3000",
 };
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+app.use(session({
+  store: new pgSession({
+    pool: pool, // Connection pool
+    tableName: 'session' // Use the default "session" table
+  }),
+  secret: process.env.SESSION_SECRET || '', // Your session secret
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.NODE_ENV === 'production' }, // Secure cookie in production
+}));
 
 app.use(express.static(path.join(__dirname, '../front_end/build')));
 app.use(cors(corsOptions));
