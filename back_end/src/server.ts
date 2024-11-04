@@ -50,7 +50,7 @@ app.use(session({
   }),
   secret: process.env.SESSION_SECRET || '', // Your session secret
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: process.env.NODE_ENV === 'production' }, // Secure cookie in production
 }));
 
@@ -132,7 +132,9 @@ app.post("/login", (req, res, next) => {
         if (err) {
           return next(err);
         }
-        return res.json({ username: user.username, id: user.id });
+        req.session.save(() => {
+          return res.json({ username: user.username, id: user.id });
+        });
       });
     }
   )(req, res, next);
