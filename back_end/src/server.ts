@@ -24,19 +24,24 @@ const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
 const path = require("path");
 const pgSession = require('connect-pg-simple')(session);
+const { Pool } = require('pg');
 
 const app: Application = express();
 dotenv.config();
 // Middleware
 const corsOptions = {
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  origin: [
-    "http://localhost:3000",
-    "https://progressive-o-fe2e995ace2f.herokuapp.com/"
+  origin: ["http://localhost:3000",
+    "https://progressive-o-fe2e995ace2f.herokuapp.com"
   ]
 };
 
-const pool = getClient()
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
 app.use(session({
   store: new pgSession({

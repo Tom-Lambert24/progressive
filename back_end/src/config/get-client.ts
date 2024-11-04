@@ -1,23 +1,26 @@
-const { Pool } = require('pg');
+const { Client } = require("pg");
+require("dotenv").config();
 
-// Create a single pool instance based on environment
-const pool = process.env.PG_HOST === 'localhost' 
-  ? new Pool({
+module.exports.getClient = async () => {
+  var client;
+
+  if (process.env.PG_HOST === "localhost") {
+    client = new Client({
       host: process.env.PG_HOST,
       port: process.env.PG_PORT,
       user: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DATABASE,
-    })
-  : new Pool({
+    });
+  } else {
+    client = new Client({
       connectionString: process.env.DATABASE_URL,
       ssl: {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
       },
-      max: 20,
     });
+  }
 
-// Export the function to get the existing pool instance
-module.exports.getClient = () => {
-  return pool;
+  await client.connect();
+  return client;
 };
