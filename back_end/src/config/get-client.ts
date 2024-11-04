@@ -14,7 +14,7 @@ module.exports.getClient = async () => {
     })
   } else {
     client = new Client({
-      connectionString: process.env.DATABASE_URL + '?sslmode=require'
+      connectionString: process.env.DATABASE_URL
     });
   }
 
