@@ -133,6 +133,8 @@ export const getWorkoutIdByExerciseId = async (id: number) => {
     [id]
   );
 
+  client.end()
+
   return response.rows[0];
 };
 
@@ -144,7 +146,7 @@ export const checkForUsername = async (username: string) => {
   );
 
   client.end()
-  
+
   if (existingUser.rowCount > 0) {
     return true
   } else {
