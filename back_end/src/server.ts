@@ -23,42 +23,46 @@ import {
 const { getClient } = require("./config/get-client");
 const { initialize } = require("./config/passportConfig");
 const path = require("path");
-const pgSession = require('connect-pg-simple')(session);
-const { Pool } = require('pg');
+const pgSession = require("connect-pg-simple")(session);
+const { Pool } = require("pg");
 
 const app: Application = express();
 dotenv.config();
 // Middleware
 const corsOptions = {
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  origin: ["http://localhost:3000",
-    "https://progressive-o-fe2e995ace2f.herokuapp.com"
-  ]
+  origin: [
+    "http://localhost:3000",
+    "https://progressive-o-fe2e995ace2f.herokuapp.com",
+  ],
 };
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 });
 
-app.use(session({
-  store: new pgSession({
-    pool: pool,
-    tableName: 'session' 
-  }),
-  secret: process.env.SESSION_SECRET || '',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    sameSite: 'lax',
-    maxAge: 48 * 60 * 60 * 1000,
-   },
-}));
+app.use(
+  session({
+    store: new pgSession({
+      pool: pool,
+      tableName: "session",
+    }),
+    secret: process.env.SESSION_SECRET || "",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 48 * 60 * 60 * 1000,
+    },
+  })
+);
 
-app.use(express.static(path.join(__dirname, '../../front_end/build')));
+app.use(express.static(path.join(__dirname, "../../front_end/build")));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -404,7 +408,11 @@ function isAuthenticated(
   }
 }
 
-function isNotAuthenticated(req: Request, res: Response, next: NextFunction): void {
+function isNotAuthenticated(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
   if (req.isAuthenticated()) {
     res.status(401).send("Unauthorized");
     return;
@@ -413,8 +421,8 @@ function isNotAuthenticated(req: Request, res: Response, next: NextFunction): vo
   next();
 }
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../front_end/build/index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../front_end/build/index.html"));
 });
 
 // Start the server
