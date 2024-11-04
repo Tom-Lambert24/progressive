@@ -54,7 +54,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      // secure: true,
+      secure: true,
       // httpOnly: true,
       // sameSite: "none",
       maxAge: 48 * 60 * 60 * 1000,
