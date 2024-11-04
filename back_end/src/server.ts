@@ -44,6 +44,8 @@ const pool = new Pool({
   },
 });
 
+app.set('trust proxy', 1);
+
 app.use(
   session({
     store: new pgSession({
@@ -56,7 +58,7 @@ app.use(
     cookie: {
       secure: true,
       httpOnly: true,
-      //sameSite: "none",
+      sameSite: "none",
       maxAge: 48 * 60 * 60 * 1000,
     },
   })
