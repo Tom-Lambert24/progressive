@@ -116,6 +116,10 @@
     max-width: 380px;
     margin: 1.5rem auto
   }
+
+  #createWorkout {
+    max-width: 380px;
+  }
 }
 
 @media only screen and (min-width: 750px) {
