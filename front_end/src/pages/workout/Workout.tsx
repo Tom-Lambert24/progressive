@@ -476,7 +476,7 @@ const Workout: React.FC = () => {
                       </>
                     )}
                 </div>
-                <h5 id="second-h5">Increase difficulty if you wish</h5>
+                <h5 id="second-h5">Increase the difficulty if you wish</h5>
                 {currentExercise !== undefined &&
                   currentExercise[1] === "Weighted Reps" && (
                     <form onSubmit={progressExercise}>
