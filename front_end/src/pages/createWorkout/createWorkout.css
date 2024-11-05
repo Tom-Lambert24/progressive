@@ -119,6 +119,7 @@
 
   #createWorkout {
     max-width: 380px;
+    margin: 1rem auto;
   }
 }
 
