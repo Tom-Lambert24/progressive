@@ -219,7 +219,7 @@ app.post(
   }
 );
 
-app.post(
+app.delete(
   "/removeExercise",
   isAuthenticated,
   async (req: Request, res: Response) => {
@@ -251,41 +251,6 @@ app.post(
       if (!res.headersSent) {
         res.status(500).json({ message: "Server error" });
       }
-    }
-  }
-);
-
-app.get(
-  "/getWorkout",
-  isAuthenticated,
-  async (req: Request, res: Response): Promise<void> => {
-    const workoutIdString = req.query.workoutId as string | undefined;
-    const workoutId = workoutIdString ? parseInt(workoutIdString, 10) : NaN;
-
-    if (isNaN(workoutId)) {
-      res.status(400).json({ message: "Invalid workout ID." });
-      return;
-    }
-
-    try {
-      const workout = await getWorkoutById(workoutId);
-
-      if (!workout) {
-        res.status(404).json({ message: "Workout not found." });
-        return;
-      }
-
-      if (req.user) {
-        if (workout.users_id !== req.user.id) {
-          res.status(403).json({ message: "Access forbidden." });
-          return;
-        }
-      }
-
-      res.json({ workoutName: workout.workout_name });
-    } catch (error) {
-      console.error("Error fetching workout:", error);
-      res.status(500).json({ message: "Server error." });
     }
   }
 );
@@ -325,7 +290,7 @@ app.post("/logout", (req, res) => {
   });
 });
 
-app.post("/deleteWorkout", async (req, res) => {
+app.delete("/deleteWorkout", async (req, res) => {
   const user = req.user as User;
   const workoutId = req.body.workoutId;
 

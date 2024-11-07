@@ -260,7 +260,7 @@ const EditWorkout: React.FC = () => {
         process.env.REACT_APP_SERVER_URL + "/removeExercise",
         {
           credentials: "include", // Include credentials for same-origin requests
-          method: "POST",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
