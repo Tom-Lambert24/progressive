@@ -3,7 +3,7 @@ require("dotenv").config();
 
 module.exports.getClient = async () => {
   var client;
-
+  
   if (process.env.PG_HOST === "localhost") {
     client = new Client({
       host: process.env.PG_HOST,
