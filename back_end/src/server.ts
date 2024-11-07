@@ -127,7 +127,7 @@ app.post("/register", async (req: Request, res: Response) => {
 
     res.send("User registered");
   } catch (e) {
-    res.send("error while registering");
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -374,7 +374,7 @@ function isAuthenticated(
   if (req.isAuthenticated()) {
     return next();
   } else {
-    res.status(401).send("Unauthorized");
+    res.status(401).json({ message: "Unauthorized" })
   }
 }
 
@@ -384,7 +384,7 @@ function isNotAuthenticated(
   next: NextFunction
 ): void {
   if (req.isAuthenticated()) {
-    res.status(401).send("Unauthorized");
+    res.status(401).json({ message: "Unauthorized" })
     return;
   }
 
