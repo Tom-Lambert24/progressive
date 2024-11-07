@@ -55,7 +55,7 @@ app.use(
       pool: pool,
       tableName: "session",
     }),
-    secret: process.env.SESSION_SECRET || "",
+    secret: process.env.SESSION_SECRET || "development_secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -66,6 +66,11 @@ app.use(
     },
   })
 );
+
+//warning that session secret is not set
+if (!process.env.SESSION_SECRET && process.env.NODE_ENV !== "production") {
+  console.warn("Warning: SESSION_SECRET is not set. Using default.");
+}
 
 app.use(express.static(path.join(__dirname, "../../front_end/build")));
 app.use(cors(corsOptions));
